@@ -1,0 +1,60 @@
+@startuml Deployment_HandyFix
+node "Клиентские устройства" {
+    node "Администратор" {
+        component [Admin SPA]
+    }
+    node "Менеджер" {
+        component [Manager SPA]
+    }
+    node "Механик" {
+        component [Mechanic SPA]
+    }
+    node "Клиент" {
+        component [Client SPA]
+    }
+}
+
+node "Web Server" {
+    component [Apache]
+}
+
+node "Application Server" {
+    component "Laravel API" {
+        component [Controllers]
+        component [Services]
+        component [Models]
+        component [Role Middleware]
+    }
+    component "WebSocket Server" {
+        component [Notification Service]
+    }
+}
+
+database "MySQL Database" {
+    component [Users]
+    component [Orders]
+    component [Notifications]
+}
+
+cloud "External Services" {
+    component [Email Service]
+}
+
+[Admin SPA] ..> [Apache] : HTTPS
+[Manager SPA] ..> [Apache] : HTTPS
+[Mechanic SPA] ..> [Apache] : HTTPS
+[Client SPA] ..> [Apache] : HTTPS
+
+[Apache] ..> [Laravel API]
+[Laravel API] ..> [WebSocket Server] : Events
+[Laravel API] ..> [MySQL Database] : SQL
+
+[WebSocket Server] ..> [Email Service] : SMTP
+
+note right of [Laravel API]
+  RESTful API с ролевой
+  авторизацией через
+  Laravel Sanctum
+end note
+
+@enduml

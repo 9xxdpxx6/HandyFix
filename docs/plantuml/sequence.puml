@@ -1,0 +1,73 @@
+@startuml Sequence_HandyFix
+actor Client
+actor Manager
+actor Mechanic
+participant "Frontend" as FE
+participant "API" as API
+database "Database" as DB
+
+== Аутентификация ==
+Client -> FE: Вход в систему
+FE -> API: POST /api/auth/login
+API -> DB: Проверка учетных данных
+DB --> API: Результат
+API --> FE: Токен авторизации
+FE --> Client: Доступ к системе
+
+== Создание заявки ==
+Client -> FE: Создание заявки
+FE -> API: POST /api/orders
+API -> DB: Сохранение заявки
+DB --> API: ID заявки
+API --> FE: Данные заявки
+FE --> Client: Подтверждение
+
+== Обработка заказа ==
+Manager -> FE: Просмотр заявки
+FE -> API: GET /api/orders/{id}
+API -> DB: Получение данных
+DB --> API: Данные заказа
+API --> FE: Информация о заказе
+FE --> Manager: Отображение деталей
+
+Manager -> FE: Назначение механика
+FE -> API: PUT /api/orders/{id}/assign
+API -> DB: Обновление заказа
+DB --> API: Статус обновления
+API -> DB: Создание уведомления
+DB --> API: ID уведомления
+API --> FE: Подтверждение
+FE --> Manager: Успех
+
+== Выполнение работ ==
+Mechanic -> FE: Просмотр назначенных заказов
+FE -> API: GET /api/mechanic/orders
+API -> DB: Получение списка
+DB --> API: Список заказов
+API --> FE: Данные заказов
+FE --> Mechanic: Отображение списка
+
+Mechanic -> FE: Обновление статуса
+FE -> API: PUT /api/orders/{id}/status
+API -> DB: Обновление статуса
+DB --> API: Подтверждение
+API -> DB: Создание уведомления
+DB --> API: ID уведомления
+API --> FE: Статус операции
+FE --> Mechanic: Подтверждение
+
+== Завершение заказа ==
+Client -> FE: Просмотр статуса
+FE -> API: GET /api/client/orders/{id}
+API -> DB: Получение данных
+DB --> API: Информация о заказе
+API --> FE: Данные заказа
+FE --> Client: Отображение статуса
+
+Client -> FE: Создание отзыва
+API -> DB: Сохранение отзыва
+DB --> API: ID отзыва
+API --> FE: Подтверждение
+FE --> Client: Успех
+
+@enduml

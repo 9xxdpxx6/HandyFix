@@ -1,0 +1,47 @@
+@startuml Communication_HandyFix
+actor "Клиент" as Client
+actor "Менеджер" as Manager
+actor "Механик" as Mechanic
+actor "Администратор" as Admin
+
+participant "Frontend Apps" as FE
+participant "API Gateway" as API
+participant "Auth Service" as AUTH
+participant "Service Layer" as SRV
+participant "WebSocket Server" as WS
+participant "Data Layer" as DAL
+database "Database" as DB
+
+Client -> FE : 1: Создание заявки
+FE -> API : 2: POST /api/orders
+API -> AUTH : 3: Проверка прав
+AUTH -> SRV : 4: Обработка запроса
+SRV -> DAL : 5: Сохранение
+DAL -> DB : 6: INSERT
+DB --> DAL : 7: Order ID
+
+Manager -> FE : 8: Назначение механика
+FE -> API : 9: PUT /orders/{id}/assign
+API -> AUTH : 10: Проверка прав
+AUTH -> SRV : 11: Обработка
+SRV -> WS : 12: Уведомление
+WS -> Mechanic : 13: Новый заказ
+
+Mechanic -> FE : 14: Обновление статуса
+FE -> API : 15: PUT /orders/{id}/status
+API -> AUTH : 16: Проверка прав
+SRV -> WS : 17: Уведомление
+WS -> Client : 18: Статус изменен
+
+Admin -> FE : 19: Управление пользователями
+FE -> API : 20: POST /users
+API -> AUTH : 21: Проверка прав админа
+AUTH -> SRV : 22: Создание пользователя
+SRV -> DAL : 23: Сохранение
+DAL -> DB : 24: INSERT
+
+note right of AUTH : Проверка ролей\nи прав доступа
+note right of WS : Реал-тайм\nуведомления
+note right of DAL : Eloquent\nModels
+
+@enduml

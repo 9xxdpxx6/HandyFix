@@ -1,0 +1,114 @@
+@startuml Interaction_HandyFix
+actor "Клиент" as Client
+actor "Менеджер" as Manager
+actor "Механик" as Mechanic
+boundary "Frontend" as FE
+control "API Controller" as API
+control "Auth Service" as AUTH
+entity "Service" as SRV
+database "Database" as DB
+queue "WebSocket" as WS
+
+== Создание заявки ==
+Client -> FE : Заполнение формы заявки
+activate FE
+
+FE -> API : POST /api/orders
+activate API
+
+API -> AUTH : validateClient()
+activate AUTH
+AUTH --> API : validated
+deactivate AUTH
+
+API -> SRV : createOrder(data)
+activate SRV
+
+SRV -> DB : insert
+activate DB
+DB --> SRV : order_id
+deactivate DB
+
+SRV -> WS : notifyManager()
+activate WS
+WS --> Manager : Новая заявка
+deactivate WS
+
+SRV --> API : OrderResource
+deactivate SRV
+
+API --> FE : JSON Response
+deactivate API
+
+FE --> Client : Подтверждение
+deactivate FE
+
+== Назначение механика ==
+Manager -> FE : Выбор механика
+activate FE
+
+FE -> API : PUT /orders/{id}/assign
+activate API
+
+API -> AUTH : validateManager()
+activate AUTH
+AUTH --> API : validated
+deactivate AUTH
+
+API -> SRV : assignMechanic(order, mechanic)
+activate SRV
+
+SRV -> DB : update
+activate DB
+DB --> SRV : success
+deactivate DB
+
+SRV -> WS : notifyMechanic()
+activate WS
+WS --> Mechanic : Назначен заказ
+deactivate WS
+
+SRV --> API : OrderResource
+deactivate SRV
+
+API --> FE : JSON Response
+deactivate API
+
+FE --> Manager : Обновление UI
+deactivate FE
+
+== Выполнение работ ==
+Mechanic -> FE : Обновление статуса
+activate FE
+
+FE -> API : PUT /orders/{id}/status
+activate API
+
+API -> AUTH : validateMechanic()
+activate AUTH
+AUTH --> API : validated
+deactivate AUTH
+
+API -> SRV : updateStatus(order, status)
+activate SRV
+
+SRV -> DB : update
+activate DB
+DB --> SRV : success
+deactivate DB
+
+SRV -> WS : notifyClient()
+activate WS
+WS --> Client : Статус изменен
+deactivate WS
+
+SRV --> API : OrderResource
+deactivate SRV
+
+API --> FE : JSON Response
+deactivate API
+
+FE --> Mechanic : Подтверждение
+deactivate FE
+
+@enduml

@@ -1,0 +1,54 @@
+@startuml UseCase_HandyFix
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Менеджер" as manager
+actor "Администратор" as admin
+actor "Механик" as mechanic
+actor "Клиент" as client
+
+rectangle "HandyFix" {
+	usecase "Управление пользователями" as UC1
+	usecase "Назначение сотрудников" as UC2
+	usecase "Настройка справочников" as UC4
+	usecase "Управление заказами" as UC5
+	usecase "Назначение исполнителей" as UC6
+	usecase "Работа с клиентами" as UC7
+	usecase "Финансовые операции" as UC8
+	usecase "Просмотр заказов" as UC9
+	usecase "Управление статусом" as UC10
+	usecase "Внесение данных" as UC11
+	usecase "Создание заявки" as UC12
+	usecase "Просмотр статуса" as UC13
+	usecase "Получение уведомлений" as UC14
+}
+
+admin --|> manager
+
+' Администратор
+admin --> UC1
+admin --> UC2
+admin --> UC4
+
+' Менеджер
+manager --> UC5
+manager --> UC6
+manager --> UC7
+manager --> UC8
+
+' Механик
+mechanic --> UC9
+mechanic --> UC10
+mechanic --> UC11
+
+' Клиент
+client --> UC12
+client --> UC13
+client --> UC14
+
+note right of UC1 : Создание, редактирование, блокировка
+note right of UC4 : Категории, услуги, запчасти
+note right of UC7 : Информирование о статусе
+note right of UC11 : Замечания, использованные запчасти
+
+@enduml
