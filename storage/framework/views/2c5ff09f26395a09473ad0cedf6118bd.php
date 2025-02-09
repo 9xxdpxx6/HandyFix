@@ -1,0 +1,1 @@
+<?php /**PATH H:\Programs\OSPanel\domains\HandyFix\HandyFix\resources\views/main.blade.php ENDPATH**/ ?>
