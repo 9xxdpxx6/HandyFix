@@ -90,8 +90,7 @@ package "Services" {
 }
 
 Customer "1" -- "many" Order
-User "1" -- "many" Order : manages
-User "1" -- "many" Order : executes
+User "1" -- "many" Order
 Order "1" -- "many" Part
 Order "1" -- "many" Service
 Order "1" -- "many" Notification
