@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+// Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/filters', \App\Http\Controllers\Order\FilterListController::class);
@@ -51,4 +51,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::delete('/{day_ledger}', \App\Http\Controllers\DayLedger\DeleteController::class);
     });
 
-});
+// });

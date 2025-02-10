@@ -7,15 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HandyFix</title>
     <link rel="icon" href="<?php echo e(asset('adminpanel/dist/img/logo.ico')); ?>" type="image/x-icon">
-    <?php echo app('Illuminate\Foundation\Vite')->reactRefresh(); ?>
-    <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>
-
-
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/js/app.js']); ?>
 </head>
+
 <body>
 <div id="root">
     <?php echo $__env->yieldContent('content'); ?>
 </div>
 </body>
 </html>
-<?php /**PATH H:\Programs\OSPanel\domains\HandyFix\HandyFix\resources\views/layouts/main.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\DevTools\OpenServer5\OSPanel\domains\HandyFix\resources\views/layouts/main.blade.php ENDPATH**/ ?>

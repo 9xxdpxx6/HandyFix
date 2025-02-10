@@ -19,19 +19,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-//        $this->call(RolesAndPermissionsSeeder::class);
-//        $this->call(UsersSeeder::class);
-//        $this->call(StatusesSeeder::class);
+       $this->call(RolesAndPermissionsSeeder::class);
+       $this->call(UsersSeeder::class);
+       $this->call(StatusesSeeder::class);
         $this->call(ServiceTypesSeeder::class);
 
 
-//         Customer::factory(100)->create();
-//         Order::factory(100)->create();
-//         Purchase::factory(400)->create();
-//         DayLedger::factory(400)->create();
-//         MaterialEntry::factory(400)->create();
-//         ServiceEntry::factory(400)->create();
-//         ExpenseEntry::factory(400)->create();
+        Customer::factory(10)->create();
+        Order::factory(10)->create();
+        Purchase::factory(40)->create();
+        DayLedger::factory(40)->create();
+        MaterialEntry::factory(40)->create();
+        ServiceEntry::factory(40)->create();
+        ExpenseEntry::factory(40)->create();
 
 
         // \App\Models\User::factory()->create([
