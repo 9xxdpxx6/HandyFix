@@ -1,0 +1,99 @@
+@startuml Class_HandyFix
+package "Models" {
+	class User {
+		+name: string
+		+email: string
+		+password: string
+		+role: enum
+		+orders(): HasMany
+		+assignedOrders(): HasMany
+	}
+
+	class Customer {
+		+name: string
+		+phone: string
+		+info: string
+		+orders(): HasMany
+		+reviews(): HasMany
+	}
+
+	class Order {
+		+customer_id: int
+		+manager_id: int
+		+mechanic_id: int
+		+status: enum
+		+total: float
+		+description: string
+		+created_at: datetime
+		+updated_at: datetime
+		+customer(): BelongsTo
+		+manager(): BelongsTo
+		+mechanic(): BelongsTo
+		+parts(): HasMany
+		+services(): HasMany
+		+notifications(): HasMany
+	}
+
+	class Part {
+		+order_id: int
+		+name: string
+		+quantity: int
+		+price: float
+		+order(): BelongsTo
+	}
+
+	class Service {
+		+order_id: int
+		+name: string
+		+price: float
+		+order(): BelongsTo
+	}
+
+	class Notification {
+		+order_id: int
+		+user_id: int
+		+type: enum
+		+message: string
+		+read: boolean
+		+order(): BelongsTo
+		+user(): BelongsTo
+	}
+}
+
+package "Services" {
+	class UserService {
+		+store(array data)
+		+update(User user, array data)
+		+delete(User user)
+		+assignToOrder(User mechanic, Order order)
+	}
+
+	class CustomerService {
+		+store(array data)
+		+update(Customer customer, array data)
+		+delete(Customer customer)
+	}
+
+	class OrderService {
+		+store(array data)
+		+update(Order order, array data)
+		+delete(Order order)
+		+updateStatus(Order order, string status)
+		+addParts(Order order, array parts)
+		+addServices(Order order, array services)
+	}
+
+	class NotificationService {
+		+notify(Order order, string type)
+		+markAsRead(Notification notification)
+	}
+}
+
+Customer "1" -- "many" Order
+User "1" -- "many" Order : manages
+User "1" -- "many" Order : executes
+Order "1" -- "many" Part
+Order "1" -- "many" Service
+Order "1" -- "many" Notification
+
+@enduml

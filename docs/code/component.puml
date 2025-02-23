@@ -1,0 +1,102 @@
+@startuml Component_HandyFix
+package "Frontend" {
+	[SPA] as spa
+	package "Components" {
+		[Admin Panel] as admin_comp
+		[Manager Dashboard] as manager_comp
+		[Mechanic Interface] as mechanic_comp
+		[Client Portal] as client_comp
+		[Notification System] as notif_comp
+	}
+	[API Client] as client
+}
+
+package "Backend" {
+	package "Laravel API" {
+		[Auth Controller] as auth_ctrl
+		[Order Controller] as order_ctrl
+		[User Controller] as user_ctrl
+		[Notification Controller] as notif_ctrl
+		
+		package "Services" {
+			[User Service] as user_service
+			[Order Service] as order_service
+			[Notification Service] as notif_service
+		}
+		
+		package "Models" {
+			[User] as user_model
+			[Order] as order_model
+			[Notification] as notif_model
+		}
+		
+		[Role Middleware] as role_middleware
+		[Auth Service] as auth
+	}
+	
+	package "Database Layer" {
+		[Query Builder] as qb
+		[Eloquent ORM] as orm
+	}
+}
+
+database "MySQL" {
+	[Data Storage] as db
+}
+
+' Frontend connections
+spa --> admin_comp
+spa --> manager_comp
+spa --> mechanic_comp
+spa --> client_comp
+spa --> notif_comp
+admin_comp --> client
+manager_comp --> client
+mechanic_comp --> client
+client_comp --> client
+notif_comp --> client
+
+' API connections
+client --> auth_ctrl : HTTP/JSON
+client --> order_ctrl : HTTP/JSON
+client --> user_ctrl : HTTP/JSON
+client --> notif_ctrl : HTTP/JSON
+
+' Controller connections
+auth_ctrl --> role_middleware
+order_ctrl --> role_middleware
+user_ctrl --> role_middleware
+notif_ctrl --> role_middleware
+
+role_middleware --> auth : validates
+
+' Service connections
+auth_ctrl --> user_service
+order_ctrl --> order_service
+user_ctrl --> user_service
+notif_ctrl --> notif_service
+
+' Model connections
+user_service --> user_model
+order_service --> order_model
+notif_service --> notif_model
+
+' Database connections
+user_model --> orm
+order_model --> orm
+notif_model --> orm
+orm --> qb
+qb --> db : SQL
+
+note right of auth
+  Laravel Sanctum
+  для аутентификации и
+  авторизации по ролям
+end note
+
+note right of role_middleware
+  Проверка прав доступа
+  на основе ролей
+end note
+
+@enduml

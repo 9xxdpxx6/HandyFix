@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+@import 'simplebar/dist/simplebar.min.css';
+
+// Import all of CoreUI's CSS
+@import "@coreui/coreui/scss/coreui";
+
+
+.wrapper {
+    width: 100%;
+    padding-left: var(--cui-sidebar-occupy-start, 0);
+    padding-right: var(--cui-sidebar-occupy-end, 0);
+    will-change: auto;
+    transition: padding 0.15s;
+}
