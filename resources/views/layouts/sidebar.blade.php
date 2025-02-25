@@ -31,67 +31,80 @@
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-drop"></use>
                 </svg> Заказы</a></li>
-        <li class="nav-item"><a class="nav-link" href="typography.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statuses.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
                 </svg> Статусы заказов</a></li>
         <li class="nav-title">Клиенты</li>
-        <li class="nav-item"><a class="nav-link" href="typography.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.customers.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
                 </svg> Клиенты</a></li>
-        <li class="nav-item"><a class="nav-link" href="typography.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.vehicles.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
                 </svg> Автомобили</a></li>
-        <li class="nav-item"><a class="nav-link" href="typography.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.loyalty-levels.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
                 </svg> Бонусные программы</a></li>
+        <li class="nav-title">Товары</li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.products.index') }}">
+                <svg class="nav-icon">
+                    <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
+                </svg> Товары</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.categories.index') }}">
+                <svg class="nav-icon">
+                    <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
+                </svg> Категории</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.brands.index') }}">
+                <svg class="nav-icon">
+                    <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-pencil"></use>
+                </svg> Бренды</a></li>
         <li class="nav-title">Статистика</li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Статистика заказов</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Статистика Автомобилей</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Статистика клиентов</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Статистика сотрудников</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Статистика товаров</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Финансовая статистика</a></li>
         <li class="nav-title">Сотрудники</li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Менеджеры</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Механики</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Бухгалтеры</a></li>
-        <li class="nav-item"><a class="nav-link" href="charts.html">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-chart-pie"></use>
                 </svg> Модераторы</a></li>
         <li class="nav-divider"></li>
-        <li class="nav-title">Extras</li>
+        <li class="nav-title">Настройки</li>
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon">
                     <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-star"></use>

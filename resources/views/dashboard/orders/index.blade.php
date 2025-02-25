@@ -25,7 +25,11 @@
                 @foreach ($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
-                        <td><a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-ghost-light">{{ $order->customer->user->name ?? 'N/A' }}</a></td>
+                        <td>
+                            <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-ghost">
+                                {{ $order->customer->user->name ?? 'N/A' }}
+                            </a>
+                        </td>
                         <td class="text-center">
                             <span class="badge" style="background-color: {{ $order->status->color ?? '#ccc' }};">
                                 {{ $order->status->name ?? 'N/A' }}
@@ -57,4 +61,13 @@
             {{ $orders->links() }}
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            ColorModes.init({ el: document.documentElement });
+
+            document.documentElement.setAttribute('data-color-mode', 'dark');
+        });
+    </script>
 @endsection

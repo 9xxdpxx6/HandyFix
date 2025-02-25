@@ -14,8 +14,7 @@ class Vehicle extends Model
     protected $table = 'vehicles';
     protected $fillable = [
         'customer_id',
-        'brand_id',
-        'model',
+        'model_id',
         'year',
         'license_plate',
         'vin',
@@ -27,9 +26,9 @@ class Vehicle extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function brand()
+    public function model()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(VehicleModel::class, 'model_id');
     }
 
     public function orders()

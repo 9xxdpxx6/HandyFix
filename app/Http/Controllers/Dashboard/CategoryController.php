@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class CategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $categories = Category::whereNull('parent_id')
+            ->with('children')
+            ->paginate(25);
+
+        return view('dashboard.categories.index', compact('categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $parents = Category::pluck('name', 'id')->toArray();
+        $parents[0] = 'Нет родительской категории';
+        ksort($parents);
+
+        return view('dashboard.categories.create', compact('parents'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'icon' => 'nullable|url',
+            'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
+        ]);
+
+        Category::create($validatedData);
+
+        return redirect()->route('dashboard.categories.index')->with('success', 'Категория успешно создана.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
+    {
+        return view('dashboard.categories.show', compact('category'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Category $category)
+    {
+        $parents = Category::pluck('name', 'id')->toArray();
+        $parents[0] = 'Нет родительской категории';
+        ksort($parents);
+
+        return view('dashboard.categories.edit', compact('category', 'parents'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Category $category)
+    {
+        $data = $request->all();
+        if ($data['parent_id'] == '0') {
+            $data['parent_id'] = null;
+        }
+
+        $validatedData = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'icon' => 'nullable|url',
+            'description' => 'nullable|string',
+            'parent_id' => 'nullable|integer|exists:categories,id', // Разрешаем NULL или существующий ID
+        ])->validate();
+
+        $category->update($validatedData);
+
+        return redirect()->route('dashboard.categories.index')->with('success', 'Категория успешно обновлена.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return redirect()->route('dashboard.categories.index')->with('success', 'Категория успешно удалена.');
+    }
+}

@@ -12,6 +12,9 @@ class Country extends Model
     use Filterable;
 
     protected $table = 'countries';
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'code',
         'name'
