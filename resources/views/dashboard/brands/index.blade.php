@@ -4,11 +4,6 @@
     <div class="container">
         <h1>Список брендов</h1>
         <a href="{{ route('dashboard.brands.create') }}" class="btn btn-primary mb-3">Добавить новый бренд</a>
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -16,7 +11,7 @@
                 <th>Название</th>
                 <th>Иконка</th>
                 <th>Описание</th>
-                <th>Оригинальный</th>
+                <th>Оригинал</th>
                 <th>Страна регистрации</th>
                 <th>Страна производства</th>
                 <th>Действия</th>
@@ -27,7 +22,21 @@
                 <tr>
                     <td>{{ $brand->id }}</td>
                     <td>{{ $brand->name }}</td>
-                    <td><i class="display-1 hf-icon {{ $brand->icon }}"></i></td>
+                    <td>
+                        @if($brand->icon)
+                            <div class="display-2">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon {{ $brand->icon }}"></i>
+                                </div>
+                            </div>
+                        @else
+                            <div class="display-2">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon hf-no-image"></i>
+                                </div>
+                            </div>
+                        @endif
+                    </td>
                     <td>{{ $brand->description }}</td>
                     <td>{{ $brand->is_original ? 'Да' : 'Нет' }}</td>
                     <td>{{ $brand->registrationCountry?->name ?? 'Не указано' }}</td>

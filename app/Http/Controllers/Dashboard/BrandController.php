@@ -3,18 +3,26 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\IconController;
 use App\Models\Brand;
 use App\Models\Country;
+use App\Services\IconService;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
+    protected $iconService;
+    public function __construct(IconService $iconService)
+    {
+        $this->iconService = $iconService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $brands = Brand::with('registrationCountry', 'productionCountry')->paginate(10);
+        $brands = Brand::with('registrationCountry', 'productionCountry')->paginate(25);
         return view('dashboard.brands.index', compact('brands'));
     }
 
@@ -24,7 +32,8 @@ class BrandController extends Controller
     public function create()
     {
         $countries = Country::pluck('name', 'code');
-        return view('dashboard.brands.create', compact('countries'));
+        $icons = $this->iconService->getAllIcons();
+        return view('dashboard.brands.create', compact('countries', 'icons'));
     }
 
     /**
@@ -34,12 +43,14 @@ class BrandController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|url',
+            'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'is_original' => 'boolean',
+            'is_original' => 'nullable',
             'registration_country_code' => 'nullable|exists:countries,code',
             'production_country_code' => 'nullable|exists:countries,code',
         ]);
+
+        $validatedData['is_original'] = $request->has('is_original');
 
         Brand::create($validatedData);
 
@@ -60,7 +71,8 @@ class BrandController extends Controller
     public function edit(Brand $brand)
     {
         $countries = Country::pluck('name', 'code');
-        return view('dashboard.brands.edit', compact('brand', 'countries'));
+        $icons = $this->iconService->getAllIcons();
+        return view('dashboard.brands.edit', compact('brand', 'countries', 'icons'));
     }
 
     /**
@@ -70,12 +82,14 @@ class BrandController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|url',
+            'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'is_original' => 'boolean',
+            'is_original' => 'nullable',
             'registration_country_code' => 'nullable|exists:countries,code',
             'production_country_code' => 'nullable|exists:countries,code',
         ]);
+
+        $validatedData['is_original'] = $request->has('is_original');
 
         $brand->update($validatedData);
 

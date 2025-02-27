@@ -19,7 +19,7 @@ class BrandsSeeder extends Seeder
             ['name' => 'Volkswagen', 'icon' => 'hf-volkswagen', 'description' => 'Немецкий производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'DE', 'production_country_code' => 'DE'],
             ['name' => 'Honda', 'icon' => 'hf-honda', 'description' => 'Японский производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'JP', 'production_country_code' => 'JP'],
             ['name' => 'BMW', 'icon' => 'hf-bmw', 'description' => 'Немецкий производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'DE', 'production_country_code' => 'DE'],
-            ['name' => 'Mercedes-Benz', 'icon' => 'hf-mercedesbenz', 'description' => 'Немецкий производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'DE', 'production_country_code' => 'DE'],
+            ['name' => 'Mercedes-Benz', 'icon' => 'hf-mercedes-benz', 'description' => 'Немецкий производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'DE', 'production_country_code' => 'DE'],
             ['name' => 'Nissan', 'icon' => 'hf-nissan', 'description' => 'Японский производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'JP', 'production_country_code' => 'JP'],
             ['name' => 'Chevrolet', 'icon' => 'hf-chevrolet', 'description' => 'Американский производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'US', 'production_country_code' => 'US'],
             ['name' => 'Audi', 'icon' => 'hf-audi', 'description' => 'Немецкий производитель автомобилей.', 'is_original' => true, 'registration_country_code' => 'DE', 'production_country_code' => 'DE'],
