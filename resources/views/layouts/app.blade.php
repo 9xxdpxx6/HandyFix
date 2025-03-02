@@ -12,7 +12,7 @@
 </head>
 <body>
 @include('layouts.sidebar')
-<div class="wrapper d-flex flex-column min-vh-100">
+<div class="wrapper d-flex flex-column min-vh-100" style="height: 100vh" data-simplebar>
     @include('layouts.header')
     <div class="body flex-grow-1">
         <div class="container-lg px-4">

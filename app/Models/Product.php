@@ -17,9 +17,19 @@ class Product extends Model
         'description',
         'price',
         'quantity',
+        'image',
         'category_id',
         'brand_id'
     ];
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+
+        return asset('images/default-product.jpg'); // Путь к изображению по умолчанию
+    }
 
     public function category()
     {

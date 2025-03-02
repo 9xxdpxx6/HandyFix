@@ -24,8 +24,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="icon" class="form-label">Иконка (URL)</label>
-                <input type="url" name="icon" id="icon" class="form-control" value="{{ $category->icon }}">
+                @include('components.icon-picker', ['selectedIcon' => $category->icon])
             </div>
 
             <div class="mb-3">

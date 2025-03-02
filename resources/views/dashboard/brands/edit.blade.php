@@ -24,7 +24,7 @@
 
             <!-- Иконка -->
             <div class="mb-3">
-                @include('components.icon-picker', ['icons' => $icons, 'selectedIcon' => $brand->icon])
+                @include('components.icon-picker', ['selectedIcon' => $brand->icon])
             </div>
 
             <!-- Описание -->

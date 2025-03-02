@@ -6,7 +6,22 @@
 
         <p><strong>ID:</strong> {{ $category->id }}</p>
         <p><strong>Название:</strong> {{ $category->name }}</p>
-        <p><strong>Иконка:</strong> <img src="{{ $category->icon }}" alt="{{ $category->name }}" style="max-width: 100px;"></p>
+        <p class="d-flex align-items-center">
+            <strong>Иконка:</strong>
+            @if($category->icon)
+                <div class="display-2">
+                    <div class="bg-light rounded-2 p-1 icon-square">
+                        <i class="hf-icon {{ $category->icon }}"></i>
+                    </div>
+                </div>
+            @else
+                <div class="display-2">
+                    <div class="bg-light rounded-2 p-1 icon-square">
+                        <i class="hf-icon hf-no-image"></i>
+                    </div>
+                </div>
+            @endif
+        </p>
         <p><strong>Описание:</strong> {{ $category->description }}</p>
         <p><strong>Родительская категория:</strong> {{ $category->parent?->name ?? 'Нет родителя' }}</p>
 

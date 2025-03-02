@@ -53,7 +53,7 @@
     <input type="text" class="form-control" id="icon-search" placeholder="Поиск..." autocomplete="off"/>
     <div class="icon-list rounded-2 p-2 mt-2" id="icon-list">
         @foreach ($icons as $name => $icon)
-            <div class="icon-item rounded-3 p-1" data-name="{{ $name }}" data-keywords="{{ implode(' ', $icon['keywords'] ?? []) }}" data-svg="{{ htmlspecialchars($icon['svg']) }}">
+            <div class="icon-item rounded-3 p-1" data-name="{{ $name }}" data-keywords="{{ $icon['keywords'] ?? '' }}" data-svg="{{ htmlspecialchars($icon['svg']) }}">
                 {!! htmlspecialchars_decode($icon['svg']) !!}
             </div>
         @endforeach

@@ -38,12 +38,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $data = $request->all();
+        if ($data['parent_id'] == '0') {
+            $data['parent_id'] = null;
+        }
+
+        $validatedData = Validator::make($data, [
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|url',
+            'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:categories,id',
-        ]);
+            'parent_id' => 'nullable|integer|exists:categories,id',
+        ])->validate();
 
         Category::create($validatedData);
 
@@ -82,9 +87,9 @@ class CategoryController extends Controller
 
         $validatedData = Validator::make($data, [
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|url',
+            'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'parent_id' => 'nullable|integer|exists:categories,id', // Разрешаем NULL или существующий ID
+            'parent_id' => 'nullable|integer|exists:categories,id',
         ])->validate();
 
         $category->update($validatedData);

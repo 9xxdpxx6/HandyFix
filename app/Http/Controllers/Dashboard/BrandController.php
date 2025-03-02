@@ -32,8 +32,7 @@ class BrandController extends Controller
     public function create()
     {
         $countries = Country::pluck('name', 'code');
-        $icons = $this->iconService->getAllIcons();
-        return view('dashboard.brands.create', compact('countries', 'icons'));
+        return view('dashboard.brands.create', compact('countries'));
     }
 
     /**
@@ -71,8 +70,7 @@ class BrandController extends Controller
     public function edit(Brand $brand)
     {
         $countries = Country::pluck('name', 'code');
-        $icons = $this->iconService->getAllIcons();
-        return view('dashboard.brands.edit', compact('brand', 'countries', 'icons'));
+        return view('dashboard.brands.edit', compact('brand', 'countries'));
     }
 
     /**

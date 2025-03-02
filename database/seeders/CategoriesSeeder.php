@@ -22,7 +22,7 @@ class CategoriesSeeder extends Seeder
             ],
             [
                 'name' => 'Топливная система',
-                'icon' => 'hf-fuel-filter',
+                'icon' => 'hf-gas-station',
                 'description' => 'Детали топливной системы.',
                 'parent_id' => null,
             ],
@@ -46,19 +46,19 @@ class CategoriesSeeder extends Seeder
             ],
             [
                 'name' => 'Фильтры',
-                'icon' => 'hf-oil-filter',
+                'icon' => 'hf-oil-filter-cartridge',
                 'description' => 'Различные типы фильтров.',
                 'parent_id' => null,
             ],
             [
                 'name' => 'Масла и жидкости',
-                'icon' => 'hf-bottle',
+                'icon' => 'hf-raindrops',
                 'description' => 'Моторные масла, тормозные жидкости и другие.',
                 'parent_id' => null,
             ],
             [
                 'name' => 'Кузовные детали',
-                'icon' => 'hf-hammer',
+                'icon' => 'hf-car-door',
                 'description' => 'Запчасти для кузова автомобиля.',
                 'parent_id' => null,
             ],
@@ -82,13 +82,13 @@ class CategoriesSeeder extends Seeder
             ],
             [
                 'name' => 'Амортизаторы',
-                'icon' => 'hf-suspension',
+                'icon' => 'hf-absorber',
                 'description' => 'Амортизаторы и пружины.',
                 'parent_id' => 4, // Подкатегория "Подвеска"
             ],
             [
                 'name' => 'Тормозные колодки',
-                'icon' => 'hf-brakes',
+                'icon' => 'hf-brake-pads',
                 'description' => 'Тормозные колодки и диски.',
                 'parent_id' => 3, // Подкатегория "Тормозная система"
             ],
@@ -100,7 +100,7 @@ class CategoriesSeeder extends Seeder
             ],
             [
                 'name' => 'Моторное масло',
-                'icon' => 'hf-bottle',
+                'icon' => 'hf-engine-oil',
                 'description' => 'Масла для двигателей.',
                 'parent_id' => 7, // Подкатегория "Масла и жидкости"
             ],

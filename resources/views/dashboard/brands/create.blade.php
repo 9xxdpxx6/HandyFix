@@ -23,7 +23,7 @@
             </div>
 
             <div class="mb-3">
-                @include('components.icon-picker', ['icons' => $icons, 'selectedIcon' => null])
+                @include('components.icon-picker', ['selectedIcon' => null])
             </div>
 
             <div class="mb-3">
