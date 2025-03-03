@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +37,7 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('specializations', \App\Http\Controllers\Dashboard\SpecializationController::class)->names('dashboard.specializations');
     Route::resource('statuses', \App\Http\Controllers\Dashboard\StatusController::class)->names('dashboard.statuses');
     Route::resource('vehicles', \App\Http\Controllers\Dashboard\VehicleController::class)->names('dashboard.vehicles');
+    Route::resource('icons', \App\Http\Controllers\Dashboard\IconController::class)->names('dashboard.icons');
 });
 
 Auth::routes();

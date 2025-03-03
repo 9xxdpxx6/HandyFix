@@ -62,31 +62,15 @@
                 <x-icon icon="mortarboard" class="icon-25 me-2"/> Квалификации</a></li>
         <li class="nav-divider"></li>
         <li class="nav-title">Настройки</li>
-        <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <x-icon icon="car" class="icon-25 me-2"/> Pages</a>
-            <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="login.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
-                        </svg> Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="register.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
-                        </svg> Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="404.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-bug"></use>
-                        </svg> Error 404</a></li>
-                <li class="nav-item"><a class="nav-link" href="500.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-bug"></use>
-                        </svg> Error 500</a></li>
-            </ul>
-        </li>
-        <li class="nav-item mt-auto"><a class="nav-link" href="https://coreui.io/docs/templates/installation/" target="_blank">
-                <svg class="nav-icon">
-                    <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-description"></use>
-                </svg> Docs</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
+
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
         <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>

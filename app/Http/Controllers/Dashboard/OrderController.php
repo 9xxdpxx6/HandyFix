@@ -59,7 +59,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::with(['customer.user', 'vehicle.brand', 'status', 'purchases', 'serviceEntries'])->findOrFail($id);
+        $order = Order::with(['customer.user', 'vehicle.model.brand', 'status', 'purchases', 'serviceEntries'])->findOrFail($id);
         return view('dashboard.orders.show', compact('order'));
     }
 
@@ -68,7 +68,8 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        return view('dashboard.orders.edit');
+        $order = Order::with(['customer.user', 'vehicle.model.brand', 'status', 'purchases', 'serviceEntries'])->findOrFail($id);
+        return view('dashboard.orders.edit', compact('order'));
     }
 
     /**

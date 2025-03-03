@@ -104,7 +104,7 @@
     </style>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggleButtons = document.querySelectorAll('.toggle-children');
@@ -135,4 +135,4 @@
             });
         });
     </script>
-@endsection
+@endpush

@@ -47,11 +47,16 @@ class IconService
      *
      * @param string $name
      * @param string $svg
-     * @param array $keywords
+     * @param string $keywords
      * @return void
      */
-    public function saveIcon(string $name, string $svg, array $keywords): void
+    public function saveIcon(string $name, string $svg, string $keywords): void
     {
+        $allIcons = $this->getAllIcons();
+        foreach ($allIcons as $icon) {
+            if ($icon['name'] === $name)
+                return;
+        }
         $icons = $this->getAllIcons();
         $icons[$name] = [
             'name' => $name,
@@ -68,10 +73,10 @@ class IconService
      *
      * @param string $name
      * @param string $newSvg
-     * @param array $newKeywords
+     * @param string $newKeywords
      * @return void
      */
-    public function updateIcon(string $name, string $newSvg, array $newKeywords): void
+    public function updateIcon(string $name, string $newSvg, string $newKeywords): void
     {
         $icons = $this->getAllIcons();
 

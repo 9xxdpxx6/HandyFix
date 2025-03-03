@@ -62,7 +62,7 @@
         </div>
     </div>
 @endsection
-@section('script')
+@push('script')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             ColorModes.init({ el: document.documentElement });
@@ -70,4 +70,4 @@
             document.documentElement.setAttribute('data-color-mode', 'dark');
         });
     </script>
-@endsection
+@endpush

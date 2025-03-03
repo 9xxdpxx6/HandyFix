@@ -68,8 +68,8 @@
                                 <tr>
                                     <th>Vehicle</th>
                                     <td>
-                                        <span>{{ $order->vehicle->brand->name ?? 'N/A' }}</span>
-                                        <span>{{ $order->vehicle->model ?? 'N/A' }}</span>
+                                        <span>{{ $order->vehicle->model->brand->name ?? 'N/A' }}</span>
+                                        <span>{{ $order->vehicle->model->name ?? 'N/A' }}</span>
                                         <span>{{ $order->vehicle->year ?? 'N/A' }}</span>
                                     </td>
                                 </tr>
