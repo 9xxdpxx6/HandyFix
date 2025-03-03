@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
-            $table->string('model');
+            $table->foreignId('model_id')->constrained('vehicle_models')->onDelete('cascade');
             $table->year('year');
             $table->string('license_plate')->unique();
             $table->string('vin')->unique()->nullable();
@@ -31,7 +30,7 @@ return new class extends Migration
     {
         Schema::table('vehicles', function (Blueprint $table) {
             $table->dropForeign(['customer_id']);
-            $table->dropForeign(['brand_id']);
+            $table->dropForeign(['model_id']);
         });
 
         Schema::dropIfExists('vehicles');

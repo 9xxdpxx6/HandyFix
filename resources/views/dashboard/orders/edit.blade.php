@@ -8,7 +8,7 @@
         <div class="card-body">
             <form action="{{ route('dashboard.orders.update', $order->id) }}" method="POST">
                 @csrf
-                @method('PUT')
+                @method('PATCH')
                 <div class="form-group">
                     <label for="customer_id">Customer ID</label>
                     <input type="text" name="customer_id" class="form-control" value="{{ $order->customer_id }}" required>
