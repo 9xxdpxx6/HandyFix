@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="keywords" class="form-label">Ключевые слова (через запятую)</label>
+                <label for="keywords" class="form-label">Ключевые слова (через пробел)</label>
                 <input type="text" name="keywords" id="keywords" class="form-control" value="{{ $icon['keywords'] }}">
             </div>
             <div class="instruction">
