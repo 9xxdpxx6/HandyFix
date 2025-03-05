@@ -11,6 +11,10 @@
                 <input type="text" name="name" id="name" class="form-control" value="{{ $product->name }}" required>
             </div>
             <div class="mb-3">
+                <label for="sku" class="form-label">Артикул</label>
+                <input type="text" name="sku" id="sku" class="form-control" value="{{ $product->sku }}" required>
+            </div>
+            <div class="mb-3">
                 <label for="image" class="form-label">Текущее изображение</label><br>
                 @if ($product->image)
                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="max-width: 100px;">

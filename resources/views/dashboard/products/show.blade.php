@@ -7,6 +7,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ $product->name }}</h5>
+                <p class="card-text"><strong>Артикул:</strong> {{ $product->sku ?? 'Нет артикула' }}</p>
                 @if ($product->image)
                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="rounded img-fluid mb-3" style="max-width: 200px;">
                 @else

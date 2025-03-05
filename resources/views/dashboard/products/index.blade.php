@@ -33,7 +33,14 @@
                             </div>
                         @endif
                     </td>
-                    <td>{{ $product->name }}</td>
+                    <td>
+                        <div>
+                            {{ $product->name }}
+                        </div>
+                        <div class="text-secondary">
+                            {{ $product->sku }}
+                        </div>
+                    </td>
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->brand->name }}</td>
                     <td>{{ $product->price }} ₽</td>

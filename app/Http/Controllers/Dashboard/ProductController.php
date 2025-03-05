@@ -35,10 +35,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'quantity' => 'nullable|integer|min:0',
@@ -82,6 +81,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'quantity' => 'nullable|integer|min:0',
