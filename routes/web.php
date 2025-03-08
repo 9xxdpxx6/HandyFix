@@ -32,6 +32,7 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('orders', \App\Http\Controllers\Dashboard\OrderController::class)->names('dashboard.orders');
     Route::resource('products', \App\Http\Controllers\Dashboard\ProductController::class)->names('dashboard.products');
     Route::resource('qualifications', \App\Http\Controllers\Dashboard\QualificationController::class)->names('dashboard.qualifications');
+    Route::resource('roles', \App\Http\Controllers\Dashboard\RoleController::class)->names('dashboard.roles');
     Route::resource('services', \App\Http\Controllers\Dashboard\ServiceController::class)->names('dashboard.services');
     Route::resource('service-types', \App\Http\Controllers\Dashboard\ServiceTypeController::class)->names('dashboard.service-types');
     Route::resource('specializations', \App\Http\Controllers\Dashboard\SpecializationController::class)->names('dashboard.specializations');
