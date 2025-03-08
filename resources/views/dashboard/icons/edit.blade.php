@@ -9,7 +9,8 @@
         <h1>Редактировать иконку</h1>
         <form id="iconForm" action="{{ route('dashboard.icons.update', $icon['name']) }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PATCH')
+
             <div class="row">
                 <!-- Левая колонка: Редактор SVG-кода -->
                 <div class="col-md-6">

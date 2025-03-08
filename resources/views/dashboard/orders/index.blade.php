@@ -18,7 +18,7 @@
                     <th class="text-center">Добавлен</th>
                     <th class="text-center">Завершён</th>
                     <th class="text-end">Итого</th>
-                    <th>Действия</th>
+                    <th class="text-end">Действия</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,9 +26,7 @@
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>
-                            <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-ghost">
-                                {{ $order->customer->user->name ?? 'N/A' }}
-                            </a>
+                            {{ $order->customer->user->name ?? 'N/A' }}
                         </td>
                         <td class="text-center">
                             <span class="badge" style="background-color: {{ $order->status->color ?? '#ccc' }};">
@@ -44,12 +42,19 @@
                             @endif
                         </td>
                         <td class="text-end">{{ $order->total }}</td>
-                        <td>
-                            <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-sm btn-primary">Редактировать</a>
+                        <td class="text-end">
+                            <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-sm btn-outline-info">
+                                <x-icon icon="eye" class="icon-20"/>
+                            </a>
+                            <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-sm btn-outline-warning">
+                                <x-icon icon="pencil-square" class="icon-20"/>
+                            </a>
                             <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Удалить</button>
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
+                                    <x-icon icon="trash-can" class="icon-20"/>
+                                </button>
                             </form>
                         </td>
                     </tr>

@@ -16,7 +16,7 @@
 
         <form action="{{ route('dashboard.loyalty-levels.update', $loyaltyLevel) }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             <div class="mb-3">
                 <label for="name" class="form-label">Название</label>
