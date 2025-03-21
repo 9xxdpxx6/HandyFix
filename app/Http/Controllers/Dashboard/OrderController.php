@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\OrderFilter;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Order;
@@ -18,10 +19,37 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['customer.user', 'status'])->paginate(25);
-        return view('dashboard.orders.index', compact('orders'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'customer_id' => 'nullable|exists:customers,id',
+            'manager_id' => 'nullable|exists:employees,id',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
+            'status_id' => 'nullable|exists:statuses,id',
+            'total_min' => 'nullable|numeric|min:0',
+            'total_max' => 'nullable|numeric|min:0',
+            'date_from' => 'nullable|date',
+            'date_to' => 'nullable|date',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:date_asc,date_desc,total_asc,total_desc,default',
+        ]);
+
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(OrderFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
+        $orders = Order::filter($filter)->with(['customer.user', 'manager', 'vehicle', 'status'])->paginate($data['limit']);
+        $customers = Customer::pluck('id', 'id');
+        $vehicles = Vehicle::pluck('license_plate', 'id');
+        $statuses = Status::pluck('name', 'id');
+
+        // Возвращаем представление с данными
+        return view('dashboard.orders.index', compact('orders', 'customers', 'vehicles', 'statuses'));
     }
 
     /**
@@ -87,12 +115,19 @@ class OrderController extends Controller
             'note' => 'nullable|string',
         ])->validate();
 
+        // Получаем ID менеджера (текущего авторизованного пользователя-сотрудника)
+        $managerId = null;
+        if (auth()->check() && auth()->user()->employee) {
+            $managerId = auth()->user()->employee->id;
+        }
+
         // Создание заказа
         $order = Order::create([
             'customer_id' => $validated['customer_id'],
+            'manager_id' => $managerId,
             'status_id' => $validated['status_id'],
             'vehicle_id' => $validated['vehicle_id'],
-            'total' => $validated['total'], // Обновите сумму позже
+            'total' => $validated['total'],
             'comment' => $validated['comment'] ?? null,
             'note' => $validated['note'] ?? null,
         ]);

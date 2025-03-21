@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CategoryFilter;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,11 +13,23 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,default',
+        ]);
+
+        $data['sort'] = $data['sort'] ?? 'alphabet_asc';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);
+
         $categories = Category::whereNull('parent_id')
+            ->filter($filter)
             ->with('children')
-            ->paginate(25);
+            ->paginate($data['limit']);
 
         return view('dashboard.categories.index', compact('categories'));
     }

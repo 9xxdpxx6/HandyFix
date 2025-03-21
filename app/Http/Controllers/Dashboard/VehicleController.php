@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\VehicleFilter;
 use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\Vehicle;
@@ -15,10 +16,34 @@ class VehicleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vehicles = Vehicle::with('customer', 'model')->paginate(25);
-        return view('dashboard.vehicles.index', compact('vehicles'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'customer_id' => 'nullable|exists:customers,id',
+            'model_id' => 'nullable|exists:vehicle_models,id',
+            'brand_id' => 'nullable|exists:brands,id',
+            'year_min' => 'nullable|integer|min:1900',
+            'year_max' => 'nullable|integer|max:' . date('Y'),
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:year_asc,year_desc,license_plate_asc,license_plate_desc,default',
+        ]);
+
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(VehicleFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
+        $vehicles = Vehicle::filter($filter)->with('customer', 'model.brand')->paginate($data['limit']);
+        $customers = Customer::all();
+        $brands = Brand::where('is_original', '1')->get();
+        $models = VehicleModel::all();
+
+        // Возвращаем представление с данными
+        return view('dashboard.vehicles.index', compact('vehicles', 'customers', 'brands', 'models'));
     }
 
     /**

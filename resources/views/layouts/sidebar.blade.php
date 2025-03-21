@@ -66,11 +66,6 @@
                 <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.roles.index') }}">
                 <x-icon icon="admin" class="icon-25 me-2"/> Права доступа</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
-                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
-                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
-
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
         <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>

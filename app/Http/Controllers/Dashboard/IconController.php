@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Services\IconService;
+use App\Http\Filters\IconFilter;
 use Illuminate\Http\Request;
 
 class IconController extends Controller
@@ -18,9 +19,13 @@ class IconController extends Controller
     /**
      * Display a listing of the dashboard.icons.
      */
-    public function index()
+    public function index(Request $request)
     {
         $icons = $this->iconService->getAllIcons();
+        
+        $filter = new IconFilter($request->all());
+        $icons = $filter->apply($icons);
+        
         return view('dashboard.icons.index', compact('icons'));
     }
 

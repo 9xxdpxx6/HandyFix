@@ -9,16 +9,35 @@ use App\Models\Qualification;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Http\Filters\EmployeeFilter;
 
 class EmployeeController extends Controller
 {
     /**
-     * Display a listing of the dashboard.employees.
+     * Display a listing of employees.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::with(['user', 'qualification', 'specialization'])->paginate(10);
-        return view('dashboard.employees.index', compact('employees'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'qualification_id' => 'nullable|exists:qualifications,id',
+            'specialization_id' => 'nullable|exists:specializations,id',
+            'seniority_min' => 'nullable|numeric|min:0',
+            'seniority_max' => 'nullable|numeric|min:0',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:name_asc,name_desc,seniority_asc,seniority_desc,hire_date_asc,hire_date_desc,default',
+        ]);
+
+        // Создаем экземпляр фильтра и передаем его в метод filter()
+        $filter = new EmployeeFilter($request->all());
+        $employees = Employee::filter($filter)->paginate($request->input('limit', 25));
+        
+        // Получаем списки для фильтров
+        $qualifications = Qualification::pluck('name', 'id');
+        $specializations = Specialization::pluck('name', 'id');
+
+        return view('dashboard.employees.index', compact('employees', 'qualifications', 'specializations'));
     }
 
     /**

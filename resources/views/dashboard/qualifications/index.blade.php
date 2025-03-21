@@ -1,47 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Список квалификаций</h1>
-        <a href="{{ route('dashboard.qualifications.create') }}" class="btn btn-primary mb-3">Добавить квалификацию</a>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title m-0">Список квалификаций</h3>
+            <a href="{{ route('dashboard.qualifications.create') }}" class="btn btn-primary btn-sm">Добавить квалификацию</a>
+        </div>
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Название</th>
-                <th>Минимальный стаж</th>
-                <th>Код</th>
-                <th>Описание</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($qualifications as $qualification)
+            <table class="table table-bordered table-striped">
+                <thead>
                 <tr>
-                    <td>{{ $qualification->id }}</td>
-                    <td>{{ $qualification->name }}</td>
-                    <td>{{ $qualification->min_seniority }}</td>
-                    <td>{{ $qualification->code }}</td>
-                    <td>{{ $qualification->description ?? 'Нет описания' }}</td>
-                    <td>
-                        <a href="{{ route('dashboard.qualifications.show', $qualification) }}" class="btn btn-info btn-sm">Просмотр</a>
-                        <a href="{{ route('dashboard.qualifications.edit', $qualification) }}" class="btn btn-warning btn-sm">Редактировать</a>
-                        <form action="{{ route('dashboard.qualifications.destroy', $qualification) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')">Удалить</button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Минимальный стаж</th>
+                    <th>Код</th>
+                    <th>Описание</th>
+                    <th class="text-end">Действия</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach ($qualifications as $qualification)
+                    <tr>
+                        <td>{{ $qualification->id }}</td>
+                        <td>{{ $qualification->name }}</td>
+                        <td>{{ $qualification->min_seniority }}</td>
+                        <td>{{ $qualification->code }}</td>
+                        <td class="text-wrap">{{ $qualification->description ?? 'Нет описания' }}</td>
+                        <td class="text-end text-nowrap">
+                            <a href="{{ route('dashboard.qualifications.show', $qualification) }}" class="btn btn-sm btn-outline-info">
+                                <x-icon icon="eye" class="icon-20"/>
+                            </a>
+                            <a href="{{ route('dashboard.qualifications.edit', $qualification) }}" class="btn btn-sm btn-outline-warning">
+                                <x-icon icon="pencil-square" class="icon-20"/>
+                            </a>
+                            <form action="{{ route('dashboard.qualifications.destroy', $qualification) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Вы уверены?')">
+                                    <x-icon icon="trash-can" class="icon-20"/>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
 
-        {{ $qualifications->links() }}
+            <!-- Пагинация -->
+            <div class="d-flex justify-content-center">
+                {{ $qualifications->links() }}
+            </div>
+        </div>
     </div>
 @endsection

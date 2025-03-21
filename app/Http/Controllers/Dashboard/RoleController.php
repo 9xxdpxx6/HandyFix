@@ -3,19 +3,35 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use App\Http\Filters\RoleFilter;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of roles.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::with('permissions')->paginate(25);
-        return view('dashboard.roles.index', compact('roles'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'permission_id' => 'nullable|array',
+            'permission_id.*' => 'exists:permissions,id',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:name_asc,name_desc,id_asc,id_desc,default',
+        ]);
+
+        // Создаем экземпляр фильтра и применяем его к запросу
+        $filter = new RoleFilter($request->all());
+        $roles = Role::filter($filter)->with('permissions')->paginate($request->input('limit', 25));
+        
+        // Получаем список разрешений для фильтра
+        $permissions = Permission::all()->pluck('name', 'id');
+
+        return view('dashboard.roles.index', compact('roles', 'permissions'));
     }
 
     /**
