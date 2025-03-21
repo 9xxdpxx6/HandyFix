@@ -78,12 +78,12 @@
             </form>
         </div>
 
-        <!-- Таблица товаров -->
+        <!-- Таблица товароводновременно? -->
         <div class="card-body pt-0">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>№</th>
                     <th>Изображение</th>
                     <th>Название</th>
                     <th>Артикул</th>

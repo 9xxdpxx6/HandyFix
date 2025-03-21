@@ -40,6 +40,11 @@
                 <x-icon icon="category" class="icon-25 me-2"/> Категории</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.brands.index') }}">
                 <x-icon icon="tag" class="icon-25 me-2"/> Бренды</a></li>
+        <li class="nav-title">Услуги</li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.services.index') }}">
+                <x-icon icon="tools" class="icon-25 me-2"/> Услуги</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.service-types.index') }}">
+                <x-icon icon="list" class="icon-25 me-2"/> Типы услуг</a></li>
         <li class="nav-title">Статистика</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика заказов</a></li>

@@ -96,7 +96,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>№</th>
                     <th>Госномер</th>
                     <th>Клиент</th>
                     <th>Марка</th>

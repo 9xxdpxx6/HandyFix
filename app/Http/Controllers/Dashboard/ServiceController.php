@@ -15,27 +15,26 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
             'service_type_id' => 'nullable|exists:service_types,id',
             'price_min' => 'nullable|numeric|min:0',
             'price_max' => 'nullable|numeric|min:0',
-            'limit' => 'nullable|integer|min:1',
-            'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,price_asc,price_desc,default',
+            'limit' => 'nullable|numeric|min:1',
+            'sort' => 'nullable|string|in:default,alphabet_asc,alphabet_desc,price_asc,price_desc',
         ]);
 
         $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
 
-        // Создаем экземпляр фильтра с валидированными данными
-        $filter = app()->make(ServiceFilter::class, ['queryParams' => array_filter($data)]);
-
-        // Применяем фильтр к запросу
-        $services = Service::filter($filter)->with('serviceType')->paginate($data['limit']);
+        $filter = new ServiceFilter($request->all());
+        $services = Service::filter($filter)
+            ->with('serviceType')
+            ->paginate($data['limit'])
+            ->withQueryString();
+        
         $serviceTypes = ServiceType::pluck('name', 'id');
-
-        // Возвращаем представление с данными
+        
         return view('dashboard.services.index', compact('services', 'serviceTypes'));
     }
 
@@ -44,7 +43,9 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        $serviceTypes = ServiceType::pluck('name', 'id');
+        
+        return view('dashboard.services.create', compact('serviceTypes'));
     }
 
     /**
@@ -52,38 +53,65 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+        ]);
+        
+        Service::create($data);
+        
+        return redirect()->route('dashboard.services.index')
+            ->with('success', 'Услуга успешно создана');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Service $service)
     {
-        //
+        $service->load('serviceType');
+        
+        return view('dashboard.services.show', compact('service'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Service $service)
     {
-        //
+        $serviceTypes = ServiceType::pluck('name', 'id');
+        
+        return view('dashboard.services.edit', compact('service', 'serviceTypes'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Service $service)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+        ]);
+        
+        $service->update($data);
+        
+        return redirect()->route('dashboard.services.index')
+            ->with('success', 'Услуга успешно обновлена');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Service $service)
     {
-        //
+        $service->delete();
+        
+        return redirect()->route('dashboard.services.index')
+            ->with('success', 'Услуга успешно удалена');
     }
 }

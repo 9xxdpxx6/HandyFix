@@ -89,7 +89,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>№</th>
                     <th>Имя пользователя</th>
                     <th>Квалификация</th>
                     <th>Специализация</th>

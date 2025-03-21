@@ -4,21 +4,15 @@ namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ServiceFilter extends AbstractFilter
+class ServiceTypeFilter extends AbstractFilter
 {
     const KEYWORD = 'keyword';
-    const SERVICE_TYPE = 'service_type_id';
-    const PRICE_MAX = 'price_max';
-    const PRICE_MIN = 'price_min';
     const SORT = 'sort';
 
     protected function getCallbacks(): array
     {
         return [
             self::KEYWORD => [$this, 'keyword'],
-            self::SERVICE_TYPE => [$this, 'serviceType'],
-            self::PRICE_MAX => [$this, 'priceMax'],
-            self::PRICE_MIN => [$this, 'priceMin'],
             self::SORT => [$this, 'sort'],
         ];
     }
@@ -35,30 +29,6 @@ class ServiceFilter extends AbstractFilter
     }
 
     /**
-     * Фильтр по типу услуги
-     */
-    protected function serviceType(Builder $builder, $value)
-    {
-        $builder->where('service_type_id', $value);
-    }
-
-    /**
-     * Фильтр по минимальной цене
-     */
-    protected function priceMin(Builder $builder, $value)
-    {
-        $builder->where('price', '>=', $value);
-    }
-
-    /**
-     * Фильтр по максимальной цене
-     */
-    protected function priceMax(Builder $builder, $value)
-    {
-        $builder->where('price', '<=', $value);
-    }
-
-    /**
      * Сортировка
      */
     protected function sort(Builder $builder, $value)
@@ -70,14 +40,6 @@ class ServiceFilter extends AbstractFilter
 
             case 'alphabet_desc': // По алфавиту Я-А
                 $builder->orderBy('name', 'desc');
-                break;
-
-            case 'price_asc': // По цене (от низкой)
-                $builder->orderBy('price', 'asc');
-                break;
-
-            case 'price_desc': // По цене (от высокой)
-                $builder->orderBy('price', 'desc');
                 break;
 
             default: // По умолчанию: ID по убыванию

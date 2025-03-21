@@ -65,7 +65,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>№</th>
                     <th>Название</th>
                     <th>Разрешения</th>
                     <th class="text-end">Действия</th>

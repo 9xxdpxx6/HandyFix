@@ -11,7 +11,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>№</th>
                     <th>Название</th>
                     <th>Минимальные баллы</th>
                     <th>Скидка (%)</th>
