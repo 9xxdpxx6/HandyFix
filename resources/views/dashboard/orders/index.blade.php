@@ -130,7 +130,7 @@
                                 Не указан
                             @endif
                         </td>
-                        <td>{{ number_format($order->total, 2) }} ₽</td>
+                        <td>{{ number_format($order->total, 2, ',', ' ') }} ₽</td>
                         <td>{{ $order->status->name ?? 'Не указан' }}</td>
                         <td class="text-end">
                             <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-sm btn-outline-info">

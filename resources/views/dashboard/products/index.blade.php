@@ -113,7 +113,7 @@
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->category->name ?? 'Не указано' }}</td>
                         <td>{{ $product->brand->name ?? 'Не указано' }}</td>
-                        <td>{{ number_format($product->price, 2) }} ₽</td>
+                        <td>{{ number_format($product->price, 2, ',', ' ') }} ₽</td>
                         <td>{{ $product->quantity }}</td>
                         <td class="text-end">
                             <a href="{{ route('dashboard.products.show', $product) }}" class="btn btn-sm btn-outline-info">

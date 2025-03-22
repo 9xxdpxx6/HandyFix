@@ -14,31 +14,20 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="name" class="form-label">Название <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                    <label for="name" class="form-label">Название</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required>
                     @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label for="icon" class="form-label">Иконка</label>
-                    <select class="form-select @error('icon') is-invalid @enderror" id="icon" name="icon">
-                        <option value="">Не выбрана</option>
-                        @foreach($icons as $icon)
-                            <option value="{{ $icon->icon }}" {{ old('icon') == $icon->icon ? 'selected' : '' }}>
-                                {{ $icon->icon }} <x-icon icon="{{ $icon->icon }}" class="icon-20 ms-1"/>
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('icon')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    @include('components.icon-picker', ['selectedIcon' => null])
                 </div>
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Описание</label>
-                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3"></textarea>
                     @error('description')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -50,4 +39,4 @@
             </form>
         </div>
     </div>
-@endsection 
+@endsection

@@ -11,6 +11,7 @@ class ServiceFilter extends AbstractFilter
     const PRICE_MAX = 'price_max';
     const PRICE_MIN = 'price_min';
     const SORT = 'sort';
+    const LIMIT = 'limit';
 
     protected function getCallbacks(): array
     {
@@ -20,6 +21,7 @@ class ServiceFilter extends AbstractFilter
             self::PRICE_MAX => [$this, 'priceMax'],
             self::PRICE_MIN => [$this, 'priceMin'],
             self::SORT => [$this, 'sort'],
+            self::LIMIT => [$this, 'limit'],
         ];
     }
 
@@ -84,5 +86,14 @@ class ServiceFilter extends AbstractFilter
                 $builder->orderBy('id', 'desc');
                 break;
         }
+    }
+
+    /**
+     * Ограничение количества элементов
+     */
+    protected function limit(Builder $builder, $value)
+    {
+        // Для лимита используется пагинация в контроллере
+        // Этот метод нужен для регистрации параметра, но сам лимит устанавливается через paginate()
     }
 } 

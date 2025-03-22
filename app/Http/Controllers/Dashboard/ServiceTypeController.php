@@ -16,13 +16,16 @@ class ServiceTypeController extends Controller
     {
         $data = $request->validate([
             'keyword' => 'nullable|string',
-            'sort' => 'nullable|string|in:name_asc,name_desc,id_asc,id_desc',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:default,alphabet_asc,alphabet_desc',
         ]);
-        
+
+        $data['limit'] = $data['limit'] ?? 25;
         $filter = new ServiceTypeFilter($request->all());
+        
         $serviceTypes = ServiceType::filter($filter)
             ->withCount('services')
-            ->paginate(25)
+            ->paginate($data['limit'])
             ->withQueryString();
         
         return view('dashboard.service-types.index', compact('serviceTypes'));
