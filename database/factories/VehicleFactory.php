@@ -32,6 +32,22 @@ class VehicleFactory extends Factory
             : $this->faker->unique()->regexify('[A-Z0-9]{6,12}');
 
         $mileage = $this->faker->numberBetween(0, (date('Y') - $year) * 20000);
+        
+        // Распределяем даты создания по периоду 2023-2025
+        // Дата создания должна быть не раньше даты создания клиента
+        $customerCreatedAt = $customer->created_at;
+        $endDate = new \DateTime();
+        
+        // Проверяем, что начальная дата не позже конечной
+        $startDate = new \DateTime('2024-04-10');
+        if ($customerCreatedAt instanceof \DateTime && $customerCreatedAt < $endDate) {
+            if ($customerCreatedAt > $startDate) {
+                $startDate = $customerCreatedAt;
+            }
+        }
+        
+        // Используем проверенные даты
+        $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
 
         return [
             'customer_id' => $customer->id,
@@ -40,6 +56,8 @@ class VehicleFactory extends Factory
             'license_plate' => $licensePlate,
             'vin' => $vin,
             'mileage' => $mileage,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 

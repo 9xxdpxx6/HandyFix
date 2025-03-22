@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newCustomersCtx = document.getElementById('newCustomersChart').getContext('2d');
     const newCustomersLabels = [
         @foreach($newCustomersByDate as $item)
-            "{{ \Carbon\Carbon::parse($item->date)->format('d.m') }}",
+            "{{ \Carbon\Carbon::parse($item->date)->format('d.m.Y') }}",
         @endforeach
     ];
     const newCustomersData = [
@@ -212,7 +212,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
                 }
             }
         },

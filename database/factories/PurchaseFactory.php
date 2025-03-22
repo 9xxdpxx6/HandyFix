@@ -18,12 +18,23 @@ class PurchaseFactory extends Factory
         $order = Order::inRandomOrder()->first();
         $product = Product::inRandomOrder()->first();
 
+        $orderCreatedAt = $order->created_at;
+        $endDate = new \DateTime();
+        
+        if (!($orderCreatedAt instanceof \DateTime) || $orderCreatedAt > $endDate) {
+            $orderCreatedAt = new \DateTime('2024-04-10');
+        }
+        
+        $createdAt = $this->faker->dateTimeBetween($orderCreatedAt, $endDate);
+
         return [
             'order_id' => $order->id,
             'product_id' => $product->id,
             'price' => $product->price,
             'quantity' => $this->faker->numberBetween(1, 5),
             'product_name' => $product->name,
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->dateTimeBetween($createdAt, $endDate),
         ];
     }
 }

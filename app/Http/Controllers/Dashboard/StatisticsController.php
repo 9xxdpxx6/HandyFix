@@ -39,7 +39,7 @@ class StatisticsController extends Controller
             });
 
         // Количество заказов по дням (только выполненные)
-        $ordersByDate = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $ordersByDate = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->select(DB::raw('DATE(orders.created_at) as date'), DB::raw('count(*) as total'))
@@ -48,13 +48,13 @@ class StatisticsController extends Controller
             ->get();
             
         // Общее количество заказов (только выполненные)
-        $totalOrders = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $totalOrders = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->count();
         
         // Средняя сумма заказа (только выполненные)
-        $averageOrderTotal = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $averageOrderTotal = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->avg('orders.total') ?? 0;
@@ -365,7 +365,7 @@ class StatisticsController extends Controller
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
 
         // Общий доход по дням
-        $revenueByDate = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $revenueByDate = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->select(DB::raw('DATE(orders.created_at) as date'), DB::raw('sum(orders.total) as total_revenue'))
@@ -373,7 +373,7 @@ class StatisticsController extends Controller
             ->orderBy('date')
             ->get();
 
-        // Доход от услуг и товаров
+        // Доход от услуг
         $serviceRevenue = ServiceEntry::whereHas('order', function($query) use ($startDate, $endDate) {
                 $query->whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
                       ->whereHas('status', function($q) {
@@ -382,8 +382,9 @@ class StatisticsController extends Controller
             })
             ->sum(DB::raw('price * quantity'));
 
+        // Доход от товаров
         $productRevenue = Purchase::whereHas('order', function($query) use ($startDate, $endDate) {
-                $query->whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+                $query->whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
                       ->whereHas('status', function($q) {
                           $q->where('is_closing', true);
                       });
@@ -391,19 +392,19 @@ class StatisticsController extends Controller
             ->sum(DB::raw('price * quantity'));
 
         // Общий доход за период
-        $totalRevenue = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $totalRevenue = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->sum('orders.total');
 
         // Средний чек
-        $averageOrderTotal = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $averageOrderTotal = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->avg('orders.total') ?? 0;
 
         // Количество заказов
-        $ordersCount = Order::whereBetween('created_at', [$startDate, $endDate.' 23:59:59'])
+        $ordersCount = Order::whereBetween('orders.created_at', [$startDate, $endDate.' 23:59:59'])
             ->join('statuses', 'orders.status_id', '=', 'statuses.id')
             ->where('statuses.is_closing', true)
             ->count();

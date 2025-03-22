@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateCtx = document.getElementById('ordersByDateChart').getContext('2d');
     const dateLabels = [
         @foreach($ordersByDate as $item)
-            "{{ \Carbon\Carbon::parse($item->date)->format('d.m') }}",
+            "{{ \Carbon\Carbon::parse($item->date)->format('d.m.Y') }}",
         @endforeach
     ];
     const dateData = [
@@ -292,7 +292,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
                 }
             }
         },

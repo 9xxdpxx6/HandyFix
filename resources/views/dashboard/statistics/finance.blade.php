@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
     const revenueLabels = [
         @foreach($revenueByDate as $item)
-            "{{ \Carbon\Carbon::parse($item->date)->format('d.m') }}",
+            "{{ \Carbon\Carbon::parse($item->date)->format('d.m.Y') }}",
         @endforeach
     ];
     const revenueData = [
