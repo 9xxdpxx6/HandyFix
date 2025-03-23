@@ -120,4 +120,4 @@
             });
         });
     </script>
-@endsection
+@endpush

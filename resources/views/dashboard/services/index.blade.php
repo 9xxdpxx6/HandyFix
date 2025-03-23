@@ -116,7 +116,7 @@
 
             <!-- Пагинация -->
             <div class="d-flex justify-content-center">
-                {{ $services->links() }}
+                {{ $services->appends(request()->query())->links() }}
             </div>
         </div>
     </div>

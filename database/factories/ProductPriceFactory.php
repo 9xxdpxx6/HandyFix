@@ -22,7 +22,7 @@ class ProductPriceFactory extends Factory
             (int) ($currentPrice * 1.2)
         );
 
-        $createdAt = $this->faker->dateTimeBetween('-6 months', 'now');
+        $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
 
         return [
             'product_id' => $product->id,

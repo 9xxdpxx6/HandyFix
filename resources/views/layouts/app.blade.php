@@ -30,8 +30,8 @@
         </div>
     </div>
     <footer class="footer px-4 mt-5">
-        <div><a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
-        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
+        <div><a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
+        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
     </footer>
 </div>
 <script>
@@ -44,7 +44,7 @@
     });
 </script>
 <!-- Plugins and scripts required by this view-->
-<script src="{{ asset('dashboard/js/color-models.js') }}"></script>
+<script src="{{ asset('dashboard/js/color-modes.js') }}"></script>
 <script src="{{ asset('dashboard/js/coreui.bundle.js') }}"></script>
 {{--<script src="vendors/chart.js/js/chart.umd.js"></script>--}}
 {{--<script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>--}}

@@ -86,9 +86,9 @@
                             @foreach ($order->purchases as $purchase)
                                 <tr>
                                     <td>{{ $purchase->product_name }}</td>
-                                    <td>${{ number_format($purchase->price, 2) }}</td>
+                                    <td>${{ number_format($purchase->price, 2, ',', ' ') }}</td>
                                     <td>{{ $purchase->quantity }}</td>
-                                    <td>${{ number_format($purchase->price * $purchase->quantity, 2) }}</td>
+                                    <td>${{ number_format($purchase->price * $purchase->quantity, 2, ',', ' ') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -117,9 +117,9 @@
                             @foreach ($order->serviceEntries as $service)
                                 <tr>
                                     <td>{{ $service->service_name }}</td>
-                                    <td>${{ number_format($service->price, 2) }}</td>
+                                    <td>${{ number_format($service->price, 2, ',', ' ') }}</td>
                                     <td>{{ $service->quantity }}</td>
-                                    <td>${{ number_format($service->price * $service->quantity, 2) }}</td>
+                                    <td>${{ number_format($service->price * $service->quantity, 2, ',', ' ') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

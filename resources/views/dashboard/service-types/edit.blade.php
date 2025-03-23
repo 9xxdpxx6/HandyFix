@@ -23,18 +23,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="icon" class="form-label">Иконка</label>
-                    <select class="form-select @error('icon') is-invalid @enderror" id="icon" name="icon">
-                        <option value="">Не выбрана</option>
-                        @foreach($icons as $icon)
-                            <option value="{{ $icon->icon }}" {{ old('icon', $serviceType->icon) == $icon->icon ? 'selected' : '' }}>
-                                {{ $icon->icon }} <x-icon icon="{{ $icon->icon }}" class="icon-20 ms-1"/>
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('icon')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    @include('components.icon-picker', ['selectedIcon' => $serviceType->icon])
                 </div>
 
                 <div class="mb-3">

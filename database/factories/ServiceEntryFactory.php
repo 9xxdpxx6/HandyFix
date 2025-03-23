@@ -21,6 +21,18 @@ class ServiceEntryFactory extends Factory
         $service = Service::inRandomOrder()->first();
         $mechanic = Employee::inRandomOrder()->first();
 
+        // Дата создания записи должна быть после даты создания заказа
+        // но до текущей даты
+        $orderCreatedAt = $order->created_at;
+        $endDate = new \DateTime();
+        
+        // Проверяем, что дата заказа не позже текущей даты
+        $startDate = $orderCreatedAt instanceof \DateTime && $orderCreatedAt < $endDate 
+            ? $orderCreatedAt
+            : new \DateTime('2024-04-10');
+        
+        $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
+
         return [
             'order_id' => $order->id,
             'service_id' => $service->id,
@@ -28,6 +40,8 @@ class ServiceEntryFactory extends Factory
             'price' => $service->price,
             'quantity' => $this->faker->numberBetween(1, 3),
             'service_name' => $service->name,
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->dateTimeBetween($createdAt, $endDate),
         ];
     }
 }
