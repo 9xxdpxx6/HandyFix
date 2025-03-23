@@ -385,6 +385,3 @@ CREATE INDEX idx_vehicle_models_end_year ON vehicle_models(end_year);
 ![Рисунок 4 – пример заполнения данных](../imgs/screens/lab5/2.jpg)
 
 ---
-
-
-
