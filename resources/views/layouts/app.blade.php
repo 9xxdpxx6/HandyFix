@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'HandyFix') }}</title>
+{{--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
+{{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
+    <link href="{{ asset('dashboard/css/coreui.css') }}" rel="stylesheet">
     <link href="{{ asset('icons/css/icons.css') }}" rel="stylesheet">
-    @yield('styles')
+    @stack('styles')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
 @include('layouts.sidebar')
-<div class="wrapper d-flex flex-column min-vh-100">
+<div class="wrapper d-flex flex-column" style="height: 100vh" data-simplebar>
     @include('layouts.header')
-    <div class="body flex-grow-1">
+    <div class="body flex-grow-1 min-vh-100">
         <div class="container-lg px-4">
             <div class="fs-2 fw-semibold">Панель управления</div>
             <nav aria-label="breadcrumb">
@@ -27,8 +30,8 @@
         </div>
     </div>
     <footer class="footer px-4 mt-5">
-        <div><a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
-        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
+        <div><a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
+        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
     </footer>
 </div>
 <script>
@@ -41,8 +44,10 @@
     });
 </script>
 <!-- Plugins and scripts required by this view-->
+<script src="{{ asset('dashboard/js/color-modes.js') }}"></script>
+<script src="{{ asset('dashboard/js/coreui.bundle.js') }}"></script>
 {{--<script src="vendors/chart.js/js/chart.umd.js"></script>--}}
 {{--<script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>--}}
-@yield('scripts')
+@stack('scripts')
 </body>
 </html>

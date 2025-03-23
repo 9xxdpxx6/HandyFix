@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav class="d-flex justify-items-center justify-content-between">
+    <nav class="d-flex justify-items-center justify-content-between w-100">
         <div class="d-flex justify-content-between flex-fill d-sm-none">
             <ul class="pagination">
                 {{-- Previous Page Link --}}
@@ -27,7 +27,7 @@
         </div>
 
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
-            <div>
+            <div class=" me-auto">
                 <p class="small text-muted">
                     <span>Отображается с</span>
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
@@ -38,7 +38,7 @@
                 </p>
             </div>
 
-            <div>
+            <div class="ms-auto">
                 <ul class="pagination">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())

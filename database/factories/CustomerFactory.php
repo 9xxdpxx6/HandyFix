@@ -29,11 +29,16 @@ class CustomerFactory extends Factory
         // Выбираем случайный уровень лояльности
         $loyaltyLevelId = $this->faker->randomElement($loyaltyLevelIds);
 
+        // Распределяем даты создания с 10 апреля 2024 до текущего дня
+        $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
+
         return [
             'user_id' => $userId,
             'info' => $this->faker->realText,
             'loyalty_points' => $this->faker->numberBetween(0, 350000),
             'loyalty_level_id' => $loyaltyLevelId,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 

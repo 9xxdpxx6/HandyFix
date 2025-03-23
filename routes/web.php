@@ -1,8 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Dashboard\BrandController;
+use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\CustomerController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\EmployeeController;
+use App\Http\Controllers\Dashboard\IconController;
+use App\Http\Controllers\Dashboard\LoyaltyLevelController;
+use App\Http\Controllers\Dashboard\ModelController;
+use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\QualificationController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\ServiceController;
+use App\Http\Controllers\Dashboard\ServiceTypeController;
+use App\Http\Controllers\Dashboard\SpecializationController;
+use App\Http\Controllers\Dashboard\StatisticsController;
+use App\Http\Controllers\Dashboard\StatusController;
+use App\Http\Controllers\Dashboard\VehicleController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,24 +33,45 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('client.home');
-})->name('home');
-
-//Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-Route::prefix('dashboard')->group(function () {
-    Route::get('/home', function () {
-        return view('dashboard.home');
-    })->name('dashboard.home');
-
-    Route::resource('orders', \App\Http\Controllers\Dashboard\OrderController::class)->names('dashboard.orders');
-    Route::resource('customers', \App\Http\Controllers\Dashboard\CustomerController::class)->names('dashboard.customers');
-    Route::resource('vehicles', \App\Http\Controllers\Dashboard\CustomerController::class)->names('dashboard.vehicles');
+    return view('welcome');
 });
 
-Auth::routes();
+Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
+    
+    Route::resources([
+        'brands' => BrandController::class,
+        'categories' => CategoryController::class,
+        'customers' => CustomerController::class,
+        'employees' => EmployeeController::class,
+        'icons' => IconController::class,
+        'loyalty-levels' => LoyaltyLevelController::class,
+        'models' => ModelController::class,
+        'orders' => OrderController::class,
+        'products' => ProductController::class,
+        'qualifications' => QualificationController::class,
+        'roles' => RoleController::class,
+        'services' => ServiceController::class,
+        'service-types' => ServiceTypeController::class,
+        'specializations' => SpecializationController::class,
+        'statuses' => StatusController::class,
+        'vehicles' => VehicleController::class,
+    ]);
+    
+    // Маршруты для статистики
+    Route::prefix('statistics')->name('statistics.')->group(function () {
+        Route::get('/orders', [StatisticsController::class, 'orders'])->name('orders');
+        Route::get('/vehicles', [StatisticsController::class, 'vehicles'])->name('vehicles');
+        Route::get('/customers', [StatisticsController::class, 'customers'])->name('customers');
+        Route::get('/employees', [StatisticsController::class, 'employees'])->name('employees');
+        Route::get('/products', [StatisticsController::class, 'products'])->name('products');
+        Route::get('/finance', [StatisticsController::class, 'finance'])->name('finance');
+    });
+});
 
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// Маршруты аутентификации
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 

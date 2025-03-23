@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->unique()->phoneNumber,
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
+            'created_at' => $this->faker->dateTimeBetween('2024-04-10', 'now'),
         ];
     }
 }

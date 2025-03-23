@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\VehicleModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Brand;
 use App\Models\Customer;
@@ -17,30 +18,12 @@ class VehicleFactory extends Factory
     {
         $customer = Customer::inRandomOrder()->first();
 
-        $brand = Brand::where('is_original', true)->inRandomOrder()->first();
+        $vehicleModel = VehicleModel::inRandomOrder()->first();
 
-        $modelsByBrand = [
-            'Toyota' => ['Corolla', 'Camry', 'RAV4', 'Land Cruiser', 'Prius'],
-            'Hyundai' => ['Solaris', 'Elantra', 'Tucson', 'Santa Fe', 'Creta'],
-            'Ford' => ['Focus', 'Fiesta', 'Explorer', 'Mustang', 'Escape'],
-            'Volkswagen' => ['Golf', 'Passat', 'Tiguan', 'Polo', 'Jetta'],
-            'Honda' => ['Civic', 'Accord', 'CR-V', 'HR-V', 'Odyssey'],
-            'BMW' => ['3 Series', '5 Series', 'X5', 'X3', '7 Series'],
-            'Mercedes-Benz' => ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE'],
-            'Nissan' => ['Almera', 'Qashqai', 'X-Trail', 'Murano', 'Pathfinder'],
-            'Chevrolet' => ['Cruze', 'Malibu', 'Equinox', 'Tahoe', 'Silverado'],
-            'Audi' => ['A4', 'A6', 'Q5', 'Q7', 'TT'],
-            'Kia' => ['Rio', 'Cerato', 'Sportage', 'Sorento', 'K5'],
-            'Mazda' => ['3', '6', 'CX-5', 'CX-9', 'MX-5'],
-            'Subaru' => ['Forester', 'Outback', 'Impreza', 'Legacy', 'WRX'],
-            'Porsche' => ['911', 'Cayenne', 'Panamera', 'Macan', 'Taycan'],
-            'Lexus' => ['ES', 'RX', 'NX', 'GX', 'LX'],
-        ];
-
-        $models = $modelsByBrand[$brand->name] ?? [];
-        $model = $this->faker->randomElement($models);
-
-        $year = $this->faker->numberBetween(1990, date('Y'));
+        $year = $this->faker->numberBetween(
+            $vehicleModel->start_year ?? 1990,
+            $vehicleModel->end_year ?? date('Y')
+        );
 
         $licensePlate = $this->generateRussianLicensePlate();
 
@@ -49,15 +32,32 @@ class VehicleFactory extends Factory
             : $this->faker->unique()->regexify('[A-Z0-9]{6,12}');
 
         $mileage = $this->faker->numberBetween(0, (date('Y') - $year) * 20000);
+        
+        // Распределяем даты создания по периоду 2023-2025
+        // Дата создания должна быть не раньше даты создания клиента
+        $customerCreatedAt = $customer->created_at;
+        $endDate = new \DateTime();
+        
+        // Проверяем, что начальная дата не позже конечной
+        $startDate = new \DateTime('2024-04-10');
+        if ($customerCreatedAt instanceof \DateTime && $customerCreatedAt < $endDate) {
+            if ($customerCreatedAt > $startDate) {
+                $startDate = $customerCreatedAt;
+            }
+        }
+        
+        // Используем проверенные даты
+        $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
 
         return [
             'customer_id' => $customer->id,
-            'brand_id' => $brand->id,
-            'model' => $model,
+            'model_id' => $vehicleModel->id,
             'year' => $year,
             'license_plate' => $licensePlate,
             'vin' => $vin,
             'mileage' => $mileage,
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 

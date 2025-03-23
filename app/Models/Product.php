@@ -14,12 +14,23 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = [
         'name',
+        'sku',
         'description',
         'price',
         'quantity',
+        'image',
         'category_id',
         'brand_id'
     ];
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+
+        return asset('images/default-product.jpg'); // Путь к изображению по умолчанию
+    }
 
     public function category()
     {

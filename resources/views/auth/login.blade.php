@@ -2,7 +2,7 @@
 
 @section('title', 'Вход')
 
-@section('style')
+@push('style')
     <style>
         .card-header {
             background-color: #f8f9fa; /* Replace with the desired background color */
@@ -13,7 +13,7 @@
         }
     </style>
 
-@endsection
+@endpush
 
 @section('content')
     <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
