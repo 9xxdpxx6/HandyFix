@@ -17,3 +17,11 @@
     will-change: auto;
     transition: padding 0.15s;
 }
+
+.icon-square {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

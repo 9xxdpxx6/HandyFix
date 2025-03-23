@@ -17,7 +17,10 @@ class ServiceEntry extends Model
         'service_id',
         'mechanic_id',
         'execution_date',
-        'comment'
+        'comment',
+        'price',
+        'quantity',
+        'service_name',
     ];
 
     public function order()

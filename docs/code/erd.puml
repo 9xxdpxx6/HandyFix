@@ -1,0 +1,248 @@
+@startuml
+
+entity users {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    email : VARCHAR(255) [UNIQUE]
+    phone : VARCHAR(20) [UNIQUE]
+    password : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity countries {
+    *code : CHAR(2) [PK]
+    name : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity brands {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    icon : VARCHAR(255) [NULL]
+    description : TEXT [NULL]
+    is_original : BOOLEAN [NULL]
+    registration_country_code : CHAR(2) [FK]
+    production_country_code : CHAR(2) [FK]
+}
+
+entity loyalty_levels {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    min_points : INTEGER [DEFAULT 0]
+    discount : DECIMAL(5, 2) [NULL]
+    priority : INTEGER [DEFAULT 0]
+    description : TEXT [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity customers {
+    *id : BIGINT [PK]
+    user_id : BIGINT [FK]
+    info : TEXT [NULL]
+    loyalty_points : INTEGER [DEFAULT 0]
+    loyalty_level_id : BIGINT [FK]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity vehicle_models {
+    *id : BIGINT [PK]
+    brand_id : BIGINT [FK]
+    name : VARCHAR(255)
+    generation : VARCHAR(255) [NULL]
+    start_year : YEAR [NULL]
+    end_year : YEAR [NULL]
+    is_facelift : BOOLEAN [DEFAULT false]
+    facelift_year : YEAR [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity vehicles {
+    *id : BIGINT [PK]
+    customer_id : BIGINT [FK]
+    model_id : BIGINT [FK]
+    year : YEAR
+    license_plate : VARCHAR(20) [UNIQUE]
+    vin : VARCHAR(17) [UNIQUE, NULL]
+    mileage : INTEGER [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity specializations {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    code : CHAR(4) [UNIQUE]
+    description : TEXT [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity qualifications {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    min_seniority : INTEGER
+    code : CHAR(3) [UNIQUE]
+    description : TEXT [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity employees {
+    *id : BIGINT [PK]
+    user_id : BIGINT [FK]
+    qualification_id : BIGINT [FK]
+    specialization_id : BIGINT [FK]
+    fixed_salary : DECIMAL(8, 2) [NULL]
+    commission_rate : DECIMAL(5, 2) [NULL]
+    seniority : INTEGER
+    hire_date : DATE
+    termination_date : DATE [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity statuses {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    color : VARCHAR(255)
+    is_closing : BOOLEAN [DEFAULT false]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity orders {
+    *id : BIGINT [PK]
+    customer_id : BIGINT [FK]
+    vehicle_id : BIGINT [FK]
+    manager_id : BIGINT [FK]
+    total : DECIMAL(10, 2) [NULL]
+    comment : TEXT [NULL]
+    note : TEXT [NULL]
+    status_id : BIGINT [FK]
+    completed_at : DATETIME [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity service_types {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    icon : VARCHAR(255) [NULL]
+    description : TEXT [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity services {
+    *id : BIGINT [PK]
+    service_type_id : BIGINT [FK]
+    name : VARCHAR(255)
+    description : TEXT [NULL]
+    price : DECIMAL(10, 2)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity service_entries {
+    *id : BIGINT [PK]
+    order_id : BIGINT [FK]
+    service_id : BIGINT [FK]
+    mechanic_id : BIGINT [FK]
+    price : DECIMAL(10, 2)
+    quantity : INTEGER
+    service_name : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity loyalty_history {
+    *id : BIGINT [PK]
+    customer_id : BIGINT [FK]
+    points_change : INTEGER
+    description : TEXT [NULL]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity categories {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    icon : VARCHAR(255) [NULL]
+    description : TEXT [NULL]
+    parent_id : BIGINT [FK]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity products {
+    *id : BIGINT [PK]
+    name : VARCHAR(255)
+    description : TEXT [NULL]
+    price : DECIMAL(10, 2) [NULL]
+    quantity : INTEGER [DEFAULT 0]
+    image : VARCHAR(255) [NULL]
+    category_id : BIGINT [FK]
+    brand_id : BIGINT [FK]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity purchases {
+    *id : BIGINT [PK]
+    order_id : BIGINT [FK]
+    product_id : BIGINT [FK]
+    price : DECIMAL(10, 2)
+    quantity : INTEGER
+    product_name : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity product_prices {
+    *id : BIGINT [PK]
+    product_id : BIGINT [FK]
+    price : DECIMAL(10, 2)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity service_prices {
+    *id : BIGINT [PK]
+    service_id : BIGINT [FK]
+    price : DECIMAL(10, 2)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+' Описание связей между сущностями с указанием типов
+
+users "1" --o "1" customers
+users "1" --o "1" employees
+countries "1" --o "N" brands
+brands "1" --o "N" vehicle_models
+customers "1" --o "N" vehicles
+vehicles "1" --o "N" orders
+employees "1" --o "N" orders
+statuses "1" --o "N" orders
+service_types "1" --o "N" services
+services "1" --o "N" service_entries
+orders "1" --o "N" service_entries
+employees "1" --o "N" service_entries
+categories "1" --o "N" products
+brands "1" --o "N" products
+products "1" --o "N" purchases
+orders "1" --o "N" purchases
+products "1" --o "N" product_prices
+services "1" --o "N" service_prices
+customers "1" --o "N" loyalty_history
+loyalty_levels "1" --o "N" customers
+
+specializations "1" --o "N" employees
+qualifications "1" --o "N" employees
+
+@enduml

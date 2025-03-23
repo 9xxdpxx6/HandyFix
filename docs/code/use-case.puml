@@ -37,6 +37,7 @@ manager --> UC7
 manager --> UC8
 
 ' Механик
+mechanic --> UC6
 mechanic --> UC9
 mechanic --> UC10
 mechanic --> UC11

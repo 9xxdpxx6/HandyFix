@@ -1,103 +1,169 @@
 @extends('layouts.app')
 
-@section('title', 'Create New Order')
-
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Create New Order</h3>
+            Создание заказа
         </div>
         <div class="card-body">
-            <form action="{{ route('dashboard.orders.store') }}" method="POST" class="row g-3">
+            <form id="orderForm" action="{{ route('dashboard.orders.store') }}" method="POST">
                 @csrf
 
-                <!-- Customer Selection -->
-                <div class="col-md-6">
-                    <label for="customer_id" class="form-label">Customer</label>
-                    <select name="customer_id" id="customer_id" class="form-select @error('customer_id') is-invalid @enderror">
-                        <option value="" selected disabled>Select a customer</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                                {{ $customer->user->name ?? 'N/A' }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('customer_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <input type="hidden" name="products[]" id="products">
+                <input type="hidden" name="services[]" id="services">
+
+                <div class="row">
+                    <!-- Выбор покупателя -->
+                    <div class="col-12 col-lg-6 form-group mb-3">
+                        <label for="customer_id">Покупатель</label>
+                        <select name="customer_id" id="customer_id" class="form-multi-select" data-coreui-multiple="false" data-coreui-search="true" data-coreui-options-style="text" required>
+                            <option value="">Выберите покупателя</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->user->name }} {{ $customer->user->phone }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Выбор статуса -->
+                    <div class="col-12 col-lg-6 form-group mb-3">
+                        <label for="status_id">Статус</label>
+                        <select name="status_id" id="status_id" class="form-multi-select" data-coreui-multiple="false" data-coreui-search="true" data-coreui-options-style="text" required>
+                            <option value="">Выберите статус</option>
+                            @foreach ($statuses as $status)
+                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Manager Selection -->
-                <div class="col-md-6">
-                    <label for="manager_id" class="form-label">Manager</label>
-                    <select name="manager_id" id="manager_id" class="form-select @error('manager_id') is-invalid @enderror">
-                        <option value="" selected disabled>Select a manager</option>
-                        @foreach ($managers as $manager)
-                            <option value="{{ $manager->id }}" {{ old('manager_id') == $manager->id ? 'selected' : '' }}>
-                                {{ $manager->user->name ?? 'N/A' }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('manager_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <!-- Выбор автомобиля -->
+                    <div class="col-12 col-lg-6 form-group mb-3">
+                        <label for="vehicle_id">Автомобиль</label>
+                        <select name="vehicle_id" id="vehicle_id" class="form-multi-select" data-coreui-multiple="false" data-coreui-search="true" data-coreui-options-style="text" required>
+                            <option value="">Выберите автомобиль</option>
+                            @foreach ($vehicles as $vehicle)
+                                <option value="{{ $vehicle->id }}">{{ $vehicle->model->brand->name }} {{ $vehicle->model->name }} {{ $vehicle->year }} ({{ $vehicle->vin }})</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Vehicle Selection -->
-                <div class="col-md-6">
-                    <label for="vehicle_id" class="form-label">Vehicle</label>
-                    <select name="vehicle_id" id="vehicle_id" class="form-select @error('vehicle_id') is-invalid @enderror">
-                        <option value="" selected disabled>Select a vehicle</option>
-                        @foreach ($vehicles as $vehicle)
-                            <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
-                                {{ $vehicle->make }} {{ $vehicle->model }} ({{ $vehicle->year }})
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('vehicle_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <div class="col-12 col-lg-6 form-group mb-3">
+                        <x-searchable-list
+                            entity-type="product"
+                            entity-type-label="товаров"
+                            search-url="{{ route('api.products.search') }}"
+                        ></x-searchable-list>
+                    </div>
+
+                    <div class="col-12 col-lg-6 form-group mb-3">
+                        <x-searchable-list
+                            entity-type="service"
+                            entity-type-label="услуг"
+                            search-url="{{ route('api.services.search') }}"
+                        ></x-searchable-list>
+                    </div>
                 </div>
 
-                <!-- Total Amount -->
-                <div class="col-md-6">
-                    <label for="total" class="form-label">Total Amount</label>
-                    <input type="number" step="0.01" name="total" id="total" class="form-control @error('total') is-invalid @enderror" value="{{ old('total') }}">
-                    @error('total')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <label class="input-group-text" for="total">ИТОГО</label>
+                                <input type="text" name="total" id="total" class="form-control text-end" value="0.00" readonly>
+                                <span class="input-group-text">₽</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Status Selection -->
-                <div class="col-md-6">
-                    <label for="status_id" class="form-label">Status</label>
-                    <select name="status_id" id="status_id" class="form-select @error('status_id') is-invalid @enderror">
-                        <option value="" selected disabled>Select a status</option>
-                        @foreach ($statuses as $status)
-                            <option value="{{ $status->id }}" {{ old('status_id') == $status->id ? 'selected' : '' }}>
-                                {{ $status->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('status_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="form-group mb-3">
+                    <label for="comment">Комментарий</label>
+                    <textarea name="comment" class="form-control"></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="note">Примечание</label>
+                    <textarea name="note" class="form-control"></textarea>
                 </div>
 
-                <!-- Note -->
-                <div class="col-md-12">
-                    <label for="note" class="form-label">Note</label>
-                    <textarea name="note" id="note" class="form-control @error('note') is-invalid @enderror" rows="3">{{ old('note') }}</textarea>
-                    @error('note')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Submit Button -->
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Create Order</button>
-                </div>
+                <button type="submit" class="btn btn-primary mb-3">Создать</button>
             </form>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('orderForm');
+
+            form.addEventListener('submit', function (event) {
+                // Получаем данные из компонентов
+                const productComponent = window.componentInstances?.product;
+                const serviceComponent = window.componentInstances?.service;
+
+                // Форматируем данные в JSON
+                const products = productComponent?.selectedItemsContainer.getAttribute('data-items') || '[]';
+                const services = serviceComponent?.selectedItemsContainer.getAttribute('data-items') || '[]';
+
+                // Заполняем скрытые поля массивами
+                document.getElementById('products').value = products;
+                document.getElementById('services').value = services;
+            });
+
+            // Функция для обновления общей суммы
+            function updateTotalAmount() {
+                const productTotalElement = document.getElementById('total-price-product');
+                const serviceTotalElement = document.getElementById('total-price-service');
+                const totalInput = document.getElementById('total');
+
+                if (!totalInput) {
+                    console.error('Элемент #total не найден');
+                    return;
+                }
+
+                // Получаем значения из элементов итоговой цены
+                const productTotal = parseFloat(productTotalElement?.textContent.replace('Итого: ', '').replace(' ₽', '')) || 0;
+                const serviceTotal = parseFloat(serviceTotalElement?.textContent.replace('Итого: ', '').replace(' ₽', '')) || 0;
+
+                // Считаем общую сумму
+                const totalAmount = productTotal + serviceTotal;
+
+                // Обновляем значение в поле суммы
+                totalInput.value = totalAmount.toFixed(2);
+            }
+
+            // Наблюдатель за изменениями в контейнерах
+            const observer = new MutationObserver((mutationsList) => {
+                mutationsList.forEach(mutation => {
+                    if (mutation.type === 'childList') {
+                        // Проверяем, появились ли элементы #total-price-product или #total-price-service
+                        const productTotalElement = document.getElementById('total-price-product');
+                        const serviceTotalElement = document.getElementById('total-price-service');
+
+                        if (productTotalElement || serviceTotalElement) {
+                            updateTotalAmount();
+                        }
+                    }
+                });
+            });
+
+            // Начинаем наблюдение за родительскими контейнерами
+            const productContainer = document.getElementById('selected-items-product');
+            const serviceContainer = document.getElementById('selected-items-service');
+
+            if (productContainer) {
+                observer.observe(productContainer, { childList: true, subtree: true });
+            }
+
+            if (serviceContainer) {
+                observer.observe(serviceContainer, { childList: true, subtree: true });
+            }
+
+            // Инициализация начальной суммы
+            updateTotalAmount();
+        });
+    </script>
+@endpush
