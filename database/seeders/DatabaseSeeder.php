@@ -59,6 +59,9 @@ class DatabaseSeeder extends Seeder
         $this->startFancyProgressBar();
         $this->executeSeeding();
         $this->finishProgressBar();
+        
+        // Обновляем total заказов после создания всех связанных записей
+        $this->updateOrderTotals();
     }
 
     /**
@@ -195,5 +198,46 @@ class DatabaseSeeder extends Seeder
         $this->output->writeln('');
         $this->output->writeln("<fg=green;options=bold>✓ Seeding completed: {$this->totalRecords} records created across " . count($this->seedingPlan) . " models</>");
         $this->output->writeln('');
+    }
+
+    /**
+     * Обновляет total всех заказов на основе фактических сумм услуг и товаров
+     *
+     * @return void
+     */
+    private function updateOrderTotals(): void
+    {
+        $this->output->writeln('');
+        $this->output->writeln("<info>Обновление сумм заказов...</info>");
+        
+        $progressBar = new ProgressBar($this->output, Order::count());
+        $progressBar->setFormat('custom');
+        $progressBar->start();
+        
+        Order::chunk(100, function ($orders) use ($progressBar) {
+            foreach ($orders as $order) {
+                // Считаем сумму услуг
+                $servicesTotal = ServiceEntry::where('order_id', $order->id)
+                    ->selectRaw('SUM(price * quantity) as total')
+                    ->first()
+                    ->total ?? 0;
+                
+                // Считаем сумму товаров
+                $purchasesTotal = Purchase::where('order_id', $order->id)
+                    ->selectRaw('SUM(price * quantity) as total')
+                    ->first()
+                    ->total ?? 0;
+                
+                // Обновляем total заказа
+                $order->total = $servicesTotal + $purchasesTotal;
+                $order->save();
+                
+                $progressBar->advance();
+            }
+        });
+        
+        $progressBar->finish();
+        $this->output->writeln('');
+        $this->output->writeln("<fg=green;options=bold>✓ Суммы заказов успешно обновлены</>");
     }
 }

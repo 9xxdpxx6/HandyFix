@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\IconController;
+use App\Http\Filters\BrandFilter;
 use App\Models\Brand;
 use App\Models\Country;
 use App\Services\IconService;
@@ -20,10 +20,30 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $brands = Brand::with('registrationCountry', 'productionCountry')->paginate(25);
-        return view('dashboard.brands.index', compact('brands'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'is_original' => 'nullable|boolean',
+            'registration_country_code' => 'nullable|string|exists:countries,code',
+            'production_country_code' => 'nullable|string|exists:countries,code',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,default',
+        ]);
+
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(BrandFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
+        $brands = Brand::filter($filter)->paginate($data['limit']);
+        $countries = Country::pluck('name', 'code');
+
+        // Возвращаем представление с данными
+        return view('dashboard.brands.index', compact('brands', 'countries'));
     }
 
     /**

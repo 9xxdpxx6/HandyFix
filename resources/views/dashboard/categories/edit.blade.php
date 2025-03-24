@@ -16,7 +16,7 @@
 
         <form action="{{ route('dashboard.categories.update', $category) }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             <div class="mb-3">
                 <label for="name" class="form-label">Название</label>

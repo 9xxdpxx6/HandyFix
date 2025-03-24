@@ -33,6 +33,11 @@
                 <x-icon icon="car" class="icon-25 me-2"/> Автомобили</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.loyalty-levels.index') }}">
                 <x-icon icon="star-outline" class="icon-25 me-2"/> Бонусные программы</a></li>
+        <li class="nav-title">Услуги</li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.services.index') }}">
+                <x-icon icon="tools" class="icon-25 me-2" /> Услуги</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.service-types.index') }}">
+                <x-icon icon="list" class="icon-25 me-2" /> Типы услуг</a></li>
         <li class="nav-title">Товары</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.products.index') }}">
                 <x-icon icon="boxes" class="icon-25 me-2"/> Товары</a></li>
@@ -41,17 +46,17 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.brands.index') }}">
                 <x-icon icon="tag" class="icon-25 me-2"/> Бренды</a></li>
         <li class="nav-title">Статистика</li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.orders') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика заказов</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.vehicles') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика Автомобилей</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.customers') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика клиентов</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.employees') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика сотрудников</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.products') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика товаров</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.finance') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Финансовая статистика</a></li>
         <li class="nav-title">Сотрудники</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
@@ -62,31 +67,48 @@
                 <x-icon icon="mortarboard" class="icon-25 me-2"/> Квалификации</a></li>
         <li class="nav-divider"></li>
         <li class="nav-title">Настройки</li>
-        <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <x-icon icon="car" class="icon-25 me-2"/> Pages</a>
-            <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="login.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
-                        </svg> Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="register.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-account-logout"></use>
-                        </svg> Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="404.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-bug"></use>
-                        </svg> Error 404</a></li>
-                <li class="nav-item"><a class="nav-link" href="500.html" target="_top">
-                        <svg class="nav-icon">
-                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-bug"></use>
-                        </svg> Error 500</a></li>
-            </ul>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+                <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.roles.index') }}">
+                <x-icon icon="admin" class="icon-25 me-2"/> Права доступа</a></li>
+        <!-- Управление контентом -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentMenu"
+               aria-expanded="false" aria-controls="contentMenu">
+                <i class="fas fa-fw fa-cogs"></i>
+                <span>Управление контентом</span>
+            </a>
+            <div id="contentMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('dashboard.services.index') }}">Услуги</a>
+                    <a class="collapse-item" href="{{ route('dashboard.service-types.index') }}">Типы услуг</a>
+                    <a class="collapse-item" href="{{ route('dashboard.products.index') }}">Товары</a>
+                    <a class="collapse-item" href="{{ route('dashboard.categories.index') }}">Категории</a>
+                    <a class="collapse-item" href="{{ route('dashboard.brands.index') }}">Бренды</a>
+                    <a class="collapse-item" href="{{ route('dashboard.models.index') }}">Модели</a>
+                    <a class="collapse-item" href="{{ route('dashboard.icons.index') }}">Иконки</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statuses.index') }}">Статусы заказов</a>
+                </div>
+            </div>
         </li>
-        <li class="nav-item mt-auto"><a class="nav-link" href="https://coreui.io/docs/templates/installation/" target="_blank">
-                <svg class="nav-icon">
-                    <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-description"></use>
-                </svg> Docs</a></li>
+        <!-- Статистика -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#statisticsMenu"
+               aria-expanded="false" aria-controls="statisticsMenu">
+                <i class="fas fa-fw fa-chart-line"></i>
+                <span>Статистика</span>
+            </a>
+            <div id="statisticsMenu" class="collapse" aria-labelledby="headingStatistics" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.orders') }}">Заказы</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.vehicles') }}">Автомобили</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.customers') }}">Клиенты</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.employees') }}">Сотрудники</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.products') }}">Товары</a>
+                    <a class="collapse-item" href="{{ route('dashboard.statistics.finance') }}">Финансы</a>
+                </div>
+            </div>
+        </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
         <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>

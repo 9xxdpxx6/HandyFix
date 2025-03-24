@@ -14,7 +14,7 @@
         @endif
         <form action="{{ route('dashboard.brands.update', $brand) }}" method="POST">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             <!-- Название -->
             <div class="mb-3">

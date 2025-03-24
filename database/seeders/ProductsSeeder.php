@@ -10,6 +10,22 @@ use App\Models\Brand;
 class ProductsSeeder extends Seeder
 {
     /**
+     * Генерация случайного SKU (артикула).
+     *
+     * @param int $length
+     * @return string
+     */
+    private function generateSku(int $length = 8): string
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $sku = '';
+        for ($i = 0; $i < $length; $i++) {
+            $sku .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $sku;
+    }
+
+    /**
      * Run the database seeds.
      */
     public function run(): void
@@ -143,6 +159,7 @@ class ProductsSeeder extends Seeder
 
                     Product::create([
                         'name' => $product['name'],
+                        'sku' => $this->generateSku(rand(6, 13)),
                         'description' => $product['description'],
                         'price' => $product['price'],
                         'quantity' => rand(0, 50),

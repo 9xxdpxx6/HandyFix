@@ -1,4 +1,4 @@
-@section('styles')
+@push('styles')
     <style>
         .icon-list {
             display: grid;
@@ -34,7 +34,7 @@
             background-color: #757575;
         }
     </style>
-@endsection
+@endpush
 
 <div class="icon-picker">
     <label for="icon" class="form-label">Иконка</label>
@@ -60,7 +60,7 @@
     </div>
 </div>
 
-@section('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('icon-search');
@@ -120,4 +120,4 @@
             });
         });
     </script>
-@endsection
+@endpush

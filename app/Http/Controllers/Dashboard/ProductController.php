@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\ProductFilter;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
@@ -14,10 +15,32 @@ class ProductController extends Controller
     /**
      * Display a listing of the dashboard.products.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category', 'brand'])->paginate(25);
-        return view('dashboard.products.index', compact('products'));
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
+            'price_min' => 'nullable|numeric|min:0',
+            'price_max' => 'nullable|numeric|min:0',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,price_asc,price_desc,default',
+        ]);
+
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
+        $products = Product::filter($filter)->with(['category', 'brand'])->paginate($data['limit']);
+        $categories = Category::pluck('name', 'id');
+        $brands = Brand::pluck('name', 'id');
+
+        // Возвращаем представление с данными
+        return view('dashboard.products.index', compact('products', 'categories', 'brands'));
     }
 
     /**
@@ -35,10 +58,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'quantity' => 'nullable|integer|min:0',
@@ -82,6 +104,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'quantity' => 'nullable|integer|min:0',

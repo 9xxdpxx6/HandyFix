@@ -24,7 +24,7 @@ class LoyaltyHistoryFactory extends Factory
                 'Программа лояльности',
             ]);
 
-        $createdAt = $this->faker->dateTimeBetween('-6 months', 'now');
+        $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
 
         return [
             'customer_id' => $customer->id,

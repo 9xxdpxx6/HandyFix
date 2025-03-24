@@ -5,10 +5,14 @@
         <h1>Редактировать продукт</h1>
         <form action="{{ route('dashboard.products.update', $product) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="mb-3">
                 <label for="name" class="form-label">Название</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $product->name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="sku" class="form-label">Артикул</label>
+                <input type="text" name="sku" id="sku" class="form-control" value="{{ $product->sku }}" required>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Текущее изображение</label><br>

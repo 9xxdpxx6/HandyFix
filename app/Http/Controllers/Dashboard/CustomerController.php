@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CustomerFilter;
 use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\LoyaltyLevel;
@@ -17,11 +18,30 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::with('user')->paginate(25);
+        // Валидация параметров фильтрации
+        $data = $request->validate([
+            'keyword' => 'nullable|string',
+            'loyalty_level_id' => 'nullable|exists:loyalty_levels,id',
+            'loyalty_points_min' => 'nullable|integer|min:0',
+            'loyalty_points_max' => 'nullable|integer|min:0',
+            'limit' => 'nullable|integer|min:1',
+            'sort' => 'nullable|string|in:name_asc,name_desc,loyalty_points_asc,loyalty_points_desc,default',
+        ]);
 
-        return view('dashboard.customers.index', compact('customers'));
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(CustomerFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
+        $customers = Customer::filter($filter)->with('user', 'loyaltyLevel')->paginate($data['limit']);
+        $loyaltyLevels = LoyaltyLevel::pluck('name', 'id');
+
+        // Возвращаем представление с данными
+        return view('dashboard.customers.index', compact('customers', 'loyaltyLevels'));
     }
 
     /**

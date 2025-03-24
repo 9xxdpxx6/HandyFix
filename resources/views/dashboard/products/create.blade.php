@@ -19,6 +19,10 @@
                 <input type="text" name="name" id="name" class="form-control" required>
             </div>
             <div class="mb-3">
+                <label for="sku" class="form-label">Артикул</label>
+                <input type="text" name="sku" id="sku" class="form-control" required>
+            </div>
+            <div class="mb-3">
                 <label for="image" class="form-label">Изображение</label>
                 <input type="file" name="image" id="image" class="form-control">
             </div>
