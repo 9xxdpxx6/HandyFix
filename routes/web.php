@@ -37,7 +37,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
+    Route::get('/home', [DashboardController::class, 'index'])->name('home');
     
     Route::resources([
         'brands' => BrandController::class,

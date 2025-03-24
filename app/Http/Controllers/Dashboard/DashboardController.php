@@ -20,7 +20,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.home');
         // Получаем статистические данные для дашборда
         $stats = [
             'orders_count' => Order::count(),
@@ -28,7 +27,7 @@ class DashboardController extends Controller
             'vehicles_count' => Vehicle::count(),
             'employees_count' => Employee::count(),
             'products_count' => Product::count(),
-            'orders_total' => Order::sum('total_amount'),
+            'orders_total' => Order::sum('total'),
         ];
         
         // Последние 5 заказов

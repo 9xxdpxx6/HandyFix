@@ -10,12 +10,9 @@
                     <div class="fs-4 fw-semibold">{{ $stats['orders_count'] ?? 0 }}</div>
                     <div>Заказов</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="{{ route('dashboard.orders.index') }}">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.orders.index') }}" class="text-white"><x-icon icon="cart" class="icon-35"/></a>
+                <a href="{{ route('dashboard.orders.index') }}" class="text-white"><x-icon icon="cart" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -27,12 +24,9 @@
                     <div class="fs-4 fw-semibold">{{ $stats['customers_count'] ?? 0 }}</div>
                     <div>Клиентов</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="{{ route('dashboard.customers.index') }}">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.customers.index') }}" class="text-white"><x-icon icon="people" class="icon-35"/></a>
+                <a href="{{ route('dashboard.customers.index') }}" class="text-white"><x-icon icon="people" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -44,12 +38,9 @@
                     <div class="fs-4 fw-semibold">{{ $stats['vehicles_count'] ?? 0 }}</div>
                     <div>Автомобилей</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="{{ route('dashboard.vehicles.index') }}">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.vehicles.index') }}" class="text-white"><x-icon icon="car" class="icon-35"/></a>
+                <a href="{{ route('dashboard.vehicles.index') }}" class="text-white"><x-icon icon="car" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -65,12 +56,9 @@
                     <div class="fs-4 fw-semibold">{{ $stats['employees_count'] ?? 0 }}</div>
                     <div>Сотрудников</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="{{ route('dashboard.employees.index') }}">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.employees.index') }}" class="text-white"><x-icon icon="worker" class="icon-35"/></a>
+                <a href="{{ route('dashboard.employees.index') }}" class="text-white"><x-icon icon="worker" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -82,12 +70,9 @@
                     <div class="fs-4 fw-semibold">{{ $stats['products_count'] ?? 0 }}</div>
                     <div>Товаров</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="{{ route('dashboard.products.index') }}">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.products.index') }}" class="text-white"><x-icon icon="boxes" class="icon-35"/></a>
+                <a href="{{ route('dashboard.products.index') }}" class="text-white"><x-icon icon="boxes" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -99,12 +84,9 @@
                     <div class="fs-4 fw-semibold">{{ number_format($stats['orders_total'] ?? 0, 2, '.', ' ') }} ₽</div>
                     <div>Сумма заказов</div>
                 </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Подробнее</a></div>
-                </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                <a href="{{ route('dashboard.statistics.finance') }}" class="text-white"><x-icon icon="chart" class="icon-35"/></a>
+                <a href="{{ route('dashboard.statistics.finance') }}" class="text-white"><x-icon icon="chart" class="icon-30"/></a>
             </div>
         </div>
     </div>
@@ -133,7 +115,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table border mb-0">
-                        <thead class="table-light fw-semibold">
+                        <thead class="table fw-semibold">
                             <tr class="align-middle">
                                 <th class="text-center">№</th>
                                 <th>Клиент</th>
@@ -151,11 +133,11 @@
                                 <td class="text-center">
                                     <div class="badge bg-{{ $order->status->color ?? 'secondary' }}">{{ $order->status->name ?? 'Нет статуса' }}</div>
                                 </td>
-                                <td>{{ number_format($order->total_amount, 2, '.', ' ') }} ₽</td>
+                                <td>{{ number_format($order->total, 2, '.', ' ') }} ₽</td>
                                 <td class="text-center">{{ $order->created_at->format('d.m.Y') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('dashboard.orders.show', $order->id) }}" class="btn btn-sm btn-primary">
-                                        <x-icon icon="eye" class="icon-16"/>
+                                        <x-icon icon="eye" class="icon-20"/>
                                     </a>
                                 </td>
                             </tr>
@@ -174,7 +156,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const chartData = @json($ordersChart ?? []);
