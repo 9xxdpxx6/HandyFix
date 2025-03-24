@@ -84,12 +84,14 @@
 {{--                        <svg class="icon me-2">--}}
 {{--                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-file"></use>--}}
 {{--                        </svg> Projects<span class="badge badge-sm bg-primary ms-2">42</span></a>--}}
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('logout') }}">
-{{--                        <svg class="icon me-2">--}}
-{{--                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-lock-locked"></use>--}}
-{{--                        </svg> Lock Account</a><a class="dropdown-item" href="#">--}}
+                    <div class="dropdown-divider"></div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <x-icon icon="exit" class="icon-20 me-2"/>
-                        Выйти</a>
+                        Выйти
+                    </a>
                 </div>
             </li>
         </ul>
