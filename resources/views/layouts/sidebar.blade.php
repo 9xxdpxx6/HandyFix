@@ -16,7 +16,7 @@
                 </g>
             </svg>
         </div>
-        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
+        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"></button>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.home') }}">
@@ -29,10 +29,15 @@
         <li class="nav-title">Клиенты</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.customers.index') }}">
                 <x-icon icon="people" class="icon-25 me-2"/> Клиенты</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.vehicles.index') }}">
-                <x-icon icon="car" class="icon-25 me-2"/> Автомобили</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.loyalty-levels.index') }}">
                 <x-icon icon="star-outline" class="icon-25 me-2"/> Бонусные программы</a></li>
+        
+        <li class="nav-title">Автомобили</li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.vehicles.index') }}">
+                <x-icon icon="garage" class="icon-25 me-2"/> Автомобили</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.models.index') }}">
+                <x-icon icon="car" class="icon-25 me-2"/> Модели автомобилей</a></li>
+       
         <li class="nav-title">Услуги</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.services.index') }}">
                 <x-icon icon="tools" class="icon-25 me-2" /> Услуги</a></li>
@@ -45,6 +50,7 @@
                 <x-icon icon="category" class="icon-25 me-2"/> Категории</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.brands.index') }}">
                 <x-icon icon="tag" class="icon-25 me-2"/> Бренды</a></li>
+                
         <li class="nav-title">Статистика</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.orders') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика заказов</a></li>
