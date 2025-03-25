@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список квалификаций</h3>
+            @can('create', \App\Models\Qualification::class)
             <a href="{{ route('dashboard.qualifications.create') }}" class="btn btn-primary btn-sm">Добавить квалификацию</a>
+            @endcan
         </div>
 
         <div class="card-body">
@@ -35,9 +37,14 @@
                             <a href="{{ route('dashboard.qualifications.show', $qualification) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
+                            
+                            @can('update', $qualification)
                             <a href="{{ route('dashboard.qualifications.edit', $qualification) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
+                            @endcan
+                            
+                            @can('delete', $qualification)
                             <form action="{{ route('dashboard.qualifications.destroy', $qualification) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -45,6 +52,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

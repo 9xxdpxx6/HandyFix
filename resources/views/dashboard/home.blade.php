@@ -12,7 +12,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('viewAny', \App\Models\Order::class)
                 <a href="{{ route('dashboard.orders.index') }}" class="text-white"><x-icon icon="cart" class="icon-30"/></a>
+                @else
+                <x-icon icon="cart" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -26,7 +30,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('viewAny', \App\Models\Customer::class)
                 <a href="{{ route('dashboard.customers.index') }}" class="text-white"><x-icon icon="people" class="icon-30"/></a>
+                @else
+                <x-icon icon="people" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -40,7 +48,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('viewAny', \App\Models\Vehicle::class)
                 <a href="{{ route('dashboard.vehicles.index') }}" class="text-white"><x-icon icon="car" class="icon-30"/></a>
+                @else
+                <x-icon icon="car" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -58,7 +70,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('viewAny', \App\Models\Employee::class)
                 <a href="{{ route('dashboard.employees.index') }}" class="text-white"><x-icon icon="worker" class="icon-30"/></a>
+                @else
+                <x-icon icon="worker" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -72,7 +88,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('viewAny', \App\Models\Product::class)
                 <a href="{{ route('dashboard.products.index') }}" class="text-white"><x-icon icon="boxes" class="icon-30"/></a>
+                @else
+                <x-icon icon="boxes" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -86,7 +106,11 @@
                 </div>
             </div>
             <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
+                @can('read.statistics')
                 <a href="{{ route('dashboard.statistics.finance') }}" class="text-white"><x-icon icon="chart" class="icon-30"/></a>
+                @else
+                <x-icon icon="chart" class="icon-30 text-white"/>
+                @endcan
             </div>
         </div>
     </div>
@@ -134,7 +158,7 @@
                                     <div class="badge bg-{{ $order->status->color ?? 'secondary' }}">{{ $order->status->name ?? 'Нет статуса' }}</div>
                                 </td>
                                 <td>{{ number_format($order->total, 2, '.', ' ') }} ₽</td>
-                                <td class="text-center">{{ $order->created_at->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->format('d.m.Y') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('dashboard.orders.show', $order->id) }}" class="btn btn-sm btn-primary">
                                         <x-icon icon="eye" class="icon-20"/>

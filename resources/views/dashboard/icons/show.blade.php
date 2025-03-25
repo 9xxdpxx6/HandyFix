@@ -6,28 +6,49 @@
 
 @section('content')
     <div class="container">
-        <h1>{{ $icon['name'] }}</h1>
-
-        <!-- Ключевые слова -->
-        <p><strong>Ключевые слова:</strong> {{ $icon['keywords'] }}</p>
-
-        <!-- Разделение на две колонки -->
-        <div class="row">
-            <!-- Левая колонка: SVG-код -->
-            <div class="col-md-6">
-                <pre><code class="language-html">{{ $icon['svg'] }}</code></pre>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title m-0">Информация об иконке: {{ $icon['name'] }}</h5>
+                <div>
+                    @can('update', $icon['name'])
+                    <a href="{{ route('dashboard.icons.edit', $icon['name']) }}" class="btn btn-warning btn-sm">
+                        <x-icon icon="pencil-square" class="icon-20"/> Редактировать
+                    </a>
+                    @endcan
+                    
+                    @can('delete', $icon['name'])
+                    <form action="{{ route('dashboard.icons.destroy', $icon['name']) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')">
+                            <x-icon icon="trash-can" class="icon-20"/> Удалить
+                        </button>
+                    </form>
+                    @endcan
+                    
+                    <a href="{{ route('dashboard.icons.index') }}" class="btn btn-secondary btn-sm">
+                        <x-icon icon="arrow-left" class="icon-20"/> Назад
+                    </a>
+                </div>
             </div>
+            
+            <div class="card-body">
+                <!-- Ключевые слова -->
+                <p><strong>Ключевые слова:</strong> {{ $icon['keywords'] }}</p>
 
-            <!-- Правая колонка: Отображение иконки -->
-            <div class="col-md-6 text-center">
-                <x-icon icon="{{ $icon['name'] }}" class="icon-350 me-2"/>
+                <!-- Разделение на две колонки -->
+                <div class="row">
+                    <!-- Левая колонка: SVG-код -->
+                    <div class="col-md-6">
+                        <pre><code class="language-html">{{ $icon['svg'] }}</code></pre>
+                    </div>
+
+                    <!-- Правая колонка: Отображение иконки -->
+                    <div class="col-md-6 text-center">
+                        <x-icon icon="{{ $icon['name'] }}" class="icon-350 me-2"/>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Кнопки действий -->
-        <div class="mt-3">
-            <a href="{{ route('dashboard.icons.index') }}" class="btn btn-secondary">Назад к списку</a>
-            <a href="{{ route('dashboard.icons.edit', $icon['name']) }}" class="btn btn-warning">Редактировать</a>
         </div>
     </div>
 @endsection

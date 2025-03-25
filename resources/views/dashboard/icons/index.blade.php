@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список иконок</h3>
+            @can('create', 'Icon')
             <a href="{{ route('dashboard.icons.create') }}" class="btn btn-primary btn-sm">Добавить иконку</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -63,9 +65,14 @@
                             <a href="{{ route('dashboard.icons.show', $name) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
+                            
+                            @can('update', $name)
                             <a href="{{ route('dashboard.icons.edit', $name) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
+                            @endcan
+                            
+                            @can('delete', $name)
                             <form action="{{ route('dashboard.icons.destroy', $name) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -73,6 +80,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

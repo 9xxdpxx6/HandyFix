@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Бонусные программы</h3>
+            @can('create', \App\Models\LoyaltyLevel::class)
             <a href="{{ route('dashboard.loyalty-levels.create') }}" class="btn btn-primary btn-sm">Добавить новую программу</a>
+            @endcan
         </div>
 
         <div class="card-body">
@@ -29,9 +31,14 @@
                             <a href="{{ route('dashboard.loyalty-levels.show', $level) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
+                            
+                            @can('update', $level)
                             <a href="{{ route('dashboard.loyalty-levels.edit', $level) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
+                            @endcan
+                            
+                            @can('delete', $level)
                             <form action="{{ route('dashboard.loyalty-levels.destroy', $level) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -39,6 +46,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        // Любой авторизованный пользователь имеет доступ к дашборду
+        $this->middleware('auth');
+    }
+    
+    /**
      * Отображает главную страницу панели управления
      *
      * @return \Illuminate\Contracts\View\View

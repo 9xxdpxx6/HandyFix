@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Service::class, 'service');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)

@@ -43,11 +43,11 @@
                         </tr>
                         <tr>
                             <th>Создано:</th>
-                            <td>{{ $service->created_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($service->created_at)->format('d.m.Y H:i') }}</td>
                         </tr>
                         <tr>
                             <th>Обновлено:</th>
-                            <td>{{ $service->updated_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($service->updated_at)->format('d.m.Y H:i') }}</td>
                         </tr>
                     </table>
                 </div>

@@ -14,6 +14,13 @@ class IconController extends Controller
     public function __construct(IconService $iconService)
     {
         $this->iconService = $iconService;
+        
+        // Проверка прав
+        $this->middleware('can:viewAny,Icon')->only(['index']);
+        $this->middleware('can:view,icon')->only(['show']);
+        $this->middleware('can:create,Icon')->only(['create', 'store']);
+        $this->middleware('can:update,icon')->only(['edit', 'update']);
+        $this->middleware('can:delete,icon')->only(['destroy']);
     }
 
     /**
@@ -62,6 +69,10 @@ class IconController extends Controller
         if (!$icon) {
             return redirect()->route('dashboard.icons.index')->with('error', 'Иконка не найдена.');
         }
+        
+        // Используем Gate чтобы проверить доступ к конкретной иконке
+        $this->authorize('view', $name);
+        
         return view('dashboard.icons.show', compact('icon'));
     }
 
@@ -74,6 +85,10 @@ class IconController extends Controller
         if (!$icon) {
             return redirect()->route('dashboard.icons.index')->with('error', 'Иконка не найдена.');
         }
+        
+        // Используем Gate чтобы проверить доступ к конкретной иконке
+        $this->authorize('update', $name);
+        
         return view('dashboard.icons.edit', compact('icon'));
     }
 
@@ -87,6 +102,9 @@ class IconController extends Controller
             'keywords' => 'required|string',
         ]);
 
+        // Используем Gate чтобы проверить доступ к конкретной иконке
+        $this->authorize('update', $name);
+        
         $this->iconService->updateIcon($name, $validated['svg'], $validated['keywords']);
 
         return redirect()->route('dashboard.icons.index')->with('success', 'Иконка успешно обновлена.');
@@ -97,6 +115,9 @@ class IconController extends Controller
      */
     public function destroy($name)
     {
+        // Используем Gate чтобы проверить доступ к конкретной иконке
+        $this->authorize('delete', $name);
+        
         $this->iconService->deleteIcon($name);
 
         return redirect()->route('dashboard.icons.index')->with('success', 'Иконка успешно удалена.');

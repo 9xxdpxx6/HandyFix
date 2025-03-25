@@ -14,6 +14,14 @@ use App\Http\Filters\EmployeeFilter;
 class EmployeeController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Employee::class, 'employee');
+    }
+
+    /**
      * Display a listing of employees.
      */
     public function index(Request $request)

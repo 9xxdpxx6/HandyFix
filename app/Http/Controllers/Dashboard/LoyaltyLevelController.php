@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 class LoyaltyLevelController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(LoyaltyLevel::class, 'loyalty_level');
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index()

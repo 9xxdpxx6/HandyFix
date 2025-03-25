@@ -11,6 +11,14 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
+    
+    /**
      * Display a listing of roles.
      */
     public function index(Request $request)
