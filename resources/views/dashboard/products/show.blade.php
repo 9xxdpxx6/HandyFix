@@ -50,7 +50,118 @@
                         <p><strong>Бренд:</strong> {{ $product->brand->name }}</p>
                     </div>
                 </div>
+                
+                @if($product->getPriceHistory()->count() > 0)
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Динамика изменения цен</h5>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="switchPriceHistory" 
+                                    {{ $showAllPrices ? 'checked' : '' }}
+                                    onchange="togglePriceHistory(this.checked)">
+                                <label class="form-check-label" for="switchPriceHistory">
+                                    Показать все
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <canvas id="priceHistoryChart" style="width: 100%; height: 300px;"></canvas>
+                        </div>
+                        <div class="text-muted mt-2 small">
+                            Отображено {{ $product->getPriceHistory()->count() }} из {{ $product->productPrices()->count() }} записей
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Функция для переключения режима отображения истории цен
+function togglePriceHistory(showAll) {
+    const url = new URL(window.location.href);
+    if (showAll) {
+        url.searchParams.set('show_all_prices', '1');
+    } else {
+        url.searchParams.delete('show_all_prices');
+    }
+    window.location.href = url.toString();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    @if($product->getPriceHistory()->count() > 0)
+    // Преобразуем данные
+    const dates = [
+        @foreach($product->getPriceHistory() as $price)
+            '{{ \Carbon\Carbon::parse($price->created_at)->format('d.m.Y') }}',
+        @endforeach
+    ];
+    
+    const prices = [
+        @foreach($product->getPriceHistory() as $price)
+            {{ $price->price }},
+        @endforeach
+    ];
+    
+    // Создаем контекст для графика
+    const ctx = document.getElementById('priceHistoryChart').getContext('2d');
+    
+    // Инициализируем график
+    const priceChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Цена (₽)',
+                data: prices,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Цена (₽)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Дата'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Цена: ' + parseFloat(context.raw).toFixed(2) + ' ₽';
+                        }
+                    }
+                }
+            }
+        }
+    });
+    @endif
+});
+</script>
+@endpush

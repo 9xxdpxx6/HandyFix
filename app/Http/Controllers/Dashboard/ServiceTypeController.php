@@ -69,13 +69,13 @@ class ServiceTypeController extends Controller
      */
     public function show(ServiceType $serviceType)
     {
-        $serviceType->load(['services' => function ($query) {
-            $query->take(5);
-        }]);
+        // Получаем первые 5 услуг для отображения на странице
+        $services = $serviceType->services()->get();
         
+        // Получаем общее количество услуг данного типа
         $servicesCount = $serviceType->services()->count();
         
-        return view('dashboard.service-types.show', compact('serviceType', 'servicesCount'));
+        return view('dashboard.service-types.show', compact('serviceType', 'services', 'servicesCount'));
     }
 
     /**
