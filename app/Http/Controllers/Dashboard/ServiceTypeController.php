@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 class ServiceTypeController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(ServiceType::class, 'service_type');
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)

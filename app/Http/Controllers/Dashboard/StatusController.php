@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 class StatusController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Status::class, 'status');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

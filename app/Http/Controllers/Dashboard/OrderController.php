@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     /**
+     * Конструктор с проверкой разрешений
+     */
+    public function __construct()
+    {
+        // $this->authorizeResource(Order::class, 'order');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)

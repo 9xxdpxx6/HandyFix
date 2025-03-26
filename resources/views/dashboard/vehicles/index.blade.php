@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список автомобилей</h3>
+            @can('create', \App\Models\Vehicle::class)
             <a href="{{ route('dashboard.vehicles.create') }}" class="btn btn-primary btn-sm">Добавить автомобиль</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -118,20 +120,26 @@
                         <td>{{ $vehicle->year }}</td>
                         <td>{{ $vehicle->vin }}</td>
                         <td>{{ $vehicle->mileage }} км</td>
-                        <td class="text-end">
-                            <a href="{{ route('dashboard.vehicles.show', $vehicle->id) }}" class="btn btn-sm btn-outline-info">
+                        <td class="text-end text-nowrap">
+                            <a href="{{ route('dashboard.vehicles.show', $vehicle) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
-                            <a href="{{ route('dashboard.vehicles.edit', $vehicle->id) }}" class="btn btn-sm btn-outline-warning">
+                            
+                            @can('update', $vehicle)
+                            <a href="{{ route('dashboard.vehicles.edit', $vehicle) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
-                            <form action="{{ route('dashboard.vehicles.destroy', $vehicle->id) }}" method="POST" style="display:inline;">
+                            @endcan
+                            
+                            @can('delete', $vehicle)
+                            <form action="{{ route('dashboard.vehicles.destroy', $vehicle) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Вы уверены?')">
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

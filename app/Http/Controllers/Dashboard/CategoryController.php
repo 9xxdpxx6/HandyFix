@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Category::class, 'category');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)

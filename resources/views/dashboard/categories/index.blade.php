@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список категорий</h3>
+            @can('create', \App\Models\Category::class)
             <a href="{{ route('dashboard.categories.create') }}" class="btn btn-primary btn-sm">Добавить категорию</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -88,9 +90,14 @@
                             <a href="{{ route('dashboard.categories.show', $category) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
+                            
+                            @can('update', $category)
                             <a href="{{ route('dashboard.categories.edit', $category) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
+                            @endcan
+                            
+                            @can('delete', $category)
                             <form action="{{ route('dashboard.categories.destroy', $category) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -98,6 +105,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

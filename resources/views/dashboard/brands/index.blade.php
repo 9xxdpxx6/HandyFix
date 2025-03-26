@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список брендов</h3>
+            @can('create', \App\Models\Brand::class)
             <a href="{{ route('dashboard.brands.create') }}" class="btn btn-primary btn-sm">Добавить бренд</a>
+            @endcan
         </div>
 
         <!-- Форма поиска -->
@@ -111,9 +113,14 @@
                             <a href="{{ route('dashboard.brands.show', $brand) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
+                            
+                            @can('update', $brand)
                             <a href="{{ route('dashboard.brands.edit', $brand) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
+                            @endcan
+                            
+                            @can('delete', $brand)
                             <form action="{{ route('dashboard.brands.destroy', $brand) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -121,6 +128,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

@@ -14,6 +14,14 @@ use Illuminate\Validation\Rule;
 class VehicleController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Vehicle::class, 'vehicle');
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -80,18 +88,16 @@ class VehicleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Vehicle $vehicle)
     {
-        $vehicle = Vehicle::findOrFail($id);
         return view('dashboard.vehicles.show', compact('vehicle'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Vehicle $vehicle)
     {
-        $vehicle = Vehicle::findOrFail($id);
         $brands = Brand::where('is_original', '1')->get();
         $models = VehicleModel::all();
         $customers = Customer::all();
@@ -102,10 +108,8 @@ class VehicleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Vehicle $vehicle)
     {
-        $vehicle = Vehicle::findOrFail($id);
-
         $validatedData = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'model_id' => 'required|exists:vehicle_models,id',
@@ -128,9 +132,8 @@ class VehicleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Vehicle $vehicle)
     {
-        $vehicle = Vehicle::findOrFail($id);
         $vehicle->delete();
 
         return redirect()->route('dashboard.vehicles.index')->with('success', 'Vehicle deleted successfully.');

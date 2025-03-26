@@ -21,16 +21,7 @@ use App\Http\Controllers\Dashboard\StatusController;
 use App\Http\Controllers\Dashboard\VehicleController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,27 +30,54 @@ Route::get('/', function () {
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     
-    Route::resources([
-        'brands' => BrandController::class,
-        'categories' => CategoryController::class,
-        'customers' => CustomerController::class,
-        'employees' => EmployeeController::class,
-        'icons' => IconController::class,
-        'loyalty-levels' => LoyaltyLevelController::class,
-        'models' => ModelController::class,
-        'orders' => OrderController::class,
-        'products' => ProductController::class,
-        'qualifications' => QualificationController::class,
-        'roles' => RoleController::class,
-        'services' => ServiceController::class,
-        'service-types' => ServiceTypeController::class,
-        'specializations' => SpecializationController::class,
-        'statuses' => StatusController::class,
-        'vehicles' => VehicleController::class,
-    ]);
+    Route::resource('brands', BrandController::class)
+        ->middleware(['permission:read.brands']);
     
-    // Маршруты для статистики
-    Route::prefix('statistics')->name('statistics.')->group(function () {
+    Route::resource('categories', CategoryController::class)
+        ->middleware(['permission:read.categories']);
+    
+    Route::resource('customers', CustomerController::class)
+        ->middleware(['permission:read.customers']);
+    
+    Route::resource('employees', EmployeeController::class)
+        ->middleware(['permission:read.employees']);
+    
+    Route::resource('icons', IconController::class);
+    
+    Route::resource('loyalty-levels', LoyaltyLevelController::class)
+        ->middleware(['permission:read.loyalty']);
+    
+    Route::resource('models', ModelController::class)
+        ->middleware(['permission:read.models']);
+    
+    Route::resource('orders', OrderController::class)
+        ->middleware(['permission:read.orders']);
+    
+    Route::resource('products', ProductController::class)
+        ->middleware(['permission:read.products']);
+    
+    Route::resource('qualifications', QualificationController::class)
+        ->middleware(['permission:read.qualifications']);
+    
+    Route::resource('roles', RoleController::class)
+        ->middleware(['role:admin']);
+    
+    Route::resource('services', ServiceController::class)
+        ->middleware(['permission:read.services']);
+    
+    Route::resource('service-types', ServiceTypeController::class)
+        ->middleware(['permission:read.service-types']);
+    
+    Route::resource('specializations', SpecializationController::class)
+        ->middleware(['permission:read.specializations']);
+    
+    Route::resource('statuses', StatusController::class)
+        ->middleware(['permission:read.statuses']);
+    
+    Route::resource('vehicles', VehicleController::class)
+        ->middleware(['permission:read.vehicles']);
+    
+    Route::prefix('statistics')->name('statistics.')->middleware(['permission:read.statistics'])->group(function () {
         Route::get('/orders', [StatisticsController::class, 'orders'])->name('orders');
         Route::get('/vehicles', [StatisticsController::class, 'vehicles'])->name('vehicles');
         Route::get('/customers', [StatisticsController::class, 'customers'])->name('customers');
@@ -69,7 +87,6 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     });
 });
 
-// Маршруты аутентификации
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');

@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 class SpecializationController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Specialization::class, 'specialization');
+    }
+    
+    /**
      * Display a listing of the dashboard.specializations.
      */
     public function index()
     {
-        $specializations = Specialization::paginate(10);
+        $specializations = Specialization::paginate(25);
         return view('dashboard.specializations.index', compact('specializations'));
     }
 

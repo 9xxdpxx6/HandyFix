@@ -5,9 +5,22 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Информация о типе услуги</h3>
             <div>
+                @can('update', $serviceType)
                 <a href="{{ route('dashboard.service-types.edit', $serviceType) }}" class="btn btn-warning btn-sm me-2">
                     <x-icon icon="pencil-square" class="icon-20 me-1"/>Редактировать
                 </a>
+                @endcan
+                
+                @can('delete', $serviceType)
+                <form action="{{ route('dashboard.service-types.destroy', $serviceType) }}" method="POST" class="d-inline me-2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')">
+                        <x-icon icon="trash-can" class="icon-20 me-1"/> Удалить
+                    </button>
+                </form>
+                @endcan
+                
                 <a href="{{ route('dashboard.service-types.index') }}" class="btn btn-secondary btn-sm">
                     <x-icon icon="arrow-left" class="icon-20 me-1"/>Назад к списку
                 </a>
@@ -48,11 +61,11 @@
                         </tr>
                         <tr>
                             <th>Дата создания:</th>
-                            <td>{{ $serviceType->created_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($serviceType->created_at)->format('d.m.Y H:i') }}</td>
                         </tr>
                         <tr>
                             <th>Дата обновления:</th>
-                            <td>{{ $serviceType->updated_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($serviceType->updated_at)->format('d.m.Y H:i') }}</td>
                         </tr>
                     </table>
                 </div>
@@ -89,9 +102,11 @@
                                     <a href="{{ route('dashboard.services.show', $service) }}" class="btn btn-sm btn-outline-info">
                                         <x-icon icon="eye" class="icon-20"/>
                                     </a>
+                                    @can('update', $service)
                                     <a href="{{ route('dashboard.services.edit', $service) }}" class="btn btn-sm btn-outline-warning">
                                         <x-icon icon="pencil-square" class="icon-20"/>
                                     </a>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach
@@ -108,7 +123,9 @@
             @else
                 <div class="alert alert-info mt-4">
                     Услуг данного типа пока нет.
+                    @can('create', \App\Models\Service::class)
                     <a href="{{ route('dashboard.services.create') }}" class="alert-link">Добавить услугу</a>
+                    @endcan
                 </div>
             @endif
         </div>

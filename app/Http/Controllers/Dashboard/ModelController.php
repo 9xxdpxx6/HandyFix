@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\DB;
 class ModelController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(VehicleModel::class, 'model');
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
