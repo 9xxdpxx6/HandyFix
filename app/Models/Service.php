@@ -18,6 +18,7 @@ class Service extends Model
         'description',
         'price'
     ];
+    protected $priceHistory;
 
     public function serviceType()
     {
@@ -32,5 +33,15 @@ class Service extends Model
     public function servicePrices()
     {
         return $this->hasMany(ServicePrice::class);
+    }
+    
+    public function setPriceHistory($history)
+    {
+        $this->priceHistory = $history;
+    }
+    
+    public function getPriceHistory()
+    {
+        return $this->priceHistory ?? $this->servicePrices;
     }
 }

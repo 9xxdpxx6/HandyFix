@@ -101,15 +101,15 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>
-                            @if($product->image)
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-thumbnail" style="max-width: 50px;">
-                            @else
-                                <div class="display-2 d-flex justify-content-center">
+                            <div class="display-2 d-flex justify-content-center">
+                                @if($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded" style="max-width: 70px;">
+                                @else
                                     <div class="bg-light rounded-2 p-1 icon-square">
                                         <i class="hf-icon hf-no-image"></i>
                                     </div>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->sku }}</td>
@@ -117,7 +117,7 @@
                         <td>{{ $product->brand->name ?? 'Не указано' }}</td>
                         <td>{{ number_format($product->price, 2, ',', ' ') }} ₽</td>
                         <td>{{ $product->quantity }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.products.show', $product) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>

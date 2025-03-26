@@ -77,11 +77,22 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Service $service)
+    public function show(Service $service, Request $request)
     {
-        $service->load('serviceType');
+        $showAllPrices = $request->has('show_all_prices');
         
-        return view('dashboard.services.show', compact('service'));
+        $service->load(['serviceType']);
+        
+        // Загружаем историю цен
+        $pricesQuery = $service->servicePrices()->orderBy('created_at', 'desc');
+        
+        if (!$showAllPrices) {
+            $pricesQuery->limit(15);
+        }
+        
+        $service->setPriceHistory($pricesQuery->get()->sortBy('created_at'));
+        
+        return view('dashboard.services.show', compact('service', 'showAllPrices'));
     }
 
     /**

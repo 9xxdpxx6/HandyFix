@@ -22,6 +22,7 @@ class Product extends Model
         'category_id',
         'brand_id'
     ];
+    protected $priceHistory;
 
     public function getImageUrlAttribute()
     {
@@ -45,6 +46,16 @@ class Product extends Model
     public function productPrices()
     {
         return $this->hasMany(ProductPrice::class);
+    }
+    
+    public function setPriceHistory($history)
+    {
+        $this->priceHistory = $history;
+    }
+    
+    public function getPriceHistory()
+    {
+        return $this->priceHistory ?? $this->productPrices;
     }
 
     public function purchases()
