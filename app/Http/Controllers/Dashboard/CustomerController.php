@@ -30,6 +30,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        abort(500);
         // Проверяем доступ к списку клиентов
         $this->authorize('viewAny', Customer::class);
 
