@@ -142,4 +142,48 @@
         @endrole
         @endcanany
     </ul>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем элемент sidebar с прокруткой (simplebar)
+            const sidebar = document.querySelector('[data-simplebar]');
+            
+            // Восстанавливаем позицию скролла из sessionStorage
+            if (sessionStorage.getItem('sidebarScrollPosition')) {
+                // SimpleBar имеет свой контейнер прокрутки
+                const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                if (simpleBarContent) {
+                    simpleBarContent.scrollTop = parseInt(sessionStorage.getItem('sidebarScrollPosition'));
+                }
+            }
+            
+            // Выделяем текущий пункт меню на основе URL
+            const currentPath = window.location.pathname;
+            const menuLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+            
+            menuLinks.forEach(link => {
+                // Сохраняем позицию скролла при клике на ссылку
+                link.addEventListener('click', function() {
+                    const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                    if (simpleBarContent) {
+                        sessionStorage.setItem('sidebarScrollPosition', simpleBarContent.scrollTop);
+                    }
+                });
+                
+                // Выделяем активный пункт меню
+                if (link.getAttribute('href') === currentPath || 
+                    currentPath.startsWith(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Сохраняем позицию скролла при переходе между страницами
+            window.addEventListener('beforeunload', function() {
+                const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                if (simpleBarContent) {
+                    sessionStorage.setItem('sidebarScrollPosition', simpleBarContent.scrollTop);
+                }
+            });
+        });
+    </script>
 </div>

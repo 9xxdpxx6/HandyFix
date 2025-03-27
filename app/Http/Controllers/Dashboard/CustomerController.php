@@ -21,7 +21,8 @@ class CustomerController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Customer::class, 'customer');
+        // Отключаем автоматическую авторизацию ресурса
+        // $this->authorizeResource(Customer::class, 'customer');
     }
 
     /**
@@ -29,6 +30,9 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        // Проверяем доступ к списку клиентов
+        $this->authorize('viewAny', Customer::class);
+
         // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
@@ -69,6 +73,9 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        // Проверяем доступ к созданию клиентов
+        $this->authorize('create', Customer::class);
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -101,6 +108,9 @@ class CustomerController extends Controller
     public function show(string $id)
     {
         $customer = Customer::with('user', 'vehicles.model.brand')->findOrFail($id);
+        
+        // Явно разрешаем доступ к просмотру клиента
+        $this->authorize('view', $customer);
 
         return view('dashboard.customers.show', compact('customer'));
     }
@@ -112,6 +122,9 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $loyaltyLevels = LoyaltyLevel::all();
+        
+        // Явно разрешаем доступ к редактированию клиента
+        $this->authorize('update', $customer);
 
         return view('dashboard.customers.edit', compact('customer', 'loyaltyLevels'));
     }
@@ -121,6 +134,11 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $customer = Customer::findOrFail($id);
+        
+        // Проверяем доступ к обновлению клиента
+        $this->authorize('update', $customer);
+
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'name' => 'nullable|string|max:255',
@@ -132,7 +150,6 @@ class CustomerController extends Controller
             'loyalty_level_id' => 'nullable|exists:loyalty_levels,id',
         ]);
 
-        $customer = Customer::findOrFail($id);
         $user = User::findOrFail($validatedData['user_id']);
 
         $user->update([
@@ -152,13 +169,15 @@ class CustomerController extends Controller
         return redirect()->route('dashboard.customers.index')->with('success', 'Customer updated successfully.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         $customer = Customer::findOrFail($id);
+        
+        // Проверяем доступ к удалению клиента
+        $this->authorize('delete', $customer);
 
         $customer->delete();
 

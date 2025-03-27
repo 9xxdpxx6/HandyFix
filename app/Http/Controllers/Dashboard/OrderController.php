@@ -21,7 +21,7 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        // $this->authorizeResource(Order::class, 'order');
+        $this->authorizeResource(Order::class, 'order');
     }
 
     /**
