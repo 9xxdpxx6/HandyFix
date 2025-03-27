@@ -6,13 +6,13 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title m-0">Просмотр товара: {{ $product->name }}</h5>
                 <div>
-                    <x-permission requires="update.products">
+                    @can('update', $product)
                         <a href="{{ route('dashboard.products.edit', $product) }}" class="btn btn-warning btn-sm">
                             <x-icon icon="pencil-square" class="icon-20"/> Редактировать
                         </a>
-                    </x-permission>
+                    @endcan
                     
-                    <x-permission requires="delete.products">
+                    @can('delete', $product)
                         <form action="{{ route('dashboard.products.destroy', $product) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
@@ -20,7 +20,7 @@
                                 <x-icon icon="trash-can" class="icon-20"/> Удалить
                             </button>
                         </form>
-                    </x-permission>
+                    @endcan
                     
                     <a href="{{ route('dashboard.products.index') }}" class="btn btn-secondary btn-sm">
                         <x-icon icon="arrow-left" class="icon-20"/> Назад

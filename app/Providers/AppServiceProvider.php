@@ -12,7 +12,6 @@ use App\Observers\ServiceObserver;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,20 +39,5 @@ class AppServiceProvider extends ServiceProvider
         
         // Регистрация наблюдателя для модели Product
         Product::observe(ProductObserver::class);
-
-        // Spatie Permission использует встроенные директивы Blade
-        // Эти директивы доступны автоматически после установки пакета
-        
-        // Дополнительные директивы, если потребуется:
-        Blade::directive('modulepermission', function ($expression) {
-            return "<?php if(auth()->check() && auth()->user()->hasPermissionTo('read.{$expression}')): ?>";
-        });
-        
-        Blade::directive('endmodulepermission', function () {
-            return "<?php endif; ?>";
-        });
-        
-        // Регистрация компонента Permission
-        Blade::component('permission', \App\View\Components\Permission::class);
     }
 }

@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-lg-6 form-group mb-3">
+                    <div class="col-12 col-xxl-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="product"
                             entity-type-label="товаров"
@@ -61,7 +61,7 @@
                         <div id="initial-items-product" data-items="{{ $order->purchases->map(function($purchase) { return ['id' => $purchase->product->id, 'name' => $purchase->product->name, 'sku' => $purchase->product->sku, 'price' => $purchase->product->price, 'quantity' => $purchase->quantity]; })->toJson() }}"></div>
                     </div>
 
-                    <div class="col-12 col-lg-6 form-group mb-3">
+                    <div class="col-12 col-xxl-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="service"
                             entity-type-label="услуг"
