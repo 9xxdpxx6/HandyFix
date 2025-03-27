@@ -53,6 +53,10 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     Route::resource('orders', OrderController::class)
         ->middleware(['permission:read.orders']);
     
+    Route::get('orders/{order}/print', [OrderController::class, 'print'])
+        ->name('orders.print')
+        ->middleware(['permission:read.orders']);
+    
     Route::resource('products', ProductController::class)
         ->middleware(['permission:read.products']);
     
