@@ -122,7 +122,7 @@ class EmployeeFilter extends AbstractFilter
                 break;
 
             default: // По умолчанию: сортировка по ID
-                $builder->orderBy('id', 'asc');
+                $builder->orderBy('id', 'desc');
                 break;
         }
     }

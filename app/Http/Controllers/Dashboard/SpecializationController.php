@@ -21,7 +21,7 @@ class SpecializationController extends Controller
      */
     public function index()
     {
-        $specializations = Specialization::paginate(25);
+        $specializations = Specialization::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.specializations.index', compact('specializations'));
     }
 

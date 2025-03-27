@@ -107,7 +107,7 @@
                                 Нет
                             @endif
                         </td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.models.show', $vehicleModel) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>

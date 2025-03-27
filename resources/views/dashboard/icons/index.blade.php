@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список иконок</h3>
-            @can('create', 'Icon')
+            @can('create', \App\Models\Icon::class)
             <a href="{{ route('dashboard.icons.create') }}" class="btn btn-primary btn-sm">Добавить иконку</a>
             @endcan
         </div>
@@ -47,7 +47,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>№</th>
+                    <th></th>
                     <th>Название</th>
                     <th>Ключевые слова</th>
                     <th class="text-end">Действия</th>
@@ -61,26 +61,28 @@
                         </td>
                         <td>{{ $name }}</td>
                         <td>{{ $icon['keywords'] }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.icons.show', $name) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
                             
-                            @can('update', $name)
+                            @can('update', ['App\Models\Icon', $name])
                             <a href="{{ route('dashboard.icons.edit', $name) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
                             @endcan
                             
-                            @can('delete', $name)
-                            <form action="{{ route('dashboard.icons.destroy', $name) }}" method="POST" style="display:inline;">
+                            @if(auth()->user()->can('delete', ['App\Models\Icon', $name]))
+                            <form action="{{ route('dashboard.icons.destroy', $name) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Вы уверены?')">
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
-                            @endcan
+                            @else
+                                <!-- У пользователя нет прав на удаление -->
+                            @endif
                         </td>
                     </tr>
                 @endforeach

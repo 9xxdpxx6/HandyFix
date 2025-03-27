@@ -44,7 +44,7 @@
     });
 </script>
 <!-- Plugins and scripts required by this view-->
-<script src="{{ asset('dashboard/js/color-modes.js') }}"></script>
+<!-- <script src="{{ asset('dashboard/js/color-modes.js') }}"></script> -->
 <script src="{{ asset('dashboard/js/coreui.bundle.js') }}"></script>
 {{--<script src="vendors/chart.js/js/chart.umd.js"></script>--}}
 {{--<script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>--}}

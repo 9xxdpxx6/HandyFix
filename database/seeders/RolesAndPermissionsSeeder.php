@@ -30,6 +30,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'categories',
             'products',
             'statistics',
+            'roles',
+            'icons',
         ];
 
         $actions = ['create', 'read', 'update', 'delete'];
