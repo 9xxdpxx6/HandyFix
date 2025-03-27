@@ -23,6 +23,7 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
+        // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
             'service_type_id' => 'nullable|exists:service_types,id',
@@ -35,14 +36,17 @@ class ServiceController extends Controller
         $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
 
-        $filter = new ServiceFilter($request->all());
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(ServiceFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
         $services = Service::filter($filter)
             ->with('serviceType')
-            ->paginate($data['limit'])
-            ->withQueryString();
+            ->paginate($data['limit']);
         
         $serviceTypes = ServiceType::pluck('name', 'id');
         
+        // Возвращаем представление с данными
         return view('dashboard.services.index', compact('services', 'serviceTypes'));
     }
 

@@ -134,7 +134,7 @@
                         </td>
                         <td>{{ number_format($order->total, 2, ',', ' ') }} ₽</td>
                         <td>{{ $order->status->name ?? 'Не указан' }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>

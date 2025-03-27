@@ -100,16 +100,18 @@
                 @foreach ($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
-                        <td>
-                            <div class="display-2 d-flex justify-content-center">
-                                @if($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded" style="max-width: 70px;">
-                                @else
+                        <td class="text-center align-middle">
+                            @if($product->image)
+                                <div class="d-flex justify-content-center rounded-2 overflow-hidden">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img" style="max-width: 70px;">
+                                </div>
+                            @else
+                                <div class="d-flex justify-content-center">
                                     <div class="bg-light rounded-2 p-1 icon-square">
                                         <i class="hf-icon hf-no-image"></i>
                                     </div>
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                         </td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->sku }}</td>

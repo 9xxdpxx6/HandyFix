@@ -15,7 +15,7 @@
         @yield('content')
     </div>
     
-    <script src="{{ asset('dashboard/js/color-modes.js') }}"></script>
+    <!-- <script src="{{ asset('dashboard/js/color-modes.js') }}"></script> -->
     <script src="{{ asset('dashboard/js/coreui.bundle.js') }}"></script>
     @stack('scripts')
 </body>

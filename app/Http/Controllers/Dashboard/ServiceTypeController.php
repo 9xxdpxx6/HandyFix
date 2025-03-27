@@ -22,20 +22,25 @@ class ServiceTypeController extends Controller
      */
     public function index(Request $request)
     {
+        // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
             'limit' => 'nullable|integer|min:1',
             'sort' => 'nullable|string|in:default,alphabet_asc,alphabet_desc',
         ]);
 
+        $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
-        $filter = new ServiceTypeFilter($request->all());
         
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(ServiceTypeFilter::class, ['queryParams' => array_filter($data)]);
+        
+        // Применяем фильтр к запросу
         $serviceTypes = ServiceType::filter($filter)
             ->withCount('services')
-            ->paginate($data['limit'])
-            ->withQueryString();
+            ->paginate($data['limit']);
         
+        // Возвращаем представление с данными
         return view('dashboard.service-types.index', compact('serviceTypes'));
     }
 

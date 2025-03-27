@@ -21,7 +21,7 @@ class LoyaltyLevelController extends Controller
      */
     public function index()
     {
-        $loyaltyLevels = LoyaltyLevel::paginate(25);
+        $loyaltyLevels = LoyaltyLevel::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.loyalty-levels.index', compact('loyaltyLevels'));
     }
 

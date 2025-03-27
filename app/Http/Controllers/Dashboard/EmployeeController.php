@@ -37,14 +37,20 @@ class EmployeeController extends Controller
             'sort' => 'nullable|string|in:name_asc,name_desc,seniority_asc,seniority_desc,hire_date_asc,hire_date_desc,default',
         ]);
 
-        // Создаем экземпляр фильтра и передаем его в метод filter()
-        $filter = new EmployeeFilter($request->all());
-        $employees = Employee::filter($filter)->paginate($request->input('limit', 25));
+        $data['sort'] = $data['sort'] ?? 'default';
+        $data['limit'] = $data['limit'] ?? 25;
+
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(EmployeeFilter::class, ['queryParams' => array_filter($data)]);
+        
+        // Применяем фильтр к запросу
+        $employees = Employee::filter($filter)->paginate($data['limit']);
         
         // Получаем списки для фильтров
         $qualifications = Qualification::pluck('name', 'id');
         $specializations = Specialization::pluck('name', 'id');
 
+        // Возвращаем представление с данными
         return view('dashboard.employees.index', compact('employees', 'qualifications', 'specializations'));
     }
 

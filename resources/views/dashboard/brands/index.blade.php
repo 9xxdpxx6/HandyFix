@@ -109,7 +109,7 @@
                         <td class="text-center">{{ $brand->is_original ? 'Да' : 'Нет' }}</td>
                         <td class="text-center">{{ $brand->registrationCountry?->name ?? 'Не указано' }}</td>
                         <td class="text-center">{{ $brand->productionCountry?->name ?? 'Не указано' }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.brands.show', $brand) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>

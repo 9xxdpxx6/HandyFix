@@ -21,7 +21,7 @@ class QualificationController extends Controller
      */
     public function index()
     {
-        $qualifications = Qualification::paginate(25);
+        $qualifications = Qualification::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.qualifications.index', compact('qualifications'));
     }
 

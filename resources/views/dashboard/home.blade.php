@@ -3,6 +3,7 @@
 @section('content')
 <!-- Статистика -->
 <div class="row">
+    @can('read.orders')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-primary">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -20,7 +21,9 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
+    @can('read.customers')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-info">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -38,7 +41,9 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
+    @can('read.vehicles')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-warning">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -56,11 +61,13 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
 </div>
 <!-- /.row-->
 
 <div class="row">
+    @can('read.employees')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-danger">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -78,7 +85,9 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
+    @can('read.products')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-success">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -96,7 +105,9 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
+    @can('read.statistics')
     <div class="col-sm-6 col-lg-4">
         <div class="card mb-4 text-white bg-dark">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -114,10 +125,12 @@
             </div>
         </div>
     </div>
+    @endcan
     <!-- /.col-->
 </div>
 <!-- /.row-->
 
+@can('read.statistics')
 <div class="card mb-4">
     <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -131,7 +144,9 @@
         </div>
     </div>
 </div>
+@endcan
 
+@can('read.orders')
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
@@ -177,13 +192,14 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const chartData = @json($ordersChart ?? []);
+    const chartData = {!! json_encode($ordersChart ?? []) !!};
     
     const labels = Object.keys(chartData);
     const data = Object.values(chartData);

@@ -27,7 +27,7 @@
                         <td>{{ $level->name }}</td>
                         <td>{{ $level->min_points }}</td>
                         <td>{{ $level->discount }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.loyalty-levels.show', $level) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>

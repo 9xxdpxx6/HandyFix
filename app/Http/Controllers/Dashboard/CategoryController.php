@@ -29,7 +29,7 @@ class CategoryController extends Controller
             'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,default',
         ]);
 
-        $data['sort'] = $data['sort'] ?? 'alphabet_asc';
+        $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
 
         $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);

@@ -92,7 +92,7 @@
                         <td>{{ $customer->user->phone ?? 'Не указано' }}</td>
                         <td>{{ $customer->loyaltyLevel->name ?? 'Не указано' }}</td>
                         <td>{{ $customer->loyalty_points }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.customers.show', $customer) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
