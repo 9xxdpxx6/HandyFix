@@ -17,15 +17,18 @@
     @include('layouts.header')
     <div class="body flex-grow-1 min-vh-100">
         <div class="container-lg px-4">
-            <div class="fs-2 fw-semibold">Панель управления</div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="#">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active"><span>Dashboard</span>
-                    </li>
-                </ol>
-            </nav>
+            <div class="d-flex align-items-center mb-3">
+                <div class="fs-2 fw-semibold">
+                    @php
+                        $breadcrumbComponent = new \App\View\Components\Breadcrumb();
+                        $breadcrumbItems = $breadcrumbComponent->items;
+                        $pageTitle = end($breadcrumbItems)['name'] ?? 'Панель управления';
+                    @endphp
+                    {{ $pageTitle }}
+                </div>
+            </div>
+            <x-breadcrumb />
+            <br>
             @yield('content')
         </div>
     </div>

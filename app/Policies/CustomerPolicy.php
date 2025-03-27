@@ -23,17 +23,17 @@ class CustomerPolicy
      */
     public function view(User $user, Customer $customer): bool
     {
-        // Базовая проверка права
-        if (!$user->hasPermissionTo('read.customers')) {
-            return false;
+        // Базовая проверка права на просмотр клиентов
+        if ($user->hasPermissionTo('read.customers')) {
+            return true;
         }
         
         // Клиент может просматривать только свой профиль
-        if ($user->hasRole('client') && $customer->user_id !== $user->id) {
-            return false;
+        if ($user->hasRole('client') && $customer->user_id === $user->id) {
+            return true;
         }
         
-        return true;
+        return false;
     }
 
     /**
@@ -49,17 +49,17 @@ class CustomerPolicy
      */
     public function update(User $user, Customer $customer): bool
     {
-        // Базовая проверка права
-        if (!$user->hasPermissionTo('update.customers')) {
-            return false;
+        // Базовая проверка права на обновление клиентов
+        if ($user->hasPermissionTo('update.customers')) {
+            return true;
         }
         
         // Клиент может обновлять только свой профиль
-        if ($user->hasRole('client') && $customer->user_id !== $user->id) {
-            return false;
+        if ($user->hasRole('client') && $customer->user_id === $user->id) {
+            return true;
         }
         
-        return true;
+        return false;
     }
 
     /**

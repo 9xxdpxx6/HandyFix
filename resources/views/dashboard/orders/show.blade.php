@@ -145,26 +145,19 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <x-permission requires="update.orders">
-                <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-warning">Редактировать</a>
-            </x-permission>
-            <a href="{{ route('dashboard.orders.index') }}" class="btn btn-secondary">Назад</a>
-        </div>
     </div>
 
     <!-- Карточка с информацией о заказе -->
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="card-title m-0">Информация о заказе #{{ $order->id }}</h5>
             <div>
-                <x-permission requires="update.orders">
+                @can('update', $order)
                     <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-warning btn-sm">
                         <x-icon icon="pencil-square" class="icon-20"/> Редактировать
                     </a>
-                </x-permission>
+                @endcan
                 
-                <x-permission requires="delete.orders" role="admin">
+                @can('delete', $order)
                     <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
@@ -172,7 +165,7 @@
                             <x-icon icon="trash-can" class="icon-20"/> Удалить
                         </button>
                     </form>
-                </x-permission>
+                @endcan
             </div>
         </div>
     </div>
