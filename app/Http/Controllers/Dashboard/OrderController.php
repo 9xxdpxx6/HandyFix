@@ -299,6 +299,14 @@ class OrderController extends Controller
     }
 
     /**
+     * Генерирует печатную форму заказа
+     */
+    public function print(Order $order)
+    {
+        return view('dashboard.orders.print', compact('order'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Order $order)
