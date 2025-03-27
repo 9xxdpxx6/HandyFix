@@ -48,6 +48,7 @@
                 <thead>
                 <tr>
                     <th>№</th>
+                    <th>Иконка</th>
                     <th>Название</th>
                     <th>Описание</th>
                     <th>Количество услуг</th>
@@ -59,11 +60,21 @@
                     <tr>
                         <td>{{ $serviceType->id }}</td>
                         <td>
-                            @if ($serviceType->icon)
-                                <x-icon icon="{{ $serviceType->icon }}" class="icon-20 me-1"/>
+                            @if($serviceType->icon)
+                            <div class="display-2 d-flex justify-content-center">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon {{ $serviceType->icon }}"></i>
+                                </div>
+                            </div>
+                            @else
+                            <div class="display-2 d-flex justify-content-center">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon hf-no-image"></i>
+                                </div>
+                            </div>
                             @endif
-                            {{ $serviceType->name }}
                         </td>
+                        <td>{{ $serviceType->name }}</td>
                         <td>{{ Str::limit($serviceType->description, 100) ?: 'Нет описания' }}</td>
                         <td>{{ $serviceType->services_count }}</td>
                         <td class="text-end text-nowrap">

@@ -76,8 +76,8 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Название</th>
                     <th>Иконка</th>
+                    <th>Название</th>
                     <th>Описание</th>
                     <th class="text-center">Оригинал</th>
                     <th class="text-center">Страна регистрации</th>
@@ -89,7 +89,6 @@
                 @foreach ($brands as $brand)
                     <tr>
                         <td>{{ $brand->id }}</td>
-                        <td>{{ $brand->name }}</td>
                         <td>
                             @if($brand->icon)
                                 <div class="display-2 d-flex justify-content-center">
@@ -105,6 +104,7 @@
                                 </div>
                             @endif
                         </td>
+                        <td>{{ $brand->name }}</td>
                         <td>{{ $brand->description }}</td>
                         <td class="text-center">{{ $brand->is_original ? 'Да' : 'Нет' }}</td>
                         <td class="text-center">{{ $brand->registrationCountry?->name ?? 'Не указано' }}</td>
