@@ -81,5 +81,15 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-access', function ($user) {
             return $user->hasRole('admin');
         });
+
+        // Определяем, кто имеет доступ к админ-панели
+        Gate::define('access-admin-panel', function ($user) {
+            return !$user->hasRole('client');
+        });
+        
+        // Определяем, кто имеет доступ к клиентской части
+        Gate::define('access-client-area', function ($user) {
+            return true; // Все пользователи имеют доступ к клиентской части
+        });
     }
 }

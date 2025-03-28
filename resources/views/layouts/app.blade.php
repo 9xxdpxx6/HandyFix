@@ -33,8 +33,8 @@
         </div>
     </div>
     <footer class="footer px-4 mt-5">
-        <div><a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
-        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
+        <div><a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
+        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
     </footer>
 </div>
 <script>

@@ -71,10 +71,20 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    @if(isset($isDashboard) && $isDashboard)
+                        <form method="POST" action="{{ route('dashboard.login') }}">
+                    @else
+                        <form method="POST" action="{{ route('login') }}">
+                    @endif
                         @csrf
 
-                        <div class="h4 text-center mb-3">Авторизация</div>
+                        <div class="h4 text-center mb-3">
+                            @if(isset($isDashboard) && $isDashboard)
+                                Вход в административную панель
+                            @else
+                                Авторизация
+                            @endif
+                        </div>
 
                         <div class="form-group mb-3">
                             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Логин" autofocus>
@@ -114,6 +124,12 @@
                                 {{ __('Войти') }}
                             </button>
                         </div>
+                        
+                        @if(!isset($isDashboard) || !$isDashboard)
+                            <div class="text-center mt-3">
+                                <a href="{{ route('register') }}" class="text-white">Зарегистрироваться</a>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
