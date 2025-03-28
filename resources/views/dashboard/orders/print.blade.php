@@ -128,7 +128,7 @@
                 <p>Телефон: +7 (123) 456-78-90</p>
                 <p>Email: info@handyfix.ru</p>
             </div>
-            <h1>Заказ-наряд №{{ $order->id }}</h1>
+            <h1>Заказ №{{ $order->id }}</h1>
             <p>Дата создания: {{ \Carbon\Carbon::parse($order->created_at)->format('d.m.Y H:i') }}</p>
             @if($order->status->is_closing && $order->completed_at)
                 <p>Дата выполнения: {{ \Carbon\Carbon::parse($order->completed_at)->format('d.m.Y H:i') }}</p>
