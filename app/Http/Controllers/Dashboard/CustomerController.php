@@ -105,9 +105,9 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Customer $customer)
     {
-        $customer = Customer::with('user', 'vehicles.model.brand')->findOrFail($id);
+        $customer->load('user', 'vehicles.model.brand');
         
         // Явно разрешаем доступ к просмотру клиента
         $this->authorize('view', $customer);
@@ -118,9 +118,8 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
         $loyaltyLevels = LoyaltyLevel::all();
         
         // Явно разрешаем доступ к редактированию клиента
@@ -132,10 +131,8 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-        
         // Проверяем доступ к обновлению клиента
         $this->authorize('update', $customer);
 
@@ -172,10 +169,8 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-        
         // Проверяем доступ к удалению клиента
         $this->authorize('delete', $customer);
 
