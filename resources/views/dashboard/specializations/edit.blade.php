@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Редактировать специализацию</h1>
+        <h1>Редактировать специальность</h1>
         <form action="{{ route('dashboard.specializations.update', $specialization) }}" method="POST">
             @csrf
             @method('PUT')

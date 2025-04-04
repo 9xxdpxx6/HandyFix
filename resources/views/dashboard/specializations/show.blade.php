@@ -4,7 +4,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title m-0">Информация о специализации: {{ $specialization->name }}</h5>
+                <h5 class="card-title m-0">Информация о специальности: {{ $specialization->name }}</h5>
                 <div>
                     @can('update', $specialization)
                     <a href="{{ route('dashboard.specializations.edit', $specialization) }}" class="btn btn-warning btn-sm">

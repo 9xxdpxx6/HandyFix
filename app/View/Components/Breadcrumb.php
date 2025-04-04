@@ -112,6 +112,7 @@ class Breadcrumb extends Component
     protected function getSegmentName($segment)
     {
         $names = [
+            'home' => 'Главная',
             'roles' => 'Роли',
             'services' => 'Услуги',
             'service-types' => 'Типы услуг',

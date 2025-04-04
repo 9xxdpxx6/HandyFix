@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Добавить специализацию</h1>
+        <h1>Добавить специальность</h1>
         <form action="{{ route('dashboard.specializations.store') }}" method="POST">
             @csrf
             <div class="mb-3">
