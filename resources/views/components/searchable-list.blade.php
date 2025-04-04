@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        Поиск {{ ucfirst(trans('labels.' . $entityType)) }}
+        Поиск {{ $entityTypeLabel }}
     </div>
     <div class="card-body">
         <!-- Поле поиска -->
@@ -95,7 +95,7 @@
 
                         html += '</tbody></table>';
                     } else {
-                        html = '<p>Нет выбранных элементов.</p>';
+                        html = '<p>Нет выбранных {{ $entityTypeLabel }}.</p>';
                     }
 
                     html += `
@@ -181,7 +181,7 @@
                         `;
                             });
                         } else {
-                            html = '<li class="list-group-item">Элементы не найдены</li>';
+                            html = '<li class="list-group-item">{{ $entityTypeLabel }} не найдены</li>';
                         }
 
                         searchResults.querySelector('ul').innerHTML = html;

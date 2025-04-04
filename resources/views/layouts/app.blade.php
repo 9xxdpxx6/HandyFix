@@ -23,6 +23,10 @@
                         $breadcrumbComponent = new \App\View\Components\Breadcrumb();
                         $breadcrumbItems = $breadcrumbComponent->items;
                         $pageTitle = end($breadcrumbItems)['name'] ?? 'Панель управления';
+                        
+                        if ($pageTitle === 'Home') {
+                            $pageTitle = 'Главная';
+                        }
                     @endphp
                     {{ $pageTitle }}
                 </div>

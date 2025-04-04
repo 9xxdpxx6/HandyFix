@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title m-0">Список специализаций</h3>
+            <h3 class="card-title m-0">Список специальностей</h3>
             @can('create', \App\Models\Specialization::class)
-            <a href="{{ route('dashboard.specializations.create') }}" class="btn btn-primary btn-sm">Добавить специализацию</a>
+            <a href="{{ route('dashboard.specializations.create') }}" class="btn btn-primary btn-sm">Добавить специальность</a>
             @endcan
         </div>
 

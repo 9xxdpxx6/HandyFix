@@ -9,13 +9,15 @@ class SearchableList extends Component
     public $items = [];
     public $totalPrice = 0;
     public $entityType; // Тип сущности (например, 'product' или 'service')
+    public $entityTypeLabel; // Название сущности (например, 'Товары' или 'Услуги')
     public $searchUrl;  // URL для поиска
     public $displayFields; // Поля для отображения (например, ['name', 'sku', 'price'])
 
-    public function __construct($entityType, $searchUrl, $displayFields = [])
+    public function __construct($entityType, $searchUrl, $entityTypeLabel = 'элементов', $displayFields = [])
     {
         $this->entityType = $entityType;
         $this->searchUrl = $searchUrl;
+        $this->entityTypeLabel = $entityTypeLabel;
         $this->displayFields = $displayFields;
     }
 

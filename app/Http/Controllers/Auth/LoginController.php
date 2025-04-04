@@ -76,7 +76,8 @@ class LoginController extends Controller
             'path' => $request->path(),
             'url' => $request->url(),
             'fullUrl' => $request->fullUrl(),
-            'userRole' => $user->roles->pluck('name')->toArray()
+            'userRole' => $user->roles->pluck('name')->toArray(),
+            'hasEmployee' => $user->employee !== null
         ]);
         
         // Проверяем referer для определения источника запроса
@@ -88,17 +89,28 @@ class LoginController extends Controller
             'isDashboardReferer' => $isDashboardReferer
         ]);
         
-        // Проверяем роль пользователя
-        if ($user->hasRole('client')) {
-            // Клиентам доступен только клиентский интерфейс
-            if ($isDashboard) {
+        // Проверка, имеет ли пользователь доступ к админ-панели
+        $hasAdminAccess = $user->hasRole(['admin', 'moderator', 'senior-manager', 'manager', 'junior-manager', 
+                              'senior-mechanic', 'mechanic', 'junior-mechanic', 
+                              'senior-accountant', 'accountant', 'junior-accountant']) || $user->employee !== null;
+        
+        if ($isDashboard) {
+            // Если запрос из админки, проверяем доступ
+            if (!$hasAdminAccess) {
                 Auth::logout();
                 return redirect()->route('login')->with('error', 'У вас нет доступа к административной панели.');
             }
-            return redirect()->intended(route('home'));
+            return redirect()->intended('/dashboard/home');
         } else {
-            // Для админов и сотрудников перенаправляем на админ-панель
-            return redirect('/dashboard/home');
+            // Обычный вход
+            if ($user->hasRole('client') || !$hasAdminAccess) {
+                // Если пользователь клиент или не имеет доступа к админке,
+                // перенаправляем на клиентскую часть
+                return redirect()->intended(route('home'));
+            } else {
+                // Для админов и сотрудников перенаправляем на админ-панель
+                return redirect('/dashboard/home');
+            }
         }
     }
     
