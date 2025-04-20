@@ -21,7 +21,7 @@ class DashboardController extends Controller
         // Любой авторизованный пользователь имеет доступ к дашборду
         $this->middleware('auth');
     }
-    
+
     /**
      * Отображает главную страницу панели управления
      *
@@ -38,23 +38,27 @@ class DashboardController extends Controller
             'products_count' => Product::count(),
             'orders_total' => Order::sum('total'),
         ];
-        
+
         // Последние 5 заказов
         $latestOrders = Order::with(['customer', 'status'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-            
+
         // График заказов по месяцам (последние 6 месяцев)
-        $ordersChart = DB::table('orders')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('COUNT(*) as count'))
-            ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)')
-            ->groupBy('month')
-            ->orderBy('month')
+        $orders = Order::where('created_at', '>=', now()->subMonths(6))
+            ->orderBy('created_at')
             ->get()
-            ->pluck('count', 'month')
-            ->toArray();
-            
+            ->groupBy(function ($order) {
+                return $order->created_at->format('Y-m');
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        // Преобразуем результат в массив
+        $ordersChart = $orders->toArray();
+
         return view('dashboard.home', compact('stats', 'latestOrders', 'ordersChart'));
     }
-} 
+}
