@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     /**
+     * Конструктор с проверкой разрешений
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Order::class, 'order');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -288,6 +296,14 @@ class OrderController extends Controller
         }
 
         return redirect()->route('dashboard.orders.index')->with('success', 'Заказ успешно обновлен.');
+    }
+
+    /**
+     * Генерирует печатную форму заказа
+     */
+    public function print(Order $order)
+    {
+        return view('dashboard.orders.print', compact('order'));
     }
 
     /**

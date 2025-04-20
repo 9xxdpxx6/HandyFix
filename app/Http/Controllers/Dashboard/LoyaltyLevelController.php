@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 class LoyaltyLevelController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(LoyaltyLevel::class, 'loyalty_level');
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $loyaltyLevels = LoyaltyLevel::paginate(25);
+        $loyaltyLevels = LoyaltyLevel::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.loyalty-levels.index', compact('loyaltyLevels'));
     }
 

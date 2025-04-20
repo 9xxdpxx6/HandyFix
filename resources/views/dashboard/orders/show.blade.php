@@ -14,13 +14,43 @@
                 </span>
             </div>
             <div class="ms-auto">
-                <span>Создан: {{ $order->created_at->format('d.m.Y H:i') }}</span>
-                @if($order->status->is_closing && $order->completed_at)
-                    <span class="ms-md-3">Завершён: {{ \Carbon\Carbon::parse($order->completed_at)->format('d.m.Y H:i') }}</span>
-                @endif
+                @can('update', $order)
+                    <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-warning btn-sm">
+                        <x-icon icon="pencil-square" class="icon-20"/> Редактировать
+                    </a>
+                @endcan
+                
+                @can('delete', $order)
+                    <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')">
+                            <x-icon icon="trash-can" class="icon-20"/> Удалить
+                        </button>
+                    </form>
+                @endcan
+
+                <a href="{{ route('dashboard.orders.print', $order) }}" class="btn btn-info btn-sm" target="_blank">
+                    <x-icon icon="print" class="icon-20"/> Печать
+                </a>
             </div>
         </div>
         <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="d-flex flex-wrap">
+                        <div class="me-4 mb-2">
+                            <strong>Создан:</strong> {{ \Carbon\Carbon::parse($order->created_at)->format('d.m.Y H:i') }}
+                        </div>
+                        @if($order->status->is_closing && $order->completed_at)
+                            <div class="mb-2">
+                                <strong>Завершён:</strong> {{ \Carbon\Carbon::parse($order->completed_at)->format('d.m.Y H:i') }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <!-- Информация о клиенте -->
                 <div class="col-md-6">
@@ -144,10 +174,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="card-footer">
-            <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-warning">Редактировать</a>
-            <a href="{{ route('dashboard.orders.index') }}" class="btn btn-secondary">Назад</a>
         </div>
     </div>
 @endsection

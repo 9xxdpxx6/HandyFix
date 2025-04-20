@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 class StatusController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Status::class, 'status');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $statuses = Status::paginate(10);
+        $statuses = Status::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.statuses.index', compact('statuses'));
     }
 

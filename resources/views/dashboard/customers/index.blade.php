@@ -6,7 +6,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список клиентов</h3>
+            @can('create', \App\Models\Customer::class)
             <a href="{{ route('dashboard.customers.create') }}" class="btn btn-primary btn-sm">Добавить клиента</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -90,20 +92,26 @@
                         <td>{{ $customer->user->phone ?? 'Не указано' }}</td>
                         <td>{{ $customer->loyaltyLevel->name ?? 'Не указано' }}</td>
                         <td>{{ $customer->loyalty_points }}</td>
-                        <td class="text-end">
-                            <a href="{{ route('dashboard.customers.show', $customer->id) }}" class="btn btn-sm btn-outline-info">
+                        <td class="text-end text-nowrap">
+                            <a href="{{ route('dashboard.customers.show', $customer) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
-                            <a href="{{ route('dashboard.customers.edit', $customer->id) }}" class="btn btn-sm btn-outline-warning">
+                            
+                            @can('update', $customer)
+                            <a href="{{ route('dashboard.customers.edit', $customer) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
-                            <form action="{{ route('dashboard.customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
+                            @endcan
+                            
+                            @can('delete', $customer)
+                            <form action="{{ route('dashboard.customers.destroy', $customer) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Вы уверены?')">
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

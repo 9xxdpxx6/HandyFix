@@ -12,14 +12,27 @@ use App\Models\Vehicle;
 use App\Models\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
+    /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        // Отключаем автоматическую авторизацию ресурса
+        // $this->authorizeResource(Customer::class, 'customer');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        // Проверяем доступ к списку клиентов
+        $this->authorize('viewAny', Customer::class);
+
         // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
@@ -60,6 +73,9 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        // Проверяем доступ к созданию клиентов
+        $this->authorize('create', Customer::class);
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -89,9 +105,12 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Customer $customer)
     {
-        $customer = Customer::with('user', 'vehicles.model.brand')->findOrFail($id);
+        $customer->load('user', 'vehicles.model.brand');
+        
+        // Явно разрешаем доступ к просмотру клиента
+        $this->authorize('view', $customer);
 
         return view('dashboard.customers.show', compact('customer'));
     }
@@ -99,10 +118,12 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
         $loyaltyLevels = LoyaltyLevel::all();
+        
+        // Явно разрешаем доступ к редактированию клиента
+        $this->authorize('update', $customer);
 
         return view('dashboard.customers.edit', compact('customer', 'loyaltyLevels'));
     }
@@ -110,8 +131,11 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Customer $customer)
     {
+        // Проверяем доступ к обновлению клиента
+        $this->authorize('update', $customer);
+
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'name' => 'nullable|string|max:255',
@@ -123,7 +147,6 @@ class CustomerController extends Controller
             'loyalty_level_id' => 'nullable|exists:loyalty_levels,id',
         ]);
 
-        $customer = Customer::findOrFail($id);
         $user = User::findOrFail($validatedData['user_id']);
 
         $user->update([
@@ -143,13 +166,13 @@ class CustomerController extends Controller
         return redirect()->route('dashboard.customers.index')->with('success', 'Customer updated successfully.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
+        // Проверяем доступ к удалению клиента
+        $this->authorize('delete', $customer);
 
         $customer->delete();
 

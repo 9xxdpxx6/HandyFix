@@ -17,21 +17,28 @@
     @include('layouts.header')
     <div class="body flex-grow-1 min-vh-100">
         <div class="container-lg px-4">
-            <div class="fs-2 fw-semibold">Панель управления</div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="#">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active"><span>Dashboard</span>
-                    </li>
-                </ol>
-            </nav>
+            <div class="d-flex align-items-center mb-3">
+                <div class="fs-2 fw-semibold">
+                    @php
+                        $breadcrumbComponent = new \App\View\Components\Breadcrumb();
+                        $breadcrumbItems = $breadcrumbComponent->items;
+                        $pageTitle = end($breadcrumbItems)['name'] ?? 'Панель управления';
+                        
+                        if ($pageTitle === 'Home') {
+                            $pageTitle = 'Главная';
+                        }
+                    @endphp
+                    {{ $pageTitle }}
+                </div>
+            </div>
+            <x-breadcrumb />
+            <br>
             @yield('content')
         </div>
     </div>
     <footer class="footer px-4 mt-5">
-        <div><a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
-        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('dashboard.home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
+        <div><a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} </a><a href="{{ route('dashboard.home') }}">Панель управления</a> © {{ now()->year }} PiedPiper.</div>
+        <div class="ms-auto">Powered by&nbsp;<a href="{{ route('home') }}">{{ config('app.name', 'HandyFix') }} UI Components</a></div>
     </footer>
 </div>
 <script>
@@ -44,7 +51,7 @@
     });
 </script>
 <!-- Plugins and scripts required by this view-->
-<script src="{{ asset('dashboard/js/color-modes.js') }}"></script>
+<!-- <script src="{{ asset('dashboard/js/color-modes.js') }}"></script> -->
 <script src="{{ asset('dashboard/js/coreui.bundle.js') }}"></script>
 {{--<script src="vendors/chart.js/js/chart.umd.js"></script>--}}
 {{--<script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>--}}

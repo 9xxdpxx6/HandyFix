@@ -11,10 +11,19 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Service::class, 'service');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        // Валидация параметров фильтрации
         $data = $request->validate([
             'keyword' => 'nullable|string',
             'service_type_id' => 'nullable|exists:service_types,id',
@@ -27,14 +36,17 @@ class ServiceController extends Controller
         $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
 
-        $filter = new ServiceFilter($request->all());
+        // Создаем экземпляр фильтра с валидированными данными
+        $filter = app()->make(ServiceFilter::class, ['queryParams' => array_filter($data)]);
+
+        // Применяем фильтр к запросу
         $services = Service::filter($filter)
             ->with('serviceType')
-            ->paginate($data['limit'])
-            ->withQueryString();
+            ->paginate($data['limit']);
         
         $serviceTypes = ServiceType::pluck('name', 'id');
         
+        // Возвращаем представление с данными
         return view('dashboard.services.index', compact('services', 'serviceTypes'));
     }
 
@@ -69,11 +81,22 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Service $service)
+    public function show(Service $service, Request $request)
     {
-        $service->load('serviceType');
+        $showAllPrices = $request->has('show_all_prices');
         
-        return view('dashboard.services.show', compact('service'));
+        $service->load(['serviceType']);
+        
+        // Загружаем историю цен
+        $pricesQuery = $service->servicePrices()->orderBy('created_at', 'desc');
+        
+        if (!$showAllPrices) {
+            $pricesQuery->limit(15);
+        }
+        
+        $service->setPriceHistory($pricesQuery->get()->sortBy('created_at'));
+        
+        return view('dashboard.services.show', compact('service', 'showAllPrices'));
     }
 
     /**

@@ -22,6 +22,8 @@ class StatisticsController extends Controller
      */
     public function orders(Request $request)
     {
+        $this->authorize('viewOrders', 'Statistics');
+        
         // Период по умолчанию - последние 30 дней
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
@@ -102,6 +104,8 @@ class StatisticsController extends Controller
      */
     public function vehicles(Request $request)
     {
+        $this->authorize('viewVehicles', 'Statistics');
+        
         // Количество автомобилей по брендам
         $vehiclesByBrand = Vehicle::select('model_id', DB::raw('count(*) as total'))
             ->groupBy('model_id')
@@ -167,6 +171,8 @@ class StatisticsController extends Controller
      */
     public function customers(Request $request)
     {
+        $this->authorize('viewCustomers', 'Statistics');
+        
         // Период по умолчанию - последние 30 дней
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
@@ -232,6 +238,8 @@ class StatisticsController extends Controller
      */
     public function employees(Request $request)
     {
+        $this->authorize('viewEmployees', 'Statistics');
+        
         // Период по умолчанию - последние 30 дней
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
@@ -292,6 +300,8 @@ class StatisticsController extends Controller
      */
     public function products(Request $request)
     {
+        $this->authorize('viewProducts', 'Statistics');
+        
         // Период по умолчанию - последние 30 дней
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
@@ -360,6 +370,8 @@ class StatisticsController extends Controller
      */
     public function finance(Request $request)
     {
+        $this->authorize('viewFinance', 'Statistics');
+        
         // Период по умолчанию - последние 30 дней
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));

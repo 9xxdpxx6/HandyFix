@@ -4,8 +4,29 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Информация о клиенте</h3>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title m-0">Информация о клиенте</h3>
+            <div>
+                @can('update', $customer)
+                <a href="{{ route('dashboard.customers.edit', $customer) }}" class="btn btn-warning btn-sm">
+                    <x-icon icon="pencil-square" class="icon-20"/> Редактировать
+                </a>
+                @endcan
+                
+                @can('delete', $customer)
+                <form action="{{ route('dashboard.customers.destroy', $customer) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')">
+                        <x-icon icon="trash-can" class="icon-20"/> Удалить
+                    </button>
+                </form>
+                @endcan
+                
+                <a href="{{ route('dashboard.customers.index') }}" class="btn btn-secondary btn-sm">
+                    <x-icon icon="arrow-left" class="icon-20"/> Назад
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
@@ -33,6 +54,9 @@
                         <th>Номерной знак</th>
                         <th>VIN</th>
                         <th>Пробег</th>
+                        @can('viewAny', \App\Models\Vehicle::class)
+                        <th>Действия</th>
+                        @endcan
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +68,18 @@
                             <td>{{ $vehicle->license_plate }}</td>
                             <td>{{ $vehicle->vin ?? 'N/A' }}</td>
                             <td>{{ $vehicle->mileage ?? 'N/A' }}</td>
+                            @can('viewAny', \App\Models\Vehicle::class)
+                            <td>
+                                <a href="{{ route('dashboard.vehicles.show', $vehicle) }}" class="btn btn-sm btn-outline-info">
+                                    <x-icon icon="eye" class="icon-20"/>
+                                </a>
+                                @can('update', $vehicle)
+                                <a href="{{ route('dashboard.vehicles.edit', $vehicle) }}" class="btn btn-sm btn-outline-warning">
+                                    <x-icon icon="pencil-square" class="icon-20"/>
+                                </a>
+                                @endcan
+                            </td>
+                            @endcan
                         </tr>
                     @endforeach
                     </tbody>
@@ -51,14 +87,6 @@
             @else
                 <p>Нет автомобилей, связанных с этим клиентом.</p>
             @endif
-        </div>
-        <div class="card-footer">
-            <a href="{{ route('dashboard.customers.edit', $customer->id) }}" class="btn btn-warning">
-                <i class="fas fa-edit"></i> Редактировать
-            </a>
-            <a href="{{ route('dashboard.customers.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Вернуться к списку
-            </a>
         </div>
     </div>
 @endsection

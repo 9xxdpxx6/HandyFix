@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 class QualificationController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Qualification::class, 'qualification');
+    }
+    
+    /**
      * Display a listing of the dashboard.qualifications.
      */
     public function index()
     {
-        $qualifications = Qualification::paginate(10);
+        $qualifications = Qualification::orderBy('id', 'desc')->paginate(25);
         return view('dashboard.qualifications.index', compact('qualifications'));
     }
 

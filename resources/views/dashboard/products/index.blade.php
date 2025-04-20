@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список товаров</h3>
+            @can('create', \App\Models\Product::class)
             <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary btn-sm">Добавить товар</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -98,11 +100,13 @@
                 @foreach ($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
-                        <td>
+                        <td class="text-center align-middle">
                             @if($product->image)
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="img-thumbnail" style="max-width: 50px;">
+                                <div class="d-flex justify-content-center rounded-2 overflow-hidden">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img" style="max-width: 70px;">
+                                </div>
                             @else
-                                <div class="display-2 d-flex justify-content-center">
+                                <div class="d-flex justify-content-center">
                                     <div class="bg-light rounded-2 p-1 icon-square">
                                         <i class="hf-icon hf-no-image"></i>
                                     </div>
@@ -115,13 +119,18 @@
                         <td>{{ $product->brand->name ?? 'Не указано' }}</td>
                         <td>{{ number_format($product->price, 2, ',', ' ') }} ₽</td>
                         <td>{{ $product->quantity }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.products.show', $product) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
+                            
+                            @can('update', $product)
                             <a href="{{ route('dashboard.products.edit', $product) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
+                            @endcan
+                            
+                            @can('delete', $product)
                             <form action="{{ route('dashboard.products.destroy', $product) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -129,6 +138,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

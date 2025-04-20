@@ -4,9 +4,9 @@
             <x-icon icon="menu" class="icon-20"/>
         </button>
         <ul class="header-nav d-none d-lg-flex">
-            <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+            <li class="nav-item">Панель управления</li>
+            <!-- <li class="nav-item"><a class="nav-link" href="#">Users</a></li> -->
+            <!-- <li class="nav-item"><a class="nav-link" href="#">Settings</a></li> -->
         </ul>
         <ul class="header-nav ms-auto">
 {{--            <li class="nav-item">--}}
@@ -26,10 +26,10 @@
 {{--            </li>--}}
         </ul>
         <ul class="header-nav">
-            <li class="nav-item py-1">
+            <!-- <li class="nav-item py-1">
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
-            </li>
-            <li class="nav-item dropdown">
+            </li> -->
+            <!-- <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
                     <x-icon icon="contrast" class="icon-20 me-2"/>
                 </button>
@@ -53,7 +53,7 @@
                         </button>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li class="nav-item py-1">
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </li>
@@ -84,24 +84,19 @@
 {{--                        <svg class="icon me-2">--}}
 {{--                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-file"></use>--}}
 {{--                        </svg> Projects<span class="badge badge-sm bg-primary ms-2">42</span></a>--}}
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('logout') }}">
-{{--                        <svg class="icon me-2">--}}
-{{--                            <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-lock-locked"></use>--}}
-{{--                        </svg> Lock Account</a><a class="dropdown-item" href="#">--}}
+                    <div class="dropdown-divider"></div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <x-icon icon="exit" class="icon-20 me-2"/>
-                        Выйти</a>
+                        Выйти
+                    </a>
                 </div>
             </li>
         </ul>
     </div>
     <div class="container-fluid px-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb my-0">
-                <li class="breadcrumb-item"><a href="#">Home</a>
-                </li>
-                <li class="breadcrumb-item active"><span>Dashboard</span>
-                </li>
-            </ol>
-        </nav>
+        <x-breadcrumb />
     </div>
 </header>

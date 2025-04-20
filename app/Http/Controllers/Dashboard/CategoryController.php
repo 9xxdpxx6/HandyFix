@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Category::class, 'category');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -21,7 +29,7 @@ class CategoryController extends Controller
             'sort' => 'nullable|string|in:alphabet_asc,alphabet_desc,default',
         ]);
 
-        $data['sort'] = $data['sort'] ?? 'alphabet_asc';
+        $data['sort'] = $data['sort'] ?? 'default';
         $data['limit'] = $data['limit'] ?? 25;
 
         $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);

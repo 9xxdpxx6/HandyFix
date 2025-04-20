@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Типы услуг</h3>
+            @can('create', \App\Models\ServiceType::class)
             <a href="{{ route('dashboard.service-types.create') }}" class="btn btn-primary btn-sm">Добавить тип услуги</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -25,7 +27,7 @@
                     <div class="input-group">
                         <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Поиск..." value="{{ request('keyword') }}">
                         <button type="submit" class="btn btn-secondary">
-                            <x-icon icon="search" class="icon-20"/>
+                            <x-icon icon="search" class="icon-25"/>
                         </button>
                     </div>
                 </div>
@@ -46,6 +48,7 @@
                 <thead>
                 <tr>
                     <th>№</th>
+                    <th>Иконка</th>
                     <th>Название</th>
                     <th>Описание</th>
                     <th>Количество услуг</th>
@@ -57,20 +60,35 @@
                     <tr>
                         <td>{{ $serviceType->id }}</td>
                         <td>
-                            @if ($serviceType->icon)
-                                <x-icon icon="{{ $serviceType->icon }}" class="icon-20 me-1"/>
+                            @if($serviceType->icon)
+                            <div class="display-2 d-flex justify-content-center">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon {{ $serviceType->icon }}"></i>
+                                </div>
+                            </div>
+                            @else
+                            <div class="display-2 d-flex justify-content-center">
+                                <div class="bg-light rounded-2 p-1 icon-square">
+                                    <i class="hf-icon hf-no-image"></i>
+                                </div>
+                            </div>
                             @endif
-                            {{ $serviceType->name }}
                         </td>
+                        <td>{{ $serviceType->name }}</td>
                         <td>{{ Str::limit($serviceType->description, 100) ?: 'Нет описания' }}</td>
                         <td>{{ $serviceType->services_count }}</td>
                         <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.service-types.show', $serviceType) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20"/>
                             </a>
+                            
+                            @can('update', $serviceType)
                             <a href="{{ route('dashboard.service-types.edit', $serviceType) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20"/>
                             </a>
+                            @endcan
+                            
+                            @can('delete', $serviceType)
                             <form action="{{ route('dashboard.service-types.destroy', $serviceType) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -78,6 +96,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

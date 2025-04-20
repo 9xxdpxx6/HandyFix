@@ -51,21 +51,21 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-lg-6 form-group mb-3">
+                    <div class="col-12 col-xxl-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="product"
-                            entity-type-label="товаров"
                             search-url="{{ route('api.products.search') }}"
+                            entity-type-label="товаров"
                             :initial-items="$order->purchases->map(function($purchase) { return ['id' => $purchase->product->id, 'name' => $purchase->product->name, 'sku' => $purchase->product->sku, 'price' => $purchase->product->price, 'quantity' => $purchase->quantity]; })->toJson()"
                         ></x-searchable-list>
                         <div id="initial-items-product" data-items="{{ $order->purchases->map(function($purchase) { return ['id' => $purchase->product->id, 'name' => $purchase->product->name, 'sku' => $purchase->product->sku, 'price' => $purchase->product->price, 'quantity' => $purchase->quantity]; })->toJson() }}"></div>
                     </div>
 
-                    <div class="col-12 col-lg-6 form-group mb-3">
+                    <div class="col-12 col-xxl-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="service"
-                            entity-type-label="услуг"
                             search-url="{{ route('api.services.search') }}"
+                            entity-type-label="услуг"
                             :initial-items="$order->serviceEntries->map(function($serviceEntry) { return ['id' => $serviceEntry->service->id, 'name' => $serviceEntry->service->name, 'code' => $serviceEntry->service->code, 'price' => $serviceEntry->service->price, 'quantity' => $serviceEntry->quantity]; })->toJson()"
                         ></x-searchable-list>
                         <div id="initial-items-service" data-items="{{ $order->serviceEntries->map(function($serviceEntry) { return ['id' => $serviceEntry->service->id, 'name' => $serviceEntry->service->name, 'code' => $serviceEntry->service->code, 'price' => $serviceEntry->service->price, 'quantity' => $serviceEntry->quantity]; })->toJson() }}"></div>

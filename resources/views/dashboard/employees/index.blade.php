@@ -4,7 +4,9 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title m-0">Список сотрудников</h3>
+            @can('create', \App\Models\Employee::class)
             <a href="{{ route('dashboard.employees.create') }}" class="btn btn-primary btn-sm">Добавить сотрудника</a>
+            @endcan
         </div>
 
         <!-- Форма фильтрации -->
@@ -109,13 +111,18 @@
                         <td>{{ $employee->fixed_salary ? number_format($employee->fixed_salary, 2, '.', ' ') : 'Не указана' }}</td>
                         <td>{{ $employee->seniority }}</td>
                         <td>{{ \Carbon\Carbon::parse($employee->hire_date)->format('d.m.Y') }}</td>
-                        <td class="text-end">
+                        <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.employees.show', $employee) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
+                            
+                            @can('update', $employee)
                             <a href="{{ route('dashboard.employees.edit', $employee) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
+                            @endcan
+                            
+                            @can('delete', $employee)
                             <form action="{{ route('dashboard.employees.destroy', $employee) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -123,6 +130,7 @@
                                     <x-icon icon="trash-can" class="icon-20"/>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

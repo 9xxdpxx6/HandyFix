@@ -53,16 +53,16 @@
                     <div class="col-12 col-lg-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="product"
-                            entity-type-label="товаров"
                             search-url="{{ route('api.products.search') }}"
+                            entity-type-label="товаров"
                         ></x-searchable-list>
                     </div>
 
                     <div class="col-12 col-lg-6 form-group mb-3">
                         <x-searchable-list
                             entity-type="service"
-                            entity-type-label="услуг"
                             search-url="{{ route('api.services.search') }}"
+                            entity-type-label="услуг"
                         ></x-searchable-list>
                     </div>
                 </div>

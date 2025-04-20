@@ -3,7 +3,7 @@
         {!! $iconData['svg'] !!}
     </span>
 @else
-    <span class="{{ $class }}">Иконка не найдена</span>
+    <span class="{{ $class }}">X</span>
 @endif
 
 <style>

@@ -12,9 +12,11 @@ use Illuminate\Http\Request;
 class BrandController extends Controller
 {
     protected $iconService;
+    
     public function __construct(IconService $iconService)
     {
         $this->iconService = $iconService;
+        $this->authorizeResource(Brand::class, 'brand');
     }
 
     /**

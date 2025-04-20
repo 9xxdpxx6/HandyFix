@@ -16,35 +16,83 @@
                 </g>
             </svg>
         </div>
-        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
+        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"></button>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.home') }}">
                 <x-icon icon="dashboard" class="icon-25 me-2"/> Главная<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+        
+        @canany(['read.orders', 'read.statuses'])
         <li class="nav-title">Заказы</li>
+        @can('read.orders')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders.index') }}">
                 <x-icon icon="cart" class="icon-25 me-2"/> Заказы</a></li>
+        @endcan
+        
+        @can('read.statuses')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statuses.index') }}">
                 <x-icon icon="sticker" class="icon-25 me-2"/> Статусы заказов</a></li>
+        @endcan
+        @endcanany
+        
+        @canany(['read.customers', 'read.loyalty'])
         <li class="nav-title">Клиенты</li>
+        @can('read.customers')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.customers.index') }}">
                 <x-icon icon="people" class="icon-25 me-2"/> Клиенты</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.vehicles.index') }}">
-                <x-icon icon="car" class="icon-25 me-2"/> Автомобили</a></li>
+        @endcan
+        
+        @can('read.loyalty')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.loyalty-levels.index') }}">
                 <x-icon icon="star-outline" class="icon-25 me-2"/> Бонусные программы</a></li>
+        @endcan
+        @endcanany
+        
+        @canany(['read.vehicles', 'read.models'])
+        <li class="nav-title">Автомобили</li>
+        @can('read.vehicles')
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.vehicles.index') }}">
+                <x-icon icon="garage" class="icon-25 me-2"/> Автомобили</a></li>
+        @endcan
+        
+        @can('read.models')
+        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.models.index') }}">
+                <x-icon icon="car" class="icon-25 me-2"/> Модели автомобилей</a></li>
+        @endcan
+        @endcanany
+       
+        @canany(['read.services', 'read.service-types'])
         <li class="nav-title">Услуги</li>
+        @can('read.services')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.services.index') }}">
                 <x-icon icon="tools" class="icon-25 me-2" /> Услуги</a></li>
+        @endcan
+        
+        @can('read.service-types')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.service-types.index') }}">
                 <x-icon icon="list" class="icon-25 me-2" /> Типы услуг</a></li>
+        @endcan
+        @endcanany
+        
+        @canany(['read.products', 'read.categories', 'read.brands'])
         <li class="nav-title">Товары</li>
+        @can('read.products')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.products.index') }}">
                 <x-icon icon="boxes" class="icon-25 me-2"/> Товары</a></li>
+        @endcan
+        
+        @can('read.categories')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.categories.index') }}">
                 <x-icon icon="category" class="icon-25 me-2"/> Категории</a></li>
+        @endcan
+        
+        @can('read.brands')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.brands.index') }}">
                 <x-icon icon="tag" class="icon-25 me-2"/> Бренды</a></li>
+        @endcan
+        @endcanany
+                
+        @can('read.statistics')
         <li class="nav-title">Статистика</li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.orders') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика заказов</a></li>
@@ -58,59 +106,84 @@
                 <x-icon icon="chart" class="icon-25 me-2"/> Статистика товаров</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.statistics.finance') }}">
                 <x-icon icon="chart" class="icon-25 me-2"/> Финансовая статистика</a></li>
+        @endcan
+        
+        @canany(['read.employees', 'read.specializations', 'read.qualifications'])
         <li class="nav-title">Сотрудники</li>
+        @hasanyrole('admin|moderator|senior-manager')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.employees.index') }}">
                 <x-icon icon="worker" class="icon-25 me-2"/> Сотрудники</a></li>
+        
+        @can('read.specializations')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.specializations.index') }}">
-                <x-icon icon="hammer-wrench" class="icon-25 me-2"/> Специальности</a></li>
+            <x-icon icon="hammer-wrench" class="icon-25 me-2"/> Специальности</a></li>
+        @endcan
+        
+        @can('read.qualifications')
         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.qualifications.index') }}">
-                <x-icon icon="mortarboard" class="icon-25 me-2"/> Квалификации</a></li>
+            <x-icon icon="mortarboard" class="icon-25 me-2"/> Квалификации</a></li>
+        @endcan
+        @endhasanyrole
+        @endcanany
+        
         <li class="nav-divider"></li>
+        
+        @canany(['read.icons', 'read.roles'])
         <li class="nav-title">Настройки</li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
+        @role('admin')
+        @can('read.icons')
+                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.icons.index') }}">
                 <x-icon icon="picture" class="icon-25 me-2"/> Icons</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.roles.index') }}">
+        @endcan
+        @can('read.roles')
+                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.roles.index') }}">
                 <x-icon icon="admin" class="icon-25 me-2"/> Права доступа</a></li>
-        <!-- Управление контентом -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#contentMenu"
-               aria-expanded="false" aria-controls="contentMenu">
-                <i class="fas fa-fw fa-cogs"></i>
-                <span>Управление контентом</span>
-            </a>
-            <div id="contentMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('dashboard.services.index') }}">Услуги</a>
-                    <a class="collapse-item" href="{{ route('dashboard.service-types.index') }}">Типы услуг</a>
-                    <a class="collapse-item" href="{{ route('dashboard.products.index') }}">Товары</a>
-                    <a class="collapse-item" href="{{ route('dashboard.categories.index') }}">Категории</a>
-                    <a class="collapse-item" href="{{ route('dashboard.brands.index') }}">Бренды</a>
-                    <a class="collapse-item" href="{{ route('dashboard.models.index') }}">Модели</a>
-                    <a class="collapse-item" href="{{ route('dashboard.icons.index') }}">Иконки</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statuses.index') }}">Статусы заказов</a>
-                </div>
-            </div>
-        </li>
-        <!-- Статистика -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#statisticsMenu"
-               aria-expanded="false" aria-controls="statisticsMenu">
-                <i class="fas fa-fw fa-chart-line"></i>
-                <span>Статистика</span>
-            </a>
-            <div id="statisticsMenu" class="collapse" aria-labelledby="headingStatistics" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.orders') }}">Заказы</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.vehicles') }}">Автомобили</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.customers') }}">Клиенты</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.employees') }}">Сотрудники</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.products') }}">Товары</a>
-                    <a class="collapse-item" href="{{ route('dashboard.statistics.finance') }}">Финансы</a>
-                </div>
-            </div>
-        </li>
+        @endcan
+        @endrole
+        @endcanany
     </ul>
-    <div class="sidebar-footer border-top d-none d-md-flex">
-        <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
-    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем элемент sidebar с прокруткой (simplebar)
+            const sidebar = document.querySelector('[data-simplebar]');
+            
+            // Восстанавливаем позицию скролла из sessionStorage
+            if (sessionStorage.getItem('sidebarScrollPosition')) {
+                // SimpleBar имеет свой контейнер прокрутки
+                const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                if (simpleBarContent) {
+                    simpleBarContent.scrollTop = parseInt(sessionStorage.getItem('sidebarScrollPosition'));
+                }
+            }
+            
+            // Выделяем текущий пункт меню на основе URL
+            const currentPath = window.location.pathname;
+            const menuLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+            
+            menuLinks.forEach(link => {
+                // Сохраняем позицию скролла при клике на ссылку
+                link.addEventListener('click', function() {
+                    const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                    if (simpleBarContent) {
+                        sessionStorage.setItem('sidebarScrollPosition', simpleBarContent.scrollTop);
+                    }
+                });
+                
+                // Выделяем активный пункт меню
+                if (link.getAttribute('href') === currentPath || 
+                    currentPath.startsWith(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Сохраняем позицию скролла при переходе между страницами
+            window.addEventListener('beforeunload', function() {
+                const simpleBarContent = sidebar.querySelector('.simplebar-content-wrapper');
+                if (simpleBarContent) {
+                    sessionStorage.setItem('sidebarScrollPosition', simpleBarContent.scrollTop);
+                }
+            });
+        });
+    </script>
 </div>

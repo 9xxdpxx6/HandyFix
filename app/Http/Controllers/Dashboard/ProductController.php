@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     /**
+     * Конструктор с проверкой прав доступа
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class, 'product');
+    }
+
+    /**
      * Display a listing of the dashboard.products.
      */
     public function index(Request $request)
@@ -82,9 +90,22 @@ class ProductController extends Controller
     /**
      * Display the specified product.
      */
-    public function show(Product $product)
+    public function show(Product $product, Request $request)
     {
-        return view('dashboard.products.show', compact('product'));
+        $showAllPrices = $request->has('show_all_prices');
+        
+        $product->load(['category', 'brand']);
+        
+        // Загружаем историю цен
+        $pricesQuery = $product->productPrices()->orderBy('created_at', 'desc');
+        
+        if (!$showAllPrices) {
+            $pricesQuery->limit(15);
+        }
+        
+        $product->setPriceHistory($pricesQuery->get()->sortBy('created_at'));
+        
+        return view('dashboard.products.show', compact('product', 'showAllPrices'));
     }
 
     /**

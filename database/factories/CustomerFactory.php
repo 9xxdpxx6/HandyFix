@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\LoyaltyLevel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Permission\Models\Role;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
@@ -31,6 +32,15 @@ class CustomerFactory extends Factory
 
         // Распределяем даты создания с 10 апреля 2024 до текущего дня
         $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
+
+        // Назначаем роль клиента пользователю
+        $user = User::find($userId);
+        if ($user && !$user->hasRole('client')) {
+            $clientRole = Role::where('name', 'client')->first();
+            if ($clientRole) {
+                $user->assignRole($clientRole);
+            }
+        }
 
         return [
             'user_id' => $userId,
@@ -61,5 +71,24 @@ class CustomerFactory extends Factory
         $usedUserIds[] = $userId;
 
         return $userId;
+    }
+    
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (Customer $customer) {
+            // Убедимся, что пользователь имеет роль клиента
+            $user = $customer->user;
+            if (!$user->hasRole('client')) {
+                $clientRole = Role::where('name', 'client')->first();
+                if ($clientRole) {
+                    $user->assignRole($clientRole);
+                }
+            }
+        });
     }
 }
