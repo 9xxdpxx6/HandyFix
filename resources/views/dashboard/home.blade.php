@@ -168,9 +168,9 @@
                             @forelse($latestOrders as $order)
                             <tr class="align-middle">
                                 <td class="text-center">{{ $order->id }}</td>
-                                <td>{{ $order->customer->name ?? 'Не указан' }}</td>
+                                <td>{{ $order->customer->user->name ?? 'Не указан' }}</td>
                                 <td class="text-center">
-                                    <div class="badge bg-{{ $order->status->color ?? 'secondary' }}">{{ $order->status->name ?? 'Нет статуса' }}</div>
+                                    <div class="badge" style="background-color: {{ $order->status->color }}">{{ $order->status->name ?? 'Не указан' }}</div>
                                 </td>
                                 <td>{{ number_format($order->total, 2, '.', ' ') }} ₽</td>
                                 <td class="text-center">{{ \Carbon\Carbon::parse($order->created_at)->format('d.m.Y') }}</td>
@@ -200,12 +200,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const chartData = {!! json_encode($ordersChart ?? []) !!};
-    
+
     const labels = Object.keys(chartData);
     const data = Object.values(chartData);
-    
+
     const ctx = document.getElementById('orders-chart');
-    
+
     if(ctx) {
         new Chart(ctx, {
             type: 'bar',
