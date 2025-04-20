@@ -125,7 +125,7 @@
                         <td>{{ $order->customer->user->name ?? 'Не указан' }}</td>
                         <td>
                             @if ($order->vehicle)
-                                {{ $order->vehicle->model->brand->name ?? '' }} 
+                                {{ $order->vehicle->model->brand->name ?? '' }}
                                 {{ $order->vehicle->model->name ?? '' }}
                                 ({{ $order->vehicle->license_plate ?? '' }})
                             @else
@@ -133,18 +133,20 @@
                             @endif
                         </td>
                         <td>{{ number_format($order->total, 2, ',', ' ') }} ₽</td>
-                        <td>{{ $order->status->name ?? 'Не указан' }}</td>
+                        <td>
+                            <div class="badge" style="background-color: {{ $order->status->color }}">{{ $order->status->name ?? 'Не указан' }}</div>
+                        </td>
                         <td class="text-end text-nowrap">
                             <a href="{{ route('dashboard.orders.show', $order) }}" class="btn btn-sm btn-outline-info">
                                 <x-icon icon="eye" class="icon-20" />
                             </a>
-                            
+
                             @can('update', $order)
                             <a href="{{ route('dashboard.orders.edit', $order) }}" class="btn btn-sm btn-outline-warning">
                                 <x-icon icon="pencil-square" class="icon-20" />
                             </a>
                             @endcan
-                            
+
                             @can('delete', $order)
                             <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST" style="display:inline;">
                                 @csrf
