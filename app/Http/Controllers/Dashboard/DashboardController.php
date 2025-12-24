@@ -61,4 +61,14 @@ class DashboardController extends Controller
 
         return view('dashboard.home', compact('stats', 'latestOrders', 'ordersChart'));
     }
+    
+    /**
+     * Отображает страницу справки
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function guide()
+    {
+        return view('dashboard.guide');
+    }
 }

@@ -30,8 +30,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Новые клиенты</h6>
+                            <x-export-buttons page="customers" report="new_customers_by_date" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="chart-area">
@@ -42,8 +43,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Клиенты по уровням лояльности</h6>
+                            <x-export-buttons page="customers" report="customers_by_loyalty" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="chart-pie">
@@ -93,8 +95,9 @@
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Топ 10 клиентов по количеству заказов</h6>
+                            <x-export-buttons page="customers" report="top_customers_by_orders" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -125,8 +128,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Топ 10 клиентов по сумме заказов</h6>
+                            <x-export-buttons page="customers" report="top_customers_by_total" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

@@ -42,6 +42,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     // Защищенные маршруты администрации
     Route::middleware(['auth', 'admin.access'])->group(function () {
         Route::get('/home', [DashboardController::class, 'index'])->name('home');
+        Route::get('/spravka', [DashboardController::class, 'guide'])->name('guide');
         
         Route::resource('brands', BrandController::class)
             ->middleware(['permission:read.brands']);
@@ -101,6 +102,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
             Route::get('/employees', [StatisticsController::class, 'employees'])->name('employees');
             Route::get('/products', [StatisticsController::class, 'products'])->name('products');
             Route::get('/finance', [StatisticsController::class, 'finance'])->name('finance');
+            Route::post('/export/{page}/{report}', [StatisticsController::class, 'export'])->name('export');
         });
     });
 });

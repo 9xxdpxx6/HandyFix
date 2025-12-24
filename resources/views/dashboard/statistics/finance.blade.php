@@ -100,8 +100,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Динамика дохода</h6>
+                            <x-export-buttons page="finance" report="revenue_by_date" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="chart-area">
@@ -117,7 +118,9 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Доход по категориям товаров</h6>
-                            <div class="chart-mode-switch">
+                            <div class="d-flex align-items-center gap-2">
+                                <x-export-buttons page="finance" report="revenue_by_product_category" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
+                                <div class="chart-mode-switch">
                                 <div class="btn-group btn-group-sm" role="group">
                                     <button type="button" class="btn btn-primary active" data-chart="productCategoriesChart" data-mode="revenue">По цене</button>
                                     <button type="button" class="btn btn-outline-primary" data-chart="productCategoriesChart" data-mode="quantity">По количеству</button>
@@ -135,10 +138,13 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Доход по типам услуг</h6>
-                            <div class="chart-mode-switch">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-primary active" data-chart="serviceTypesChart" data-mode="revenue">По цене</button>
-                                    <button type="button" class="btn btn-outline-primary" data-chart="serviceTypesChart" data-mode="quantity">По количеству</button>
+                            <div class="d-flex align-items-center gap-2">
+                                <x-export-buttons page="finance" report="revenue_by_service_type" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
+                                <div class="chart-mode-switch">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-primary active" data-chart="serviceTypesChart" data-mode="revenue">По цене</button>
+                                        <button type="button" class="btn btn-outline-primary" data-chart="serviceTypesChart" data-mode="quantity">По количеству</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -154,8 +160,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Ключевые показатели</h6>
+                            <x-export-buttons page="finance" report="key_metrics" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="row">

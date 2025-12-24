@@ -1,5 +1,8 @@
 <?php
 
+// Подавление deprecated предупреждений для совместимости с PHP 8.4
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 

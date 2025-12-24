@@ -10,8 +10,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Распределение по брендам</h6>
+                            <x-export-buttons page="vehicles" report="vehicles_by_brand" />
                         </div>
                         <div class="card-body">
                             <div class="chart-pie">
@@ -22,8 +23,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Распределение по годам выпуска</h6>
+                            <x-export-buttons page="vehicles" report="vehicles_by_year" />
                         </div>
                         <div class="card-body">
                             <div class="chart-area">
@@ -73,8 +75,9 @@
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Детальная статистика по брендам</h6>
+                            <x-export-buttons page="vehicles" report="vehicles_by_brand" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -111,8 +114,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Топовые услуги по брендам</h6>
+                            <x-export-buttons page="vehicles" report="top_services_by_brand" />
                         </div>
                         <div class="card-body">
                             <div class="row">

@@ -30,8 +30,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Заказы по статусам</h6>
+                            <x-export-buttons page="orders" report="orders_by_status" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="chart-pie">
@@ -42,8 +43,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Динамика заказов</h6>
+                            <x-export-buttons page="orders" report="orders_by_date" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="chart-area">
@@ -133,8 +135,9 @@
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Топ 5 услуг</h6>
+                            <x-export-buttons page="orders" report="top_services" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -160,8 +163,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold">Топ 5 товаров</h6>
+                            <x-export-buttons page="orders" report="top_products" :filters="['start_date' => $startDate, 'end_date' => $endDate]" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
