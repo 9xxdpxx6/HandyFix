@@ -16,14 +16,7 @@ class VehicleFactory extends Factory
      */
     public function definition(): array
     {
-        $customer = Customer::inRandomOrder()->first();
-
-        $vehicleModel = VehicleModel::inRandomOrder()->first();
-
-        $year = $this->faker->numberBetween(
-            $vehicleModel->start_year ?? 1990,
-            $vehicleModel->end_year ?? date('Y')
-        );
+        $year = $this->faker->numberBetween(1990, date('Y'));
 
         $licensePlate = $this->generateRussianLicensePlate();
 
@@ -34,24 +27,11 @@ class VehicleFactory extends Factory
         $mileage = $this->faker->numberBetween(0, (date('Y') - $year) * 20000);
         
         // Распределяем даты создания по периоду 2023-2025
-        // Дата создания должна быть не раньше даты создания клиента
-        $customerCreatedAt = $customer->created_at;
-        $endDate = new \DateTime();
-        
-        // Проверяем, что начальная дата не позже конечной
-        $startDate = new \DateTime('2024-04-10');
-        if ($customerCreatedAt instanceof \DateTime && $customerCreatedAt < $endDate) {
-            if ($customerCreatedAt > $startDate) {
-                $startDate = $customerCreatedAt;
-            }
-        }
-        
-        // Используем проверенные даты
-        $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
+        $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
 
         return [
-            'customer_id' => $customer->id,
-            'model_id' => $vehicleModel->id,
+            'customer_id' => Customer::factory(),
+            'model_id' => VehicleModel::factory(),
             'year' => $year,
             'license_plate' => $licensePlate,
             'vin' => $vin,

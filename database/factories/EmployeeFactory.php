@@ -22,10 +22,6 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $userIds = User::pluck('id')->toArray();
-        $qualificationIds = Qualification::pluck('id')->toArray();
-        $specializationIds = Specialization::pluck('id')->toArray();
-
         // Распределяем даты создания по периоду 2023-2025
         $createdAt = $this->faker->dateTimeBetween('2024-01-01', '2025-12-31');
         
@@ -33,9 +29,9 @@ class EmployeeFactory extends Factory
         $hireDate = $this->faker->dateTimeBetween('-10 years', $createdAt);
 
         return [
-            'user_id' => $this->getUniqueUserId($userIds),
-            'qualification_id' => $this->faker->randomElement($qualificationIds),
-            'specialization_id' => $this->faker->randomElement($specializationIds),
+            'user_id' => User::factory(),
+            'qualification_id' => Qualification::factory(),
+            'specialization_id' => Specialization::factory(),
             'fixed_salary' => $this->faker->randomFloat(2, 30000, 150000),
             'commission_rate' => $this->faker->randomFloat(2, 0, 10),
             'seniority' => $this->faker->numberBetween(0, 30),

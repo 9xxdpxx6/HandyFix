@@ -21,32 +21,14 @@ class CustomerFactory extends Factory
      */
     public function definition(): array
     {
-        $userIds = User::pluck('id')->toArray();
-
-        $loyaltyLevelIds = LoyaltyLevel::pluck('id')->toArray();
-
-        $userId = $this->getUniqueUserId($userIds);
-
-        // Выбираем случайный уровень лояльности
-        $loyaltyLevelId = $this->faker->randomElement($loyaltyLevelIds);
-
         // Распределяем даты создания с 10 апреля 2024 до текущего дня
         $createdAt = $this->faker->dateTimeBetween('2024-04-10', 'now');
 
-        // Назначаем роль клиента пользователю
-        $user = User::find($userId);
-        if ($user && !$user->hasRole('client')) {
-            $clientRole = Role::where('name', 'client')->first();
-            if ($clientRole) {
-                $user->assignRole($clientRole);
-            }
-        }
-
         return [
-            'user_id' => $userId,
+            'user_id' => User::factory(),
             'info' => $this->faker->realText,
             'loyalty_points' => $this->faker->numberBetween(0, 350000),
-            'loyalty_level_id' => $loyaltyLevelId,
+            'loyalty_level_id' => LoyaltyLevel::factory(),
             'created_at' => $createdAt,
             'updated_at' => $createdAt,
         ];
